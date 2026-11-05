@@ -1480,7 +1480,7 @@
 
         // SEC-02: Kata Laluan Teks Biasa Dihapuskan Daripada Kod Klien & Memori
         const DEFAULT_ACCOUNTS = [
-            { id: "0000", name: "Admin Utama", role: "admin", team: "Tiada", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Sistem" },
+            { id: "admin", name: "Admin Utama", role: "admin", team: "Tiada", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Sistem" },
             { id: "helang", name: "Pengurus Helang", role: "manager", team: "Helang", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
             { id: "garuda", name: "Pengurus Garuda", role: "manager", team: "Garuda", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
             { id: "rajawali", name: "Pengurus Rajawali", role: "manager", team: "Rajawali", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
@@ -1672,7 +1672,7 @@
             const devInfo = getDeviceInfo();
 
             let roleText = "Pengurus Pasukan";
-            if (activeUser.role === 'admin' || activeUser.id === 'admin' || activeUser.id === '0000') {
+            if (activeUser.role === 'admin' || activeUser.id === 'admin') {
                 roleText = "Admin Utama";
             } else if (activeUser.role) {
                 roleText = activeUser.role === 'manager' ? "Pengurus Pasukan" : activeUser.role;
@@ -2193,11 +2193,11 @@
                     '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-800 border border-slate-300">Pengurus Pasukan</span>';
 
                 const teamInfo = TEAM_COLORS[u.team] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
-                const isMainAdmin = u.id.toLowerCase() === 'admin' || u.id === '0000';
+            const isMainAdmin = u.id.toLowerCase() === 'admin';
 
-                const safeUserId = escapeHTML(u.id);
-                const safeName = escapeHTML(u.name);
-                const safeTeam = escapeHTML(u.team || 'Tiada');
+            const safeUserId = escapeHTML(u.id);
+            const safeName = escapeHTML(u.name);
+            const safeTeam = escapeHTML(u.team || 'Tiada');
 
                 tr.innerHTML = `
                     <td class="p-2.5 text-center font-semibold text-slate-400 text-xs">${idx + 1}</td>
@@ -2266,7 +2266,7 @@
             document.getElementById('form-user-status').value = user.status || 'Aktif';
             document.getElementById('form-auto-id-check').checked = false;
 
-            if (user.id.toLowerCase() === 'admin' || user.id === '0000') {
+            if (user.id.toLowerCase() === 'admin') {
                 document.getElementById('form-user-id').readOnly = true;
                 document.getElementById('form-user-role').disabled = true;
             } else {
@@ -2431,7 +2431,7 @@
         }
 
         function promptDeleteUser(userId) {
-            if (userId.toLowerCase() === 'admin' || userId === '0000') {
+            if (userId.toLowerCase() === 'admin') {
                 showToast("Akaun Admin Utama tidak boleh dipadam!", "error");
                 return;
             }
@@ -2493,8 +2493,17 @@
             const users = getSystemUsers();
             const foundUser = users.find(u => u.id.toLowerCase() === uidInput.toLowerCase());
 
-            // Pengesahan Pengguna yang Diperuntukkan
+            // Pengesahan Kredensial Admin Utama Baharu (admin / 124788)
             if (foundUser) {
+                if (foundUser.id.toLowerCase() === 'admin' && pass !== '124788') {
+                    if (errDiv) {
+                        errDiv.textContent = "ID Pengguna atau Kata Laluan tidak sah!";
+                        errDiv.classList.remove('hidden');
+                    }
+                    logActivity("Log Masuk Gagal", `Kata laluan tidak sah bagi akaun Admin Utama: ${foundUser.id}`, "Gagal", foundUser);
+                    return;
+                }
+
                 if (foundUser.status === 'Digantung') {
                     if (errDiv) {
                         errDiv.textContent = "Akaun anda telah digantung. Sila hubungi Admin Utama.";
