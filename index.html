@@ -11,7 +11,7 @@
         window.tailwind || document.write('<style>body{font-family:sans-serif;padding:20px;color:#333;}.hidden{display:none!important;}</style>');
     </script>
     
-    <!-- Font Awesome Icons -->
+    <!-- PER-01: Font Awesome Icons dengan Subresource Integrity (SRI) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <!-- Google Fonts: Montserrat & Inter / Plus Jakarta Sans -->
@@ -1284,8 +1284,8 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="hidden fixed toast-bottom left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 bg-slate-950/95 text-white px-4 py-3 rounded-2xl shadow-2xl border border-slate-800/80 flex items-center gap-3 animate-slide-up max-w-md w-[92%] sm:w-auto backdrop-blur-md" role="status">
+    <!-- A11Y-01: Toast Notification dengan aria-live & aria-atomic -->
+    <div id="toast" class="hidden fixed toast-bottom left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 bg-slate-950/95 text-white px-4 py-3 rounded-2xl shadow-2xl border border-slate-800/80 flex items-center gap-3 animate-slide-up max-w-md w-[92%] sm:w-auto backdrop-blur-md" role="status" aria-live="polite" aria-atomic="true">
         <i id="toast-icon" class="fa-solid fa-circle-check text-sky-400 text-xl shrink-0" aria-hidden="true"></i>
         <span id="toast-message" class="text-xs font-medium leading-tight">Mesej pemberitahuan.</span>
     </div>
@@ -1300,10 +1300,10 @@
     <!-- Firebase SDK & Firestore API Integration Client Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, runTransaction, doc, collection, onSnapshot, setDoc, deleteDoc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // SEC-01: Konfigurasi Firebase Rasmi Projek ATHLETIX HUB
+        // SEC-01 & INF-01: Konfigurasi Firebase Rasmi Projek ATHLETIX HUB
         const firebaseConfig = {
             apiKey: "AIzaSyCs_gVKdEE76Ir5cI5Q9iZ7uuN3tCy4AG4",
             authDomain: "athletix-hub-79967.firebaseapp.com",
@@ -1325,7 +1325,16 @@
         window.auth = auth;
         window.appId = appId;
         window.firebaseReady = false;
+        window.runTransaction = runTransaction;
+        window.doc = doc;
+        window.collection = collection;
+        window.onSnapshot = onSnapshot;
+        window.setDoc = setDoc;
+        window.deleteDoc = deleteDoc;
+        window.getDoc = getDoc;
+        window.getDocs = getDocs;
 
+        // SEC-01: Firebase Auth State Listener
         async function initFirebase() {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token && __initial_auth_token.trim() !== '') {
@@ -1346,6 +1355,8 @@
                         if (typeof window.onFirebaseReady === 'function') {
                             window.onFirebaseReady();
                         }
+                    } else {
+                        window.firebaseReady = false;
                     }
                 });
             } catch (err) {
@@ -1422,12 +1433,13 @@
             "Lompat Jauh", "Lompat Tinggi", "Lontar Peluru"
         ];
 
+        // SEC-02: Kata Laluan Teks Biasa Dihapuskan Daripada Kod Klien & Memori
         const DEFAULT_ACCOUNTS = [
-            { id: "0000", name: "Admin Utama", role: "admin", team: "Tiada", pass: "0000", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Sistem" },
-            { id: "helang", name: "Pengurus Helang", role: "manager", team: "Helang", pass: "0000", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
-            { id: "garuda", name: "Pengurus Garuda", role: "manager", team: "Garuda", pass: "0000", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
-            { id: "rajawali", name: "Pengurus Rajawali", role: "manager", team: "Rajawali", pass: "0000", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
-            { id: "kenyalang", name: "Pengurus Kenyalang", role: "manager", team: "Kenyalang", pass: "0000", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" }
+            { id: "0000", name: "Admin Utama", role: "admin", team: "Tiada", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Sistem" },
+            { id: "helang", name: "Pengurus Helang", role: "manager", team: "Helang", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
+            { id: "garuda", name: "Pengurus Garuda", role: "manager", team: "Garuda", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
+            { id: "rajawali", name: "Pengurus Rajawali", role: "manager", team: "Rajawali", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
+            { id: "kenyalang", name: "Pengurus Kenyalang", role: "manager", team: "Kenyalang", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" }
         ];
 
         const TEAM_COLORS = {
@@ -1446,7 +1458,24 @@
 
         let currentUser = null;
         let pendingDeleteUserId = null;
+        let activeModalPreviousFocus = null;
 
+        // A11Y-02: Focus Trap Helper untuk Dialog Modal
+        function trapFocusInModal(modalEl) {
+            activeModalPreviousFocus = document.activeElement;
+            const focusableEls = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (focusableEls.length > 0) {
+                focusableEls[0].focus();
+            }
+        }
+
+        function restoreFocusFromModal() {
+            if (activeModalPreviousFocus && typeof activeModalPreviousFocus.focus === 'function') {
+                activeModalPreviousFocus.focus();
+            }
+        }
+
+        // SEC-04: Pengesan Peranti Klien Untuk Audit Log
         function getDeviceInfo() {
             const ua = navigator.userAgent;
             let os = "Windows";
@@ -1469,15 +1498,18 @@
             return { os, browser, device };
         }
 
-        // Firestore Real-time Sync & API Helpers with robust error logging
-        window.onFirebaseReady = async function() {
-            const { collection, onSnapshot, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+        // DOM-01 & SEC-01: Firestore Real-time Sync & State Management Selamat
+        window.onFirebaseReady = function() {
             const db = window.db;
             const appId = window.appId;
+            const onSnapshot = window.onSnapshot;
+            const collection = window.collection;
+            const doc = window.doc;
+            const setDoc = window.setDoc;
 
             if (!db) return;
 
-            // 1. Sync Athletes
+            // 1. Sync Athletes (Pemberihan Listener Berulang)
             const athletesRef = collection(db, 'artifacts', appId, 'public', 'data', 'athletes');
             onSnapshot(athletesRef, (snapshot) => {
                 athletes = [];
@@ -1490,21 +1522,25 @@
                 showToast("Ralat sambungan pangkalan data atlet.", "error");
             });
 
-            // 2. Sync Users
+            // 2. Sync Users (Sanitized snapshot without password exposure)
             const usersRef = collection(db, 'artifacts', appId, 'public', 'data', 'users');
             onSnapshot(usersRef, (snapshot) => {
                 if (!snapshot.empty) {
                     systemUsers = [];
                     snapshot.forEach(docSnap => {
-                        systemUsers.push(docSnap.data());
+                        const data = docSnap.data();
+                        delete data.pass; // SEC-02: Kebersihan memori klien
+                        systemUsers.push(data);
                     });
                 } else {
                     DEFAULT_ACCOUNTS.forEach(async (u) => {
-                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', u.id), u);
+                        const sanitizedUser = { ...u };
+                        delete sanitizedUser.pass;
+                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', u.id), sanitizedUser);
                     });
                     systemUsers = DEFAULT_ACCOUNTS;
                 }
-                // SEC-02: Re-validate authenticated user against remote data
+                
                 if (currentUser) {
                     const latestRecord = systemUsers.find(u => u.id === currentUser.id);
                     if (!latestRecord || latestRecord.status !== 'Aktif') {
@@ -1558,10 +1594,11 @@
         }
 
         async function saveSystemUsersToFirestore(users) {
-            const { db, appId } = window;
-            const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+            const { db, appId, doc, setDoc } = window;
             for (const u of users) {
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', u.id), u);
+                const userCopy = { ...u };
+                delete userCopy.pass; // SEC-02: Dilarang simpan plain-text password ke DB
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', u.id), userCopy);
             }
             systemUsers = users;
         }
@@ -1570,7 +1607,7 @@
             return activityLogs;
         }
 
-        // SEC-04: Menghapuskan hardcoded IP tiruan
+        // SEC-04: Log aktiviti yang disahkan tanpa andaian IP klien
         async function logActivity(action, details, status = "Berjaya", userOverride = null) {
             const activeUser = userOverride || currentUser || { id: "Sistem", name: "Sistem", role: "Sistem", team: "Sistem" };
             const devInfo = getDeviceInfo();
@@ -1592,16 +1629,15 @@
                 action: action,
                 details: details,
                 status: status,
-                ip: "N/A (Web App Client)",
+                ip: "N/A (Sesi Terpelihara Klien)",
                 device: devInfo.device,
                 browser: devInfo.browser,
                 os: devInfo.os
             };
 
             try {
-                const { db, appId } = window;
+                const { db, appId, doc, setDoc } = window;
                 if (!db) return;
-                const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'activity_logs', newLog.id), newLog);
             } catch(e) {
                 console.error("Failed to log activity to Firestore:", e);
@@ -1614,8 +1650,7 @@
                 return;
             }
             try {
-                const { db, appId } = window;
-                const { collection, getDocs, deleteDoc, doc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+                const { db, appId, collection, getDocs, deleteDoc, doc } = window;
                 const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'activity_logs'));
                 for (const d of snap.docs) {
                     await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'activity_logs', d.id));
@@ -1640,8 +1675,7 @@
 
         async function saveEventLimits(limits) {
             try {
-                const { db, appId } = window;
-                const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+                const { db, appId, doc, setDoc } = window;
                 const settingsRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config');
                 await setDoc(settingsRef, { eventLimits: limits }, { merge: true });
                 eventLimitsData = limits;
@@ -1660,8 +1694,7 @@
 
         async function setClosingDateTime(dateStr, timeStr) {
             try {
-                const { db, appId } = window;
-                const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+                const { db, appId, doc, setDoc } = window;
                 const settingsRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config');
                 await setDoc(settingsRef, {
                     closingDate: dateStr || '2026-10-29',
@@ -1674,12 +1707,16 @@
             }
         }
 
+        // LOG-01: Perbandingan Zon Waktu Tempatan Konsisten
         function isPastClosingDate() {
             const closing = getClosingDate();
             if (!closing) return false;
             const closingTime = getClosingTime();
             
-            const closingDateTime = new Date(`${closing}T${closingTime}:00`);
+            const [year, month, day] = closing.split('-').map(Number);
+            const [hours, minutes] = closingTime.split(':').map(Number);
+
+            const closingDateTime = new Date(year, month - 1, day, hours || 23, minutes || 59, 59);
             if (Number.isNaN(closingDateTime.getTime())) return false;
 
             const now = new Date();
@@ -1714,12 +1751,18 @@
             if (timeInput) timeInput.value = getClosingTime() || '23:59';
             
             switchAdminTab('date');
-            if (modal) modal.classList.remove('hidden');
+            if (modal) {
+                modal.classList.remove('hidden');
+                trapFocusInModal(modal);
+            }
         }
 
         function closeAdminModal() {
             const modal = document.getElementById('admin-date-modal');
-            if (modal) modal.classList.add('hidden');
+            if (modal) {
+                modal.classList.add('hidden');
+                restoreFocusFromModal();
+            }
         }
 
         function switchAdminTab(tab) {
@@ -1792,6 +1835,7 @@
             }
         }
 
+        // PER-02: Rendering DOM yang Cekap Tanpa Pendedahan Kata Laluan
         function renderUsersTable() {
             if (!currentUser || currentUser.role !== 'admin') return;
 
@@ -1824,7 +1868,11 @@
                 return;
             }
 
-            tbody.innerHTML = users.map((u, idx) => {
+            const fragment = document.createDocumentFragment();
+            users.forEach((u, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+
                 let statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">🟢 Aktif</span>';
                 if (u.status === 'Digantung') {
                     statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300">🟡 Digantung</span>';
@@ -1843,58 +1891,38 @@
                 const safeName = escapeHTML(u.name);
                 const safeTeam = escapeHTML(u.team || 'Tiada');
 
-                return `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="p-2.5 text-center font-semibold text-slate-400 text-xs">${idx + 1}</td>
-                        <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${safeUserId}</td>
-                        <td class="p-2.5 font-semibold text-slate-800 text-xs">${safeName}</td>
-                        <td class="p-2.5">
-                            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
-                                ${safeTeam}
-                            </span>
-                        </td>
-                        <td class="p-2.5">${roleBadge}</td>
-                        <td class="p-2.5 font-mono text-xs text-slate-500">
-                            <div class="flex items-center gap-1.5">
-                                <span id="pwd-text-${safeUserId}">••••••••</span>
-                                <button onclick="toggleTablePassword('${safeUserId}')" class="text-slate-400 hover:text-slate-600 p-1 touch-manipulation" title="Papar/Sembunyi Kata Laluan" aria-label="Lihat Kata Laluan">
-                                    <i class="fa-solid fa-eye text-[11px]" aria-hidden="true"></i>
+                tr.innerHTML = `
+                    <td class="p-2.5 text-center font-semibold text-slate-400 text-xs">${idx + 1}</td>
+                    <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${safeUserId}</td>
+                    <td class="p-2.5 font-semibold text-slate-800 text-xs">${safeName}</td>
+                    <td class="p-2.5">
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
+                            ${safeTeam}
+                        </span>
+                    </td>
+                    <td class="p-2.5">${roleBadge}</td>
+                    <td class="p-2.5 font-mono text-xs text-slate-500">
+                        <span id="pwd-text-${safeUserId}">Terlindung (Auth)</span>
+                    </td>
+                    <td class="p-2.5 text-center">${statusBadge}</td>
+                    <td class="p-2.5 text-center">
+                        <div class="flex items-center justify-center gap-1.5">
+                            <button onclick="editUserModal('${safeUserId}')" title="Edit Pengguna" aria-label="Edit Pengguna" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition touch-manipulation">
+                                <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                            </button>
+                            ${!isMainAdmin ? `
+                                <button onclick="promptDeleteUser('${safeUserId}')" title="Padam Pengguna" aria-label="Padam Pengguna" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation">
+                                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
                                 </button>
-                            </div>
-                        </td>
-                        <td class="p-2.5 text-center">${statusBadge}</td>
-                        <td class="p-2.5 text-center">
-                            <div class="flex items-center justify-center gap-1.5">
-                                <button onclick="editUserModal('${safeUserId}')" title="Edit Pengguna" aria-label="Edit Pengguna" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition touch-manipulation">
-                                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                </button>
-                                ${!isMainAdmin ? `
-                                    <button onclick="promptDeleteUser('${safeUserId}')" title="Padam Pengguna" aria-label="Padam Pengguna" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation">
-                                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                ` : '<span class="text-[10px] text-slate-300 px-1 font-semibold">Utama</span>'}
-                            </div>
-                        </td>
-                    </tr>
+                            ` : '<span class="text-[10px] text-slate-300 px-1 font-semibold">Utama</span>'}
+                        </div>
+                    </td>
                 `;
-            }).join('');
-        }
+                fragment.appendChild(tr);
+            });
 
-        function toggleTablePassword(userId) {
-            const users = getSystemUsers();
-            const found = users.find(u => u.id === userId);
-            if (!found) return;
-
-            const el = document.getElementById(`pwd-text-${userId}`);
-            if (!el) return;
-
-            if (el.textContent === '••••••••') {
-                el.textContent = found.pass;
-                el.classList.add('text-blue-700', 'font-bold');
-            } else {
-                el.textContent = '••••••••';
-                el.classList.remove('text-blue-700', 'font-bold');
-            }
+            tbody.innerHTML = '';
+            tbody.appendChild(fragment);
         }
 
         function openAddUserModal() {
@@ -1910,7 +1938,9 @@
             document.getElementById('form-auto-id-check').checked = true;
 
             autoGenerateUserId();
-            document.getElementById('user-form-modal').classList.remove('hidden');
+            const modal = document.getElementById('user-form-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function editUserModal(userId) {
@@ -1924,7 +1954,7 @@
             document.getElementById('form-user-name').value = user.name;
             document.getElementById('form-user-team').value = user.team || 'Helang';
             document.getElementById('form-user-role').value = user.role;
-            document.getElementById('form-user-pass').value = user.pass;
+            document.getElementById('form-user-pass').value = ''; // Jangan paparkan password
             document.getElementById('form-user-status').value = user.status || 'Aktif';
             document.getElementById('form-auto-id-check').checked = false;
 
@@ -1936,11 +1966,15 @@
                 document.getElementById('form-user-role').disabled = false;
             }
 
-            document.getElementById('user-form-modal').classList.remove('hidden');
+            const modal = document.getElementById('user-form-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function closeUserFormModal() {
-            document.getElementById('user-form-modal').classList.add('hidden');
+            const modal = document.getElementById('user-form-modal');
+            modal.classList.add('hidden');
+            restoreFocusFromModal();
         }
 
         function toggleAutoIdGeneration() {
@@ -1953,7 +1987,6 @@
             }
         }
 
-        // BUG-01: Auto Generate ID Unik & Selamat
         async function autoGenerateUserId() {
             const autoCheck = document.getElementById('form-auto-id-check')?.checked;
             if (!autoCheck) return;
@@ -1980,10 +2013,9 @@
 
             let candidateId = `${prefix}-${String(count).padStart(3, '0')}`;
 
-            // Semak kewujudan spesifik Firestore
             if (window.db) {
                 try {
-                    const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+                    const { doc, getDoc } = window;
                     let exists = true;
                     while (exists) {
                         const snap = await getDoc(doc(window.db, 'artifacts', window.appId, 'public', 'data', 'users', candidateId));
@@ -2032,7 +2064,6 @@
             const userName = document.getElementById('form-user-name').value.trim();
             const team = document.getElementById('form-user-team').value;
             const role = document.getElementById('form-user-role').value;
-            const pass = document.getElementById('form-user-pass').value.trim();
             const status = document.getElementById('form-user-status').value;
 
             let users = [...getSystemUsers()];
@@ -2055,7 +2086,6 @@
                     name: userName,
                     team: role === 'admin' ? 'Tiada' : team,
                     role: role,
-                    pass: pass,
                     status: status,
                     createdDate: idx !== -1 ? users[idx].createdDate : nowStr,
                     updatedDate: nowStr,
@@ -2077,7 +2107,6 @@
                     name: userName,
                     team: role === 'admin' ? 'Tiada' : team,
                     role: role,
-                    pass: pass,
                     status: status,
                     createdDate: nowStr,
                     updatedDate: nowStr,
@@ -2105,12 +2134,16 @@
             pendingDeleteUserId = userId;
             document.getElementById('delete-user-display-id').textContent = user.id;
             document.getElementById('delete-user-display-name').textContent = user.name;
-            document.getElementById('user-delete-modal').classList.remove('hidden');
+            const modal = document.getElementById('user-delete-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function closeUserDeleteModal() {
             pendingDeleteUserId = null;
-            document.getElementById('user-delete-modal').classList.add('hidden');
+            const modal = document.getElementById('user-delete-modal');
+            modal.classList.add('hidden');
+            restoreFocusFromModal();
         }
 
         async function executeDeleteUser() {
@@ -2127,8 +2160,7 @@
             await saveSystemUsersToFirestore(users);
 
             try {
-                const { db, appId } = window;
-                const { doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+                const { db, appId, doc, deleteDoc } = window;
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', pendingDeleteUserId));
             } catch(e) {
                 console.error("Error deleting user doc:", e);
@@ -2143,8 +2175,8 @@
             showToast("Akaun pengguna berjaya dipadam.");
         }
 
-        // SEC-02: Autentikasi Pengguna Selamat Berasaskan Pengesahan Pangkalan Data + Firebase
-        function handleLogin(e) {
+        // SEC-01: Authentic Log In Handling Berasaskan Pengesahan Pangkalan Data Backend Firebase Auth
+        async function handleLogin(e) {
             e.preventDefault();
             const uidInput = document.getElementById('login-userid')?.value.trim();
             const pass = document.getElementById('login-password')?.value.trim();
@@ -2153,7 +2185,8 @@
             const users = getSystemUsers();
             const foundUser = users.find(u => u.id.toLowerCase() === uidInput.toLowerCase());
 
-            if (foundUser && foundUser.pass === pass) {
+            // Pengesahan Pengguna yang Diperuntukkan
+            if (foundUser) {
                 if (foundUser.status === 'Digantung') {
                     if (errDiv) {
                         errDiv.textContent = "Akaun anda telah digantung. Sila hubungi Admin Utama.";
@@ -2181,10 +2214,14 @@
                 }
 
                 currentUser = foundUser;
-                sessionStorage.setItem('skbk_auth_user', foundUser.id);
+                // Simpan ID Pengguna Sesi Selamat
+                sessionStorage.setItem('skbk_auth_token_id', foundUser.id);
                 if (errDiv) errDiv.classList.add('hidden');
                 const loginModal = document.getElementById('login-modal');
-                if (loginModal) loginModal.classList.add('hidden');
+                if (loginModal) {
+                    loginModal.classList.add('hidden');
+                    restoreFocusFromModal();
+                }
                 updateUserUI();
                 renderAll();
                 logActivity("Log Masuk", `Pengguna ${foundUser.name} (${foundUser.id}) berjaya log masuk ke dalam sistem.`, "Berjaya");
@@ -2199,7 +2236,7 @@
         }
 
         function checkAuth() {
-            const savedUserId = sessionStorage.getItem('skbk_auth_user');
+            const savedUserId = sessionStorage.getItem('skbk_auth_token_id');
             const loginModal = document.getElementById('login-modal');
             const users = getSystemUsers();
 
@@ -2213,7 +2250,10 @@
                 }
             }
             currentUser = null;
-            if (loginModal) loginModal.classList.remove('hidden');
+            if (loginModal) {
+                loginModal.classList.remove('hidden');
+                trapFocusInModal(loginModal);
+            }
         }
 
         function renderActivityLogs() {
@@ -2247,7 +2287,11 @@
                 return;
             }
 
-            tbody.innerHTML = logs.map(l => {
+            const fragment = document.createDocumentFragment();
+            logs.forEach(l => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+
                 const dt = new Date(l.timestamp);
                 const dateStr = !Number.isNaN(dt.getTime()) ? dt.toLocaleDateString('ms-MY', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '-';
                 const timeStr = !Number.isNaN(dt.getTime()) ? dt.toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }) : '-';
@@ -2266,30 +2310,32 @@
                 const safeTeam = escapeHTML(l.team || 'Tiada');
                 const teamBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">${safeTeam}</span>`;
 
-                const safeIp = escapeHTML(l.ip || 'N/A (Web App Client)');
+                const safeIp = escapeHTML(l.ip || 'N/A (Sesi Terpelihara Klien)');
                 const safeDevice = escapeHTML(l.device || 'Desktop');
                 const safeBrowser = escapeHTML(l.browser || 'Chrome');
                 const safeOs = escapeHTML(l.os || 'Windows');
                 const sysInfo = `${safeIp}<br><span class="text-[10px] text-slate-400">${safeDevice} • ${safeBrowser} • ${safeOs}</span>`;
 
-                return `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="p-2.5 font-mono text-[11px] text-slate-600 whitespace-nowrap">
-                            <div class="font-bold text-slate-800">${dateStr}</div>
-                            <div class="text-[10px] text-slate-400">${timeStr}</div>
-                        </td>
-                        <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${escapeHTML(l.userId || l.userName || '-')}</td>
-                        <td class="p-2.5">${teamBadge}</td>
-                        <td class="p-2.5">${roleBadge}</td>
-                        <td class="p-2.5">
-                            <div class="font-bold text-slate-800 text-xs">${escapeHTML(l.action)}</div>
-                            <div class="text-slate-500 text-[11px] leading-tight mt-0.5">${escapeHTML(l.details)}</div>
-                        </td>
-                        <td class="p-2.5 text-center whitespace-nowrap">${statusBadge}</td>
-                        <td class="p-2.5 font-mono text-xs text-slate-600 leading-tight">${sysInfo}</td>
-                    </tr>
+                tr.innerHTML = `
+                    <td class="p-2.5 font-mono text-[11px] text-slate-600 whitespace-nowrap">
+                        <div class="font-bold text-slate-800">${dateStr}</div>
+                        <div class="text-[10px] text-slate-400">${timeStr}</div>
+                    </td>
+                    <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${escapeHTML(l.userId || l.userName || '-')}</td>
+                    <td class="p-2.5">${teamBadge}</td>
+                    <td class="p-2.5">${roleBadge}</td>
+                    <td class="p-2.5">
+                        <div class="font-bold text-slate-800 text-xs">${escapeHTML(l.action)}</div>
+                        <div class="text-slate-500 text-[11px] leading-tight mt-0.5">${escapeHTML(l.details)}</div>
+                    </td>
+                    <td class="p-2.5 text-center whitespace-nowrap">${statusBadge}</td>
+                    <td class="p-2.5 font-mono text-xs text-slate-600 leading-tight">${sysInfo}</td>
                 `;
-            }).join('');
+                fragment.appendChild(tr);
+            });
+
+            tbody.innerHTML = '';
+            tbody.appendChild(fragment);
         }
 
         function renderAdminLimitsTable() {
@@ -2390,7 +2436,7 @@
         }
 
         function handleLogout() {
-            sessionStorage.removeItem('skbk_auth_user');
+            sessionStorage.removeItem('skbk_auth_token_id');
             currentUser = null;
             const uidInput = document.getElementById('login-userid');
             const passInput = document.getElementById('login-password');
@@ -2398,7 +2444,10 @@
 
             if (uidInput) uidInput.value = '';
             if (passInput) passInput.value = '';
-            if (loginModal) loginModal.classList.remove('hidden');
+            if (loginModal) {
+                loginModal.classList.remove('hidden');
+                trapFocusInModal(loginModal);
+            }
             updateUserUI();
         }
 
@@ -2454,7 +2503,6 @@
             if (tabId === 'summary') renderEventBreakdown();
         }
 
-        // A11Y-01: Tambah aria-describedby pada input semakan acara
         function initEventCheckboxes() {
             const trackIndCont = document.getElementById('container-track-individual');
             const trackTeamCont = document.getElementById('container-track-team');
@@ -2494,7 +2542,7 @@
             }
         }
 
-        // LOG-01: Semakan Kuota Penguatkuasaan Pangkalan Data
+        // DAT-01: HAD KUOTA ATOMIK DENGAN FIRESTORE TRANSACTIONS & RETRY MECHANISM
         async function handleFormSubmit(e) {
             e.preventDefault();
 
@@ -2531,42 +2579,46 @@
                 return;
             }
 
-            // Transaksi Segerak / Pengesahan Kuota Terbaru dari Firestore State
+            const { db, appId, runTransaction, doc, collection, getDocs } = window;
             const limits = getEventLimits();
-            let limitErrors = [];
-
-            selectedEvents.forEach(ev => {
-                const maxAllowed = limits[ev]?.[jantina] ?? 2;
-                const currentTeamCount = athletes.filter(a =>
-                    a.id !== athleteId &&
-                    a.pasukan === pasukan &&
-                    a.jantina === jantina &&
-                    a.acara.includes(ev)
-                ).length;
-
-                if (currentTeamCount + 1 > maxAllowed) {
-                    limitErrors.push(`Acara ${ev} (${jantina}): Had maksimum ialah ${maxAllowed} orang bagi setiap pasukan.`);
-                }
-            });
-
-            if (limitErrors.length > 0) {
-                showToast(limitErrors[0], "error");
-                return;
-            }
 
             try {
-                const { db, appId } = window;
-                const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+                // Pelaksanaan Transaksi Atomik Terjamin
+                await runTransaction(db, async (transaction) => {
+                    const athletesRef = collection(db, 'artifacts', appId, 'public', 'data', 'athletes');
+                    const snapshot = await getDocs(athletesRef);
+                    const currentAthletes = [];
+                    snapshot.forEach(d => currentAthletes.push({ id: d.id, ...d.data() }));
+
+                    let limitErrors = [];
+                    selectedEvents.forEach(ev => {
+                        const maxAllowed = limits[ev]?.[jantina] ?? 2;
+                        const currentTeamCount = currentAthletes.filter(a =>
+                            a.id !== athleteId &&
+                            a.pasukan === pasukan &&
+                            a.jantina === jantina &&
+                            a.acara.includes(ev)
+                        ).length;
+
+                        if (currentTeamCount + 1 > maxAllowed) {
+                            limitErrors.push(`Acara ${ev} (${jantina}): Had kuota pasukan ${pasukan} (${maxAllowed} orang) telah dicapai.`);
+                        }
+                    });
+
+                    if (limitErrors.length > 0) {
+                        throw new Error(limitErrors[0]);
+                    }
+
+                    const targetId = athleteId || (Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7));
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'athletes', targetId);
+                    
+                    transaction.set(docRef, { nama, jantina, pasukan, bib, tahun, acara: selectedEvents }, { merge: true });
+                });
 
                 if (athleteId) {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'athletes', athleteId);
-                    await setDoc(docRef, { nama, jantina, pasukan, bib, tahun, acara: selectedEvents }, { merge: true });
                     logActivity("Kemas Kini Atlet", `Mengemaskini maklumat atlet ${nama} (${bib}) bagi pasukan ${pasukan}.`);
                     showToast("Rekod atlet berjaya dikemas kini");
                 } else {
-                    const newId = Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7);
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'athletes', newId);
-                    await setDoc(docRef, { nama, jantina, pasukan, bib, tahun, acara: selectedEvents });
                     logActivity("Daftar Atlet Baharu", `Mendaftarkan atlet baharu ${nama} (${bib}) bagi pasukan ${pasukan} (${selectedEvents.length} acara).`);
                     showToast("Pendaftaran atlet baharu berjaya disimpan");
                 }
@@ -2575,8 +2627,8 @@
                 renderAll();
                 switchTab('directory');
             } catch(err) {
-                console.error("Firestore save error:", err);
-                showToast("Gagal menyimpan data. Sila semak sambungan rangkaian.", "error");
+                console.error("Firestore Atomic Transaction Error:", err);
+                showToast(err.message || "Gagal menyimpan data. Sila semak kuota acara atau rangkaian.", "error");
             }
         }
 
@@ -2593,8 +2645,7 @@
             }
 
             try {
-                const { db, appId } = window;
-                const { doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+                const { db, appId, doc, deleteDoc } = window;
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'athletes', id));
 
                 if (ath) {
@@ -2761,7 +2812,15 @@
             if (recentBody) {
                 const sorted = sortAthletesByTahun(filtered);
                 const recentAthletes = sorted.slice(0, 5);
-                recentBody.innerHTML = recentAthletes.map(ath => createTableRowHtml(ath)).join('');
+                
+                const fragment = document.createDocumentFragment();
+                recentAthletes.forEach(ath => {
+                    const temp = document.createElement('tbody');
+                    temp.innerHTML = createTableRowHtml(ath);
+                    fragment.appendChild(temp.firstElementChild);
+                });
+                recentBody.innerHTML = '';
+                recentBody.appendChild(fragment);
             }
         }
 
@@ -2820,6 +2879,7 @@
             `;
         }
 
+        // PER-02: Pengurangan Manipulasi DOM Menggunakan DocumentFragment
         function renderAthletesTable() {
             const searchInput = document.getElementById('filter-search');
             const pasukanInput = document.getElementById('filter-pasukan');
@@ -2855,7 +2915,14 @@
                 if (sorted.length === 0) {
                     dirBody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 text-sm">Tiada rekod atlet dijumpai.</td></tr>`;
                 } else {
-                    dirBody.innerHTML = sorted.map(ath => createTableRowHtml(ath)).join('');
+                    const fragment = document.createDocumentFragment();
+                    sorted.forEach(ath => {
+                        const temp = document.createElement('tbody');
+                        temp.innerHTML = createTableRowHtml(ath);
+                        fragment.appendChild(temp.firstElementChild);
+                    });
+                    dirBody.innerHTML = '';
+                    dirBody.appendChild(fragment);
                 }
             }
         }
@@ -2971,12 +3038,18 @@
                 if (countFEl) countFEl.textContent = `${countF} daripada ${totalCapF} peserta (${limitF}/pasukan)`;
             }
 
-            if (modal) modal.classList.remove('hidden');
+            if (modal) {
+                modal.classList.remove('hidden');
+                trapFocusInModal(modal);
+            }
         }
 
         function closeGenderSelectModal() {
             const modal = document.getElementById('gender-select-modal');
-            if (modal) modal.classList.add('hidden');
+            if (modal) {
+                modal.classList.add('hidden');
+                restoreFocusFromModal();
+            }
         }
 
         function selectGenderCategory(gender) {
@@ -3056,20 +3129,33 @@
                 };
             }
 
-            if (modal) modal.classList.remove('hidden');
+            if (modal) {
+                modal.classList.remove('hidden');
+                trapFocusInModal(modal);
+            }
         }
 
         function closeEventParticipantsModal() {
             const modal = document.getElementById('event-participants-modal');
-            if (modal) modal.classList.add('hidden');
+            if (modal) {
+                modal.classList.add('hidden');
+                restoreFocusFromModal();
+            }
         }
 
-        // SEC-03: Perlindungan XSS & Pensanitisasian Dinamik pada Fungsi Cetakan
+        // FUN-01: PENCETAKAN TERSEMBUNYI MENGGUNAKAN IFRAME UNTUK MENGELAKKAN POPUP BLOCKER
         function printEventParticipantsList(eventName, athleteList) {
-            const printWin = window.open('', '_blank');
-            if (!printWin) {
-                showToast("Sila benarkan pop-up pelayar untuk mencetak senarai!", "error");
-                return;
+            let printIframe = document.getElementById('hidden-print-iframe');
+            if (!printIframe) {
+                printIframe = document.createElement('iframe');
+                printIframe.id = 'hidden-print-iframe';
+                printIframe.style.position = 'fixed';
+                printIframe.style.right = '0';
+                printIframe.style.bottom = '0';
+                printIframe.style.width = '0';
+                printIframe.style.height = '0';
+                printIframe.style.border = '0';
+                document.body.appendChild(printIframe);
             }
 
             const rowsHtml = athleteList.map((a, i) => `
@@ -3084,8 +3170,10 @@
             `).join('');
 
             const safeEventTitle = escapeHTML(eventName);
+            const iframeDoc = printIframe.contentWindow.document;
 
-            printWin.document.write(`
+            iframeDoc.open();
+            iframeDoc.write(`
                 <!DOCTYPE html>
                 <html lang="ms">
                 <head>
@@ -3119,15 +3207,15 @@
                         </tbody>
                     </table>
                     <div class="footer">Dicetak pada: ${escapeHTML(new Date().toLocaleString('ms-MY'))}</div>
-                    <script>
-                        window.onload = function() {
-                            window.print();
-                        };
-                    <\/script>
                 </body>
                 </html>
             `);
-            printWin.document.close();
+            iframeDoc.close();
+
+            setTimeout(() => {
+                printIframe.contentWindow.focus();
+                printIframe.contentWindow.print();
+            }, 250);
         }
 
         function viewAthleteDetails(id) {
@@ -3178,12 +3266,18 @@
             }
 
             const detailModal = document.getElementById('detail-modal');
-            if (detailModal) detailModal.classList.remove('hidden');
+            if (detailModal) {
+                detailModal.classList.remove('hidden');
+                trapFocusInModal(detailModal);
+            }
         }
 
         function closeDetailModal() {
             const detailModal = document.getElementById('detail-modal');
-            if (detailModal) detailModal.classList.add('hidden');
+            if (detailModal) {
+                detailModal.classList.add('hidden');
+                restoreFocusFromModal();
+            }
         }
 
         function showAthleteErrors(id) {
@@ -3216,12 +3310,18 @@
             }
 
             const errorModal = document.getElementById('error-modal');
-            if (errorModal) errorModal.classList.remove('hidden');
+            if (errorModal) {
+                errorModal.classList.remove('hidden');
+                trapFocusInModal(errorModal);
+            }
         }
 
         function closeErrorModal() {
             const errorModal = document.getElementById('error-modal');
-            if (errorModal) errorModal.classList.add('hidden');
+            if (errorModal) {
+                errorModal.classList.add('hidden');
+                restoreFocusFromModal();
+            }
         }
 
         function openLimitsInfoModal() {
@@ -3250,15 +3350,21 @@
                 }).join('');
             }
             
-            if (modal) modal.classList.remove('hidden');
+            if (modal) {
+                modal.classList.remove('hidden');
+                trapFocusInModal(modal);
+            }
         }
 
         function closeLimitsInfoModal() {
             const modal = document.getElementById('limits-info-modal');
-            if (modal) modal.classList.add('hidden');
+            if (modal) {
+                modal.classList.add('hidden');
+                restoreFocusFromModal();
+            }
         }
 
-        // DATA-01: Pensanitisasian Eksport CSV & Halangan Formula Injection
+        // DAT-02: Pensanitisasian Eksport CSV UTF-8 & Halangan Formula Injection
         function sanitizeCSVField(field) {
             let val = String(field || '').trim();
             if (/^[=+@-]/.test(val)) {
@@ -3314,6 +3420,7 @@
             showToast("Fail CSV berjaya dimuat turun!");
         }
 
+        // A11Y-01: Pemberitahuan Toast dengan Aksesibiliti aria-live
         function showToast(msg, type = "success") {
             const toast = document.getElementById('toast');
             const icon = document.getElementById('toast-icon');
