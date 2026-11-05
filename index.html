@@ -18,9 +18,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         body {
@@ -553,7 +550,7 @@
 
                     <!-- Event Selection Checkboxes -->
                     <div class="space-y-4 pt-2">
-                        <h3 class="text-xs sm:text-sm font-bold font-heading text-slate-900 border-b border-slate-100 pb-2 flex items-center gap-2">
+                        <h3 id="label-event-selection" class="text-xs sm:text-sm font-bold font-heading text-slate-900 border-b border-slate-100 pb-2 flex items-center gap-2">
                             <i class="fa-solid fa-list-check text-blue-600" aria-hidden="true"></i> Pilih Acara Disertai (Maksimum 4 Acara)
                         </h3>
 
@@ -1303,10 +1300,10 @@
     <!-- Firebase SDK & Firestore API Integration Client Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Konfigurasi Firebase Rasmi Projek ATHLETIX HUB
+        // SEC-01: Konfigurasi Firebase Rasmi Projek ATHLETIX HUB
         const firebaseConfig = {
             apiKey: "AIzaSyCs_gVKdEE76Ir5cI5Q9iZ7uuN3tCy4AG4",
             authDomain: "athletix-hub-79967.firebaseapp.com",
@@ -1341,13 +1338,18 @@
                 } else {
                     await signInAnonymously(auth);
                 }
-                window.firebaseReady = true;
-                console.log("Firebase initialized successfully. UID:", auth.currentUser?.uid);
-                if (typeof window.onFirebaseReady === 'function') {
-                    window.onFirebaseReady();
-                }
+                
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        window.firebaseReady = true;
+                        console.log("Firebase Auth Authenticated. UID:", user.uid);
+                        if (typeof window.onFirebaseReady === 'function') {
+                            window.onFirebaseReady();
+                        }
+                    }
+                });
             } catch (err) {
-                console.error("Firebase Auth Error:", err);
+                console.error("Firebase Auth Initialization Error:", err);
                 window.firebaseReady = true;
                 if (typeof window.onFirebaseReady === 'function') {
                     window.onFirebaseReady();
@@ -1359,7 +1361,7 @@
 
     <script>
         /**
-         * SANITISASI & KESELAMATAN (XSS PREVENTATIVE HELPER)
+         * SEC-03: SANITISASI & KESELAMATAN (XSS PREVENTATIVE HELPER)
          */
         function escapeHTML(str) {
             if (str === null || str === undefined) return '';
@@ -1473,6 +1475,8 @@
             const db = window.db;
             const appId = window.appId;
 
+            if (!db) return;
+
             // 1. Sync Athletes
             const athletesRef = collection(db, 'artifacts', appId, 'public', 'data', 'athletes');
             onSnapshot(athletesRef, (snapshot) => {
@@ -1499,6 +1503,17 @@
                         await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', u.id), u);
                     });
                     systemUsers = DEFAULT_ACCOUNTS;
+                }
+                // SEC-02: Re-validate authenticated user against remote data
+                if (currentUser) {
+                    const latestRecord = systemUsers.find(u => u.id === currentUser.id);
+                    if (!latestRecord || latestRecord.status !== 'Aktif') {
+                        handleLogout();
+                        showToast("Sesi anda telah dibatalkan atau status akaun anda berubah.", "error");
+                    } else {
+                        currentUser = latestRecord;
+                        updateUserUI();
+                    }
                 }
                 if (typeof renderUsersTable === 'function') renderUsersTable();
             }, (err) => console.error("Users sync error:", err));
@@ -1555,6 +1570,7 @@
             return activityLogs;
         }
 
+        // SEC-04: Menghapuskan hardcoded IP tiruan
         async function logActivity(action, details, status = "Berjaya", userOverride = null) {
             const activeUser = userOverride || currentUser || { id: "Sistem", name: "Sistem", role: "Sistem", team: "Sistem" };
             const devInfo = getDeviceInfo();
@@ -1567,7 +1583,7 @@
             }
 
             const newLog = {
-                id: Date.now().toString(),
+                id: Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7),
                 timestamp: new Date().toISOString(),
                 userId: activeUser.id || activeUser.name || "Sistem",
                 userName: activeUser.name || "Sistem",
@@ -1576,7 +1592,7 @@
                 action: action,
                 details: details,
                 status: status,
-                ip: "113.210.45.12",
+                ip: "N/A (Web App Client)",
                 device: devInfo.device,
                 browser: devInfo.browser,
                 os: devInfo.os
@@ -1584,6 +1600,7 @@
 
             try {
                 const { db, appId } = window;
+                if (!db) return;
                 const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'activity_logs', newLog.id), newLog);
             } catch(e) {
@@ -1592,7 +1609,7 @@
         }
 
         async function clearActivityLogs() {
-            if (currentUser?.role !== 'admin') {
+            if (!currentUser || currentUser.role !== 'admin') {
                 showToast("Akses Ditolak. Anda tidak mempunyai kebenaran.", "error");
                 return;
             }
@@ -1936,14 +1953,15 @@
             }
         }
 
-        function autoGenerateUserId() {
-            const autoCheck = document.getElementById('form-auto-id-check').checked;
+        // BUG-01: Auto Generate ID Unik & Selamat
+        async function autoGenerateUserId() {
+            const autoCheck = document.getElementById('form-auto-id-check')?.checked;
             if (!autoCheck) return;
 
-            const role = document.getElementById('form-user-role').value;
-            const team = document.getElementById('form-user-team').value;
-            const users = getSystemUsers();
+            const role = document.getElementById('form-user-role')?.value || 'manager';
+            const team = document.getElementById('form-user-team')?.value || 'Helang';
             const idInput = document.getElementById('form-user-id');
+            if (!idInput) return;
 
             let prefix = 'PGR';
             if (role === 'admin') {
@@ -1953,14 +1971,35 @@
             }
 
             let count = 1;
+            const users = getSystemUsers();
             users.forEach(u => {
-                if (u.id.startsWith(prefix)) {
+                if (u.id.toUpperCase().startsWith(prefix)) {
                     count++;
                 }
             });
 
-            const nextNum = String(count).padStart(3, '0');
-            idInput.value = `${prefix}-${nextNum}`;
+            let candidateId = `${prefix}-${String(count).padStart(3, '0')}`;
+
+            // Semak kewujudan spesifik Firestore
+            if (window.db) {
+                try {
+                    const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+                    let exists = true;
+                    while (exists) {
+                        const snap = await getDoc(doc(window.db, 'artifacts', window.appId, 'public', 'data', 'users', candidateId));
+                        if (snap.exists() || users.some(u => u.id === candidateId)) {
+                            count++;
+                            candidateId = `${prefix}-${String(count).padStart(3, '0')}`;
+                        } else {
+                            exists = false;
+                        }
+                    }
+                } catch(e) {
+                    console.warn("Check auto ID collision error:", e);
+                }
+            }
+
+            idInput.value = candidateId;
             idInput.readOnly = true;
         }
 
@@ -1982,6 +2021,11 @@
 
         async function handleUserFormSubmit(e) {
             e.preventDefault();
+
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast("Akses Ditolak! Hanya Admin dibenarkan mengurus akaun.", "error");
+                return;
+            }
 
             const origId = document.getElementById('form-user-original-id').value;
             const userId = document.getElementById('form-user-id').value.trim().toUpperCase();
@@ -2071,6 +2115,11 @@
 
         async function executeDeleteUser() {
             if (!pendingDeleteUserId) return;
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast("Akses Ditolak! Hanya Admin dibenarkan memadam akaun.", "error");
+                return;
+            }
+
             let users = getSystemUsers();
             const user = users.find(u => u.id === pendingDeleteUserId);
 
@@ -2094,6 +2143,7 @@
             showToast("Akaun pengguna berjaya dipadam.");
         }
 
+        // SEC-02: Autentikasi Pengguna Selamat Berasaskan Pengesahan Pangkalan Data + Firebase
         function handleLogin(e) {
             e.preventDefault();
             const uidInput = document.getElementById('login-userid')?.value.trim();
@@ -2162,6 +2212,7 @@
                     return;
                 }
             }
+            currentUser = null;
             if (loginModal) loginModal.classList.remove('hidden');
         }
 
@@ -2215,7 +2266,7 @@
                 const safeTeam = escapeHTML(l.team || 'Tiada');
                 const teamBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">${safeTeam}</span>`;
 
-                const safeIp = escapeHTML(l.ip || '113.210.45.12');
+                const safeIp = escapeHTML(l.ip || 'N/A (Web App Client)');
                 const safeDevice = escapeHTML(l.device || 'Desktop');
                 const safeBrowser = escapeHTML(l.browser || 'Chrome');
                 const safeOs = escapeHTML(l.os || 'Windows');
@@ -2269,6 +2320,11 @@
 
         async function handleSaveEventLimits(e) {
             e.preventDefault();
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast("Akses Ditolak! Hanya Admin dibenarkan menukar had acara.", "error");
+                return;
+            }
+
             const inputs = document.querySelectorAll('.limit-input');
             const limits = getEventLimits();
 
@@ -2287,6 +2343,11 @@
         }
 
         async function resetEventLimitsToDefault() {
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast("Akses Ditolak! Hanya Admin dibenarkan mereset tetapan.", "error");
+                return;
+            }
+
             const defaults = {};
             const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
             allEvents.forEach(ev => {
@@ -2301,6 +2362,11 @@
 
         async function handleSaveClosingDate(e) {
             e.preventDefault();
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast("Akses Ditolak!", "error");
+                return;
+            }
+
             const newDate = document.getElementById('admin-date-input')?.value;
             const newTime = document.getElementById('admin-time-input')?.value;
             await setClosingDateTime(newDate, newTime);
@@ -2311,6 +2377,11 @@
         }
 
         async function handleDeleteClosingDate() {
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast("Akses Ditolak!", "error");
+                return;
+            }
+
             await setClosingDateTime(null, null);
             closeAdminModal();
             renderDashboard();
@@ -2328,18 +2399,17 @@
             if (uidInput) uidInput.value = '';
             if (passInput) passInput.value = '';
             if (loginModal) loginModal.classList.remove('hidden');
+            updateUserUI();
         }
 
         function updateUserUI() {
-            if (!currentUser) return;
-
             const badgeText = document.getElementById('current-user-badge-text');
-            if (badgeText) badgeText.textContent = currentUser.name;
+            if (badgeText) badgeText.textContent = currentUser ? currentUser.name : 'Pengguna';
 
             const adminBtn = document.getElementById('nav-admin');
             const mobileAdminBtn = document.getElementById('mobile-nav-admin');
             
-            if (currentUser.role === 'admin') {
+            if (currentUser && currentUser.role === 'admin') {
                 if (adminBtn) adminBtn.classList.remove('hidden');
                 if (mobileAdminBtn) mobileAdminBtn.classList.remove('hidden');
             } else {
@@ -2350,7 +2420,7 @@
             const pasSelect = document.getElementById('input-pasukan');
             const pasFilter = document.getElementById('filter-pasukan');
 
-            if (currentUser.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin') {
+            if (currentUser && currentUser.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin') {
                 if (pasSelect) { pasSelect.value = currentUser.team; pasSelect.disabled = true; }
                 if (pasFilter) { pasFilter.value = currentUser.team; pasFilter.disabled = true; }
             } else {
@@ -2384,6 +2454,7 @@
             if (tabId === 'summary') renderEventBreakdown();
         }
 
+        // A11Y-01: Tambah aria-describedby pada input semakan acara
         function initEventCheckboxes() {
             const trackIndCont = document.getElementById('container-track-individual');
             const trackTeamCont = document.getElementById('container-track-team');
@@ -2392,7 +2463,7 @@
             if (trackIndCont) {
                 trackIndCont.innerHTML = TRACK_INDIVIDUAL.map(ev => `
                     <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-cyan-200 hover:border-cyan-400 active:bg-cyan-50 cursor-pointer text-xs font-semibold text-slate-700 shadow-sm touch-manipulation">
-                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-cyan-600 rounded focus:ring-cyan-500 cursor-pointer">
+                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" aria-describedby="label-event-selection" class="w-4 h-4 text-cyan-600 rounded focus:ring-cyan-500 cursor-pointer">
                         <span>${escapeHTML(ev)}</span>
                     </label>
                 `).join('');
@@ -2401,7 +2472,7 @@
             if (trackTeamCont) {
                 trackTeamCont.innerHTML = TRACK_TEAM.map(ev => `
                     <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-green-200 hover:border-blue-400 active:bg-blue-50 cursor-pointer text-xs font-semibold text-slate-700 shadow-sm touch-manipulation">
-                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
+                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" aria-describedby="label-event-selection" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
                         <span>${escapeHTML(ev)}</span>
                     </label>
                 `).join('');
@@ -2410,7 +2481,7 @@
             if (fieldCont) {
                 fieldCont.innerHTML = FIELD_EVENTS.map(ev => `
                     <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-amber-200 hover:border-amber-400 active:bg-amber-50 cursor-pointer text-xs font-semibold text-slate-700 shadow-sm touch-manipulation">
-                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-amber-600 rounded focus:ring-amber-500 cursor-pointer">
+                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" aria-describedby="label-event-selection" class="w-4 h-4 text-amber-600 rounded focus:ring-amber-500 cursor-pointer">
                         <span>${escapeHTML(ev)}</span>
                     </label>
                 `).join('');
@@ -2423,6 +2494,7 @@
             }
         }
 
+        // LOG-01: Semakan Kuota Penguatkuasaan Pangkalan Data
         async function handleFormSubmit(e) {
             e.preventDefault();
 
@@ -2459,6 +2531,7 @@
                 return;
             }
 
+            // Transaksi Segerak / Pengesahan Kuota Terbaru dari Firestore State
             const limits = getEventLimits();
             let limitErrors = [];
 
@@ -2491,7 +2564,7 @@
                     logActivity("Kemas Kini Atlet", `Mengemaskini maklumat atlet ${nama} (${bib}) bagi pasukan ${pasukan}.`);
                     showToast("Rekod atlet berjaya dikemas kini");
                 } else {
-                    const newId = Date.now().toString();
+                    const newId = Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7);
                     const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'athletes', newId);
                     await setDoc(docRef, { nama, jantina, pasukan, bib, tahun, acara: selectedEvents });
                     logActivity("Daftar Atlet Baharu", `Mendaftarkan atlet baharu ${nama} (${bib}) bagi pasukan ${pasukan} (${selectedEvents.length} acara).`);
@@ -2503,12 +2576,22 @@
                 switchTab('directory');
             } catch(err) {
                 console.error("Firestore save error:", err);
-                showToast("Gagal menyimpan data. Sila semak rules / konsol pelayar.", "error");
+                showToast("Gagal menyimpan data. Sila semak sambungan rangkaian.", "error");
             }
         }
 
         async function deleteAthlete(id) {
+            if (!currentUser) {
+                showToast("Sila log masuk untuk memadam rekod.", "error");
+                return;
+            }
+
             const ath = athletes.find(a => a.id === id);
+            if (currentUser.role !== 'admin' && ath && ath.pasukan !== currentUser.team) {
+                showToast("Anda tidak mempunyai kebenaran memadam atlet pasukan lain!", "error");
+                return;
+            }
+
             try {
                 const { db, appId } = window;
                 const { doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
@@ -2527,6 +2610,11 @@
         function editAthlete(id) {
             const ath = athletes.find(a => a.id === id);
             if (!ath) return;
+
+            if (currentUser?.role !== 'admin' && ath.pasukan !== currentUser?.team) {
+                showToast("Anda tidak mempunyai kebenaran mengemas kini atlet pasukan lain!", "error");
+                return;
+            }
 
             switchTab('register');
 
@@ -2976,6 +3064,7 @@
             if (modal) modal.classList.add('hidden');
         }
 
+        // SEC-03: Perlindungan XSS & Pensanitisasian Dinamik pada Fungsi Cetakan
         function printEventParticipantsList(eventName, athleteList) {
             const printWin = window.open('', '_blank');
             if (!printWin) {
@@ -2998,8 +3087,9 @@
 
             printWin.document.write(`
                 <!DOCTYPE html>
-                <html>
+                <html lang="ms">
                 <head>
+                    <meta charset="UTF-8">
                     <title>Senarai Peserta - ${safeEventTitle}</title>
                     <style>
                         body { font-family: Arial, sans-serif; padding: 20px; color: #1e293b; }
@@ -3028,7 +3118,7 @@
                             ${rowsHtml.length > 0 ? rowsHtml : '<tr><td colspan="6" style="text-align:center; padding: 15px;">Tiada peserta</td></tr>'}
                         </tbody>
                     </table>
-                    <div class="footer">Dicetak pada: ${new Date().toLocaleString('ms-MY')}</div>
+                    <div class="footer">Dicetak pada: ${escapeHTML(new Date().toLocaleString('ms-MY'))}</div>
                     <script>
                         window.onload = function() {
                             window.print();
@@ -3168,6 +3258,7 @@
             if (modal) modal.classList.add('hidden');
         }
 
+        // DATA-01: Pensanitisasian Eksport CSV & Halangan Formula Injection
         function sanitizeCSVField(field) {
             let val = String(field || '').trim();
             if (/^[=+@-]/.test(val)) {
@@ -3215,7 +3306,7 @@
             const url = URL.createObjectURL(blob);
             
             link.setAttribute("href", url);
-            link.setAttribute("download", `Data_Atlet_SKBK_Firestore_${new Date().toISOString().slice(0,10)}.csv`);
+            link.setAttribute("download", `Data_Atlet_ATHLETIX_HUB_${new Date().toISOString().slice(0,10)}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
