@@ -73,9 +73,6 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
-        html.dark ::-webkit-scrollbar-thumb {
-            background: #334155;
-        }
 
         .safe-area-bottom {
             padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
@@ -120,65 +117,6 @@
         .toast-bottom {
             bottom: max(1.25rem, calc(0.75rem + env(safe-area-inset-bottom, 0px)));
         }
-
-        /* Mod Gelap Premium */
-        html.dark {
-            color-scheme: dark;
-        }
-        html.dark body {
-            background-color: #080c14;
-            color: #f1f5f9;
-        }
-        html.dark .bg-white, html.dark .glass-card {
-            background-color: #0f172a !important;
-            border-color: #1e293b !important;
-            color: #f3f4f6 !important;
-        }
-        html.dark .bg-slate-50, html.dark .bg-slate-50\/80, html.dark .bg-slate-50\/50 {
-            background-color: #162032 !important;
-            color: #f3f4f6 !important;
-        }
-        html.dark .bg-slate-100 {
-            background-color: #1e293b !important;
-            color: #f3f4f6 !important;
-        }
-        html.dark .text-slate-900, 
-        html.dark .text-slate-800, 
-        html.dark .text-slate-700,
-        html.dark .text-slate-600 {
-            color: #f8fafc !important;
-        }
-        html.dark .text-slate-500,
-        html.dark .text-slate-400 {
-            color: #94a3b8 !important;
-        }
-        html.dark .border-slate-100, 
-        html.dark .border-slate-200, 
-        html.dark .border-slate-300 {
-            border-color: #1e293b !important;
-        }
-        html.dark input[type="text"],
-        html.dark input[type="password"],
-        html.dark input[type="date"],
-        html.dark input[type="time"],
-        html.dark input[type="number"],
-        html.dark select,
-        html.dark textarea {
-            background-color: #162032 !important;
-            color: #f9fafb !important;
-            border-color: #334155 !important;
-        }
-        html.dark table thead {
-            background-color: #162032 !important;
-            color: #cbd5e1 !important;
-            border-color: #1e293b !important;
-        }
-        html.dark table tbody tr:hover {
-            background-color: rgba(30, 41, 59, 0.7) !important;
-        }
-        html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
-            border-color: #1e293b !important;
-        }
     </style>
 </head>
 <body class="min-h-full flex flex-col bg-slate-50/70 text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
@@ -218,8 +156,8 @@
                 <!-- User Profile / Logout / Theme Toggle -->
                 <div class="flex items-center gap-2 sm:gap-3">
                     <button onclick="toggleDarkMode()" title="Tukar Mod Terang / Gelap" aria-label="Tukar Mod Terang atau Gelap" class="p-2.5 bg-white/10 hover:bg-white/20 text-amber-300 rounded-xl text-xs font-semibold transition-all duration-200 active:scale-95 touch-manipulation flex items-center justify-center border border-white/10">
-                        <i class="fa-solid fa-moon theme-toggle-icon" aria-hidden="true"></i>
-                    </button>
+                <!-- User Profile / Logout -->
+                <div class="flex items-center gap-2 sm:gap-3">
                     <span id="current-user-badge" class="px-3 py-1.5 bg-white/10 border border-white/10 rounded-xl text-[11px] sm:text-xs font-bold text-amber-300 flex items-center gap-1.5 truncate max-w-[130px] sm:max-w-none backdrop-blur-sm">
                         <i class="fa-solid fa-user-shield text-[10px] shrink-0" aria-hidden="true"></i> <span id="current-user-badge-text" class="truncate">Pengguna</span>
                     </span>
@@ -1382,38 +1320,6 @@
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#039;');
-        }
-
-        /**
-         * MOD GELAP & TEMA
-         */
-        function initTheme() {
-            const savedTheme = localStorage.getItem('skbk_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-                updateThemeToggleIcons(true);
-            } else {
-                document.documentElement.classList.remove('dark');
-                updateThemeToggleIcons(false);
-            }
-        }
-
-        function toggleDarkMode() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('skbk_theme', isDark ? 'dark' : 'light');
-            updateThemeToggleIcons(isDark);
-            showToast(isDark ? "Mod Gelap diaktifkan 🌙" : "Mod Terang diaktifkan ☀️");
-        }
-
-        function updateThemeToggleIcons(isDark) {
-            const icons = document.querySelectorAll('.theme-toggle-icon');
-            icons.forEach(icon => {
-                if (isDark) {
-                    icon.className = 'fa-solid fa-sun text-amber-400 theme-toggle-icon';
-                } else {
-                    icon.className = 'fa-solid fa-moon text-amber-300 theme-toggle-icon';
-                }
-            });
         }
 
         /**
@@ -3446,7 +3352,6 @@
         }
 
         window.onload = function() {
-            initTheme();
             initEventCheckboxes();
             checkAuth();
             renderAll();
