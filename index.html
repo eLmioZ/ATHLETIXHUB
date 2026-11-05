@@ -153,9 +153,6 @@
                     </button>
                 </nav>
 
-                <!-- User Profile / Logout / Theme Toggle -->
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <button onclick="toggleDarkMode()" title="Tukar Mod Terang / Gelap" aria-label="Tukar Mod Terang atau Gelap" class="p-2.5 bg-white/10 hover:bg-white/20 text-amber-300 rounded-xl text-xs font-semibold transition-all duration-200 active:scale-95 touch-manipulation flex items-center justify-center border border-white/10">
                 <!-- User Profile / Logout -->
                 <div class="flex items-center gap-2 sm:gap-3">
                     <span id="current-user-badge" class="px-3 py-1.5 bg-white/10 border border-white/10 rounded-xl text-[11px] sm:text-xs font-bold text-amber-300 flex items-center gap-1.5 truncate max-w-[130px] sm:max-w-none backdrop-blur-sm">
@@ -198,7 +195,10 @@
                     <h2 class="text-xl sm:text-2xl font-black font-heading tracking-tight">Sistem Pendaftaran Pasukan</h2>
                     <p class="text-xs text-blue-200/90 mt-1.5 leading-relaxed max-w-2xl">Pengurusan pendaftaran dan status kelayakan pasukan secara sistematik.</p>
                 </div>
-                <div class="flex items-center gap-3 relative z-10 shrink-0">
+                <div class="flex flex-col sm:flex-row items-center gap-3 relative z-10 shrink-0">
+                    <button onclick="openCompetitionTermsModal()" class="w-full sm:w-auto px-4 py-3 bg-blue-900/80 hover:bg-blue-800 text-amber-300 font-bold rounded-xl text-xs border border-blue-700/60 transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
+                        <i class="fa-solid fa-file-contract text-sm" aria-hidden="true"></i> Syarat Kejohanan
+                    </button>
                     <button onclick="switchTab('register')" class="w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-blue-950 font-black rounded-xl text-xs shadow-glow-amber transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-plus" aria-hidden="true"></i> Tambah Atlet Baharu
                     </button>
@@ -897,6 +897,9 @@
                 <button id="admin-tab-btn-limits" onclick="switchAdminTab('limits')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-list-check mr-1" aria-hidden="true"></i> Had Penyertaan
                 </button>
+                <button id="admin-tab-btn-terms" onclick="switchAdminTab('terms')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
+                    <i class="fa-solid fa-file-contract mr-1" aria-hidden="true"></i> Syarat Kejohanan
+                </button>
                 <button id="admin-tab-btn-users" onclick="switchAdminTab('users')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-users-gear mr-1" aria-hidden="true"></i> Pengurusan Pengguna
                 </button>
@@ -959,12 +962,12 @@
 
                 <form id="admin-limits-form" onsubmit="handleSaveEventLimits(event)" class="space-y-4">
                     <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
-                        <table class="w-full text-left text-xs min-w-[340px]">
+                        <table class="w-full text-left text-xs min-w-[500px]">
                             <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
                                 <tr>
-                                    <th scope="col" class="p-2.5 sm:p-3">Nama Acara</th>
-                                    <th scope="col" class="p-2.5 sm:p-3 text-center w-24 sm:w-28">Lelaki (Max)</th>
-                                    <th scope="col" class="p-2.5 sm:p-3 text-center w-24 sm:w-28">Perempuan (Max)</th>
+                                    <th scope="col" class="p-3">Nama Acara</th>
+                                    <th scope="col" class="p-3 text-center w-32">Lelaki</th>
+                                    <th scope="col" class="p-3 text-center w-32">Perempuan</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-limits-table-body" class="divide-y divide-slate-100">
@@ -973,20 +976,50 @@
                         </table>
                     </div>
 
-                    <div class="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-2.5 pt-2">
-                        <button type="button" onclick="resetEventLimitsToDefault()" class="w-full sm:w-auto px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition text-center active:scale-95 touch-manipulation">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2">
+                        <button type="button" onclick="resetEventLimitsToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                             Reset Nilai Asal (2)
                         </button>
                         <div class="flex gap-2 w-full sm:w-auto">
                             <button type="button" onclick="closeAdminModal()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                                 Batal
                             </button>
-                            <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
+                            <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
                                 <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Tetapan
                             </button>
                         </div>
                     </div>
                 </form>
+            </div>
+
+            <!-- Tab Sub-Modul: Pengurusan Syarat Kejohanan Admin -->
+            <div id="admin-tab-terms" class="hidden space-y-4 overflow-y-auto flex-grow pr-1">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2">
+                    <div class="text-xs text-slate-600 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-blue-600" aria-hidden="true"></i>
+                        <span>Tambah dan kemas kini syarat kejohanan untuk paparan pengguna.</span>
+                    </div>
+                    <button onclick="openTermFormModal()" class="w-full sm:w-auto px-4 py-2 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 shrink-0 active:scale-95 touch-manipulation">
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i> Tambah Syarat
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
+                    <table class="w-full text-left text-xs min-w-[600px]">
+                        <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+                            <tr>
+                                <th scope="col" class="p-2.5 text-center w-12">No</th>
+                                <th scope="col" class="p-2.5">Tajuk Syarat</th>
+                                <th scope="col" class="p-2.5">Kandungan / Penerangan</th>
+                                <th scope="col" class="p-2.5 text-center w-24">Status</th>
+                                <th scope="col" class="p-2.5 text-center w-28">Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-terms-table-body" class="divide-y divide-slate-100">
+                            <!-- Generated via JS -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Tab 3: Pengurusan Pengguna -->
@@ -1189,7 +1222,7 @@
         </div>
     </div>
 
-    <!-- Confirm Delete User Modal -->
+    <!-- Modal Confirm Delete User Modal -->
     <div id="user-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
         <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto">
             <div class="text-center">
@@ -1200,15 +1233,9 @@
                 <p class="text-xs text-slate-500 mt-1">Adakah anda pasti ingin memadam akaun ini?</p>
             </div>
 
-            <div class="bg-rose-50 p-3.5 rounded-xl border border-rose-100 space-y-1.5 text-xs text-slate-700">
-                <div class="flex justify-between">
-                    <span class="font-medium text-slate-500">ID Pengguna :</span>
-                    <strong id="delete-user-display-id" class="font-mono text-slate-900">PGR-HELANG-001</strong>
-                </div>
-                <div class="flex justify-between">
-                    <span class="font-medium text-slate-500">Nama :</span>
-                    <strong id="delete-user-display-name" class="text-slate-900">Pengurus Helang</strong>
-                </div>
+            <div class="bg-rose-50 p-3 rounded-xl border border-rose-100 space-y-1 text-xs">
+                <div><span class="text-slate-500 font-medium">ID Pengguna:</span> <strong id="delete-user-display-id" class="text-slate-900 font-mono">-</strong></div>
+                <div><span class="text-slate-500 font-medium">Nama:</span> <strong id="delete-user-display-name" class="text-slate-900">-</strong></div>
             </div>
 
             <div class="flex items-center justify-center gap-2 pt-2">
@@ -1216,6 +1243,118 @@
                     Batal
                 </button>
                 <button onclick="executeDeleteUser()" class="w-1/2 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow transition active:scale-95 touch-manipulation">
+                    Ya, Padam
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pop-Up Syarat Kejohanan (Public / User View) -->
+    <div id="competition-terms-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[88vh] border border-slate-100 animate-fade-in my-auto overflow-hidden">
+            <div class="p-4 sm:p-5 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-900 text-white flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0 border border-amber-500/30">
+                        <i class="fa-solid fa-file-contract" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <h3 id="terms-modal-title" class="text-base sm:text-lg font-bold font-heading">Syarat-Syarat Kejohanan</h3>
+                        <p class="text-blue-200 text-xs">Peraturan dan panduan am pendaftaran kejohanan</p>
+                    </div>
+                </div>
+                <button onclick="closeCompetitionTermsModal()" aria-label="Tutup Modal Syarat" class="text-white/80 hover:text-white text-xl p-1 touch-manipulation active:scale-95">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div id="terms-modal-body" class="p-4 sm:p-6 space-y-3.5 overflow-y-auto flex-grow bg-slate-50/50">
+                <!-- Populated via JS -->
+            </div>
+
+            <div class="p-3.5 sm:p-4 bg-white border-t border-slate-200 flex items-center justify-between shrink-0">
+                <span class="text-[11px] text-slate-400 font-medium">ATHLETIX HUB Rules Engine</span>
+                <button onclick="closeCompetitionTermsModal()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition active:scale-95 touch-manipulation">
+                    Faham & Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Form Tambah / Edit Syarat Kejohanan (Admin) -->
+    <div id="term-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="term-form-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 id="term-form-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading flex items-center gap-2">
+                    <i class="fa-solid fa-file-pen text-blue-900" aria-hidden="true"></i> Tambah Syarat Baharu
+                </h3>
+                <button onclick="closeTermFormModal()" aria-label="Tutup Borang Syarat" class="text-slate-400 hover:text-slate-600 text-lg p-1">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <form id="term-manage-form" onsubmit="handleTermFormSubmit(event)" class="space-y-3.5 text-xs">
+                <input type="hidden" id="form-term-id">
+
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="col-span-2">
+                        <label for="form-term-title" class="block font-bold text-slate-700 mb-1">Tajuk Syarat *</label>
+                        <input type="text" id="form-term-title" required placeholder="Contoh: Had Umur Peserta"
+                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 font-medium">
+                    </div>
+                    <div>
+                        <label for="form-term-order" class="block font-bold text-slate-700 mb-1">Turutan (#) *</label>
+                        <input type="number" id="form-term-order" min="1" max="99" required value="1"
+                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-center font-bold">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="form-term-content" class="block font-bold text-slate-700 mb-1">Kandungan / Penerangan Lengkap *</label>
+                    <textarea id="form-term-content" rows="4" required placeholder="Masukkan penerangan terperinci syarat kejohanan di sini..."
+                        class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 font-medium leading-relaxed"></textarea>
+                </div>
+
+                <div>
+                    <label for="form-term-status" class="block font-bold text-slate-700 mb-1">Status Paparan *</label>
+                    <select id="form-term-status" required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 font-semibold">
+                        <option value="Aktif">🟢 Aktif (Dipaparkan kepada pengguna)</option>
+                        <option value="Tidak Aktif">🔴 Tidak Aktif (Disembunyikan)</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeTermFormModal()" class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold active:scale-95 touch-manipulation">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-5 py-2 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-bold shadow flex items-center gap-1.5 active:scale-95 touch-manipulation">
+                        <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Syarat
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Pengesahan Memadam Syarat (Admin) -->
+    <div id="term-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="delete-term-modal-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2 shadow-sm">
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                </div>
+                <h3 id="delete-term-modal-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading">Pengesahan Memadam Syarat</h3>
+                <p class="text-xs text-slate-500 mt-1">Adakah anda pasti ingin memadam syarat kejohanan ini?</p>
+            </div>
+
+            <div class="bg-rose-50 p-3.5 rounded-xl border border-rose-100 space-y-1 text-xs text-slate-700">
+                <div class="font-bold text-slate-900" id="delete-term-display-title">-</div>
+                <div class="text-slate-500 line-clamp-2 text-[11px]" id="delete-term-display-content">-</div>
+            </div>
+
+            <div class="flex items-center justify-center gap-2 pt-2">
+                <button onclick="closeTermDeleteModal()" class="w-1/2 py-2.5 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-xl text-xs font-semibold active:scale-95 touch-manipulation">
+                    Batal
+                </button>
+                <button onclick="executeDeleteTerm()" class="w-1/2 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow transition active:scale-95 touch-manipulation">
                     Ya, Padam
                 </button>
             </div>
@@ -1359,11 +1498,13 @@
         let athletes = [];
         let systemUsers = [...DEFAULT_ACCOUNTS];
         let activityLogs = [];
+        let competitionTerms = [];
         let eventLimitsData = null;
         let systemSettings = { closingDate: '2026-10-29', closingTime: '23:59' };
 
         let currentUser = null;
         let pendingDeleteUserId = null;
+        let pendingDeleteTermId = null;
         let activeModalPreviousFocus = null;
 
         // A11Y-02: Focus Trap Helper untuk Dialog Modal
@@ -1493,6 +1634,18 @@
                 activityLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 if (typeof renderActivityLogs === 'function') renderActivityLogs();
             }, (err) => console.error("Logs sync error:", err));
+
+            // 5. Sync Competition Terms (Module Baharu)
+            const termsRef = collection(db, 'artifacts', appId, 'public', 'data', 'competition_terms');
+            onSnapshot(termsRef, (snapshot) => {
+                competitionTerms = [];
+                snapshot.forEach(docSnap => {
+                    competitionTerms.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                competitionTerms.sort((a, b) => (Number(a.order) || 99) - (Number(b.order) || 99));
+                if (typeof renderCompetitionTermsPublic === 'function') renderCompetitionTermsPublic();
+                if (typeof renderAdminTermsTable === 'function') renderAdminTermsTable();
+            }, (err) => console.error("Terms sync error:", err));
         };
 
         function getSystemUsers() {
@@ -1674,15 +1827,17 @@
         function switchAdminTab(tab) {
             const dateTab = document.getElementById('admin-tab-date');
             const limitsTab = document.getElementById('admin-tab-limits');
+            const termsTab = document.getElementById('admin-tab-terms');
             const usersTab = document.getElementById('admin-tab-users');
             const historyTab = document.getElementById('admin-tab-history');
             
             const dateBtn = document.getElementById('admin-tab-btn-date');
             const limitsBtn = document.getElementById('admin-tab-btn-limits');
+            const termsBtn = document.getElementById('admin-tab-btn-terms');
             const usersBtn = document.getElementById('admin-tab-btn-users');
             const historyBtn = document.getElementById('admin-tab-btn-history');
 
-            [dateBtn, limitsBtn, usersBtn, historyBtn].forEach(btn => {
+            [dateBtn, limitsBtn, termsBtn, usersBtn, historyBtn].forEach(btn => {
                 if (btn) {
                     btn.classList.remove('border-blue-900', 'text-blue-900');
                     btn.classList.add('border-transparent', 'text-slate-500');
@@ -1692,37 +1847,38 @@
             if (tab === 'date') {
                 if (dateTab) dateTab.classList.remove('hidden');
                 if (limitsTab) limitsTab.classList.add('hidden');
+                if (termsTab) termsTab.classList.add('hidden');
                 if (usersTab) usersTab.classList.add('hidden');
                 if (historyTab) historyTab.classList.add('hidden');
                 if (dateBtn) { dateBtn.classList.add('border-blue-900', 'text-blue-900'); dateBtn.classList.remove('border-transparent', 'text-slate-500'); }
             } else if (tab === 'limits') {
                 if (dateTab) dateTab.classList.add('hidden');
                 if (limitsTab) limitsTab.classList.remove('hidden');
+                if (termsTab) termsTab.classList.add('hidden');
                 if (usersTab) usersTab.classList.add('hidden');
                 if (historyTab) historyTab.classList.add('hidden');
                 if (limitsBtn) { limitsBtn.classList.add('border-blue-900', 'text-blue-900'); limitsBtn.classList.remove('border-transparent', 'text-slate-500'); }
                 renderAdminLimitsTable();
+            } else if (tab === 'terms') {
+                if (dateTab) dateTab.classList.add('hidden');
+                if (limitsTab) limitsTab.classList.add('hidden');
+                if (termsTab) termsTab.classList.remove('hidden');
+                if (usersTab) usersTab.classList.add('hidden');
+                if (historyTab) historyTab.classList.add('hidden');
+                if (termsBtn) { termsBtn.classList.add('border-blue-900', 'text-blue-900'); termsBtn.classList.remove('border-transparent', 'text-slate-500'); }
+                renderAdminTermsTable();
             } else if (tab === 'users') {
                 if (dateTab) dateTab.classList.add('hidden');
                 if (limitsTab) limitsTab.classList.add('hidden');
+                if (termsTab) termsTab.classList.add('hidden');
                 if (usersTab) usersTab.classList.remove('hidden');
                 if (historyTab) historyTab.classList.add('hidden');
                 if (usersBtn) { usersBtn.classList.add('border-blue-900', 'text-blue-900'); usersBtn.classList.remove('border-transparent', 'text-slate-500'); }
-
-                const accessDenied = document.getElementById('users-access-denied');
-                const contentCont = document.getElementById('users-content-container');
-
-                if (!currentUser || currentUser.role !== 'admin') {
-                    if (accessDenied) accessDenied.classList.remove('hidden');
-                    if (contentCont) contentCont.classList.add('hidden');
-                } else {
-                    if (accessDenied) accessDenied.classList.add('hidden');
-                    if (contentCont) contentCont.classList.remove('hidden');
-                    renderUsersTable();
-                }
+                renderUsersTable();
             } else if (tab === 'history') {
                 if (dateTab) dateTab.classList.add('hidden');
                 if (limitsTab) limitsTab.classList.add('hidden');
+                if (termsTab) termsTab.classList.add('hidden');
                 if (usersTab) usersTab.classList.add('hidden');
                 if (historyTab) historyTab.classList.remove('hidden');
                 if (historyBtn) { historyBtn.classList.add('border-blue-900', 'text-blue-900'); historyBtn.classList.remove('border-transparent', 'text-slate-500'); }
@@ -1740,6 +1896,252 @@
                 }
             }
         }
+
+        // MODUL BAHARU: LOGIK SYARAT KEJOHANAN (PUBLIC & ADMIN ENGINE)
+        function openCompetitionTermsModal() {
+            renderCompetitionTermsPublic();
+            const modal = document.getElementById('competition-terms-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                trapFocusInModal(modal);
+            }
+        }
+
+        function closeCompetitionTermsModal() {
+            const modal = document.getElementById('competition-terms-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                restoreFocusFromModal();
+            }
+        }
+
+        function renderCompetitionTermsPublic() {
+            const bodyCont = document.getElementById('terms-modal-body');
+            if (!bodyCont) return;
+
+            const activeTerms = competitionTerms.filter(t => t.status === 'Aktif' || !t.status);
+            activeTerms.sort((a, b) => (Number(a.order) || 99) - (Number(b.order) || 99));
+
+            if (activeTerms.length === 0) {
+                bodyCont.innerHTML = `
+                    <div class="py-12 text-center text-slate-400 space-y-2">
+                        <i class="fa-solid fa-file-circle-xmark text-4xl text-slate-300 block"></i>
+                        <p class="text-xs font-semibold">Tiada syarat kejohanan yang dimasukkan atau diaktifkan lagi.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            bodyCont.innerHTML = activeTerms.map((t, idx) => {
+                const safeTitle = escapeHTML(t.title);
+                const safeContent = escapeHTML(t.content).replace(/\n/g, '<br>');
+                const orderNum = t.order || (idx + 1);
+
+                return `
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-2 relative overflow-hidden">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-xl bg-blue-950 text-amber-400 font-extrabold text-xs flex items-center justify-center shrink-0 shadow-sm">
+                                ${orderNum}
+                            </span>
+                            <h4 class="font-bold text-slate-900 text-xs sm:text-sm font-heading">${safeTitle}</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed pl-9">${safeContent}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderAdminTermsTable() {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            const tbody = document.getElementById('admin-terms-table-body');
+            if (!tbody) return;
+
+            if (competitionTerms.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400 font-medium">Tiada syarat kejohanan ditemui. Klik "+ Tambah Syarat" untuk mendaftar.</td></tr>`;
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+            competitionTerms.forEach((t) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+
+                const safeId = escapeHTML(t.id);
+                const safeTitle = escapeHTML(t.title);
+                const safeContent = escapeHTML(t.content);
+                const statusStr = t.status || 'Aktif';
+
+                const statusBadge = statusStr === 'Aktif' ?
+                    '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">🟢 Aktif</span>' :
+                    '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300">🔴 Tidak Aktif</span>';
+
+                tr.innerHTML = `
+                    <td class="p-2.5 text-center font-bold text-slate-800 text-xs">${t.order || 1}</td>
+                    <td class="p-2.5 font-bold text-slate-900 text-xs">${safeTitle}</td>
+                    <td class="p-2.5 text-slate-600 text-xs max-w-xs truncate">${safeContent}</td>
+                    <td class="p-2.5 text-center">${statusBadge}</td>
+                    <td class="p-2.5 text-center">
+                        <div class="flex items-center justify-center gap-1">
+                            <button onclick="editTermModal('${safeId}')" title="Edit Syarat" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition touch-manipulation">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button onclick="promptDeleteTerm('${safeId}')" title="Padam Syarat" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                fragment.appendChild(tr);
+            });
+
+            tbody.innerHTML = '';
+            tbody.appendChild(fragment);
+        }
+
+        function openTermFormModal() {
+            document.getElementById('term-form-title').innerHTML = `<i class="fa-solid fa-file-circle-plus text-blue-900"></i> Tambah Syarat Baharu`;
+            document.getElementById('form-term-id').value = '';
+            document.getElementById('form-term-title').value = '';
+            document.getElementById('form-term-order').value = competitionTerms.length + 1;
+            document.getElementById('form-term-content').value = '';
+            document.getElementById('form-term-status').value = 'Aktif';
+
+            const modal = document.getElementById('term-form-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
+        }
+
+        function editTermModal(termId) {
+            const term = competitionTerms.find(t => t.id === termId);
+            if (!term) return;
+
+            document.getElementById('term-form-title').innerHTML = `<i class="fa-solid fa-file-pen text-blue-900"></i> Edit Syarat Kejohanan`;
+            document.getElementById('form-term-id').value = term.id;
+            document.getElementById('form-term-title').value = term.title;
+            document.getElementById('form-term-order').value = term.order || 1;
+            document.getElementById('form-term-content').value = term.content;
+            document.getElementById('form-term-status').value = term.status || 'Aktif';
+
+            const modal = document.getElementById('term-form-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
+        }
+
+        function closeTermFormModal() {
+            const modal = document.getElementById('term-form-modal');
+            modal.classList.add('hidden');
+            restoreFocusFromModal();
+        }
+
+        async function handleTermFormSubmit(e) {
+            e.preventDefault();
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast("Akses Ditolak! Hanya Admin dibenarkan mengurus syarat.", "error");
+                return;
+            }
+
+            const termId = document.getElementById('form-term-id').value;
+            const title = document.getElementById('form-term-title').value.trim();
+            const order = parseInt(document.getElementById('form-term-order').value, 10) || 1;
+            const content = document.getElementById('form-term-content').value.trim();
+            const status = document.getElementById('form-term-status').value;
+
+            const targetId = termId || (Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7));
+
+            const termData = {
+                title,
+                order,
+                content,
+                status,
+                updatedAt: new Date().toISOString(),
+                updatedBy: currentUser.name
+            };
+
+            if (!termId) {
+                termData.createdAt = new Date().toISOString();
+                termData.createdBy = currentUser.name;
+            }
+
+            try {
+                const { db, appId, doc, setDoc } = window;
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'competition_terms', targetId), termData, { merge: true });
+
+                if (termId) {
+                    logActivity("Edit Syarat Kejohanan", `Kemaskini syarat: "${title}". Status: ${status}.`);
+                    showToast("Syarat kejohanan berjaya dikemas kini");
+                } else {
+                    logActivity("Tambah Syarat Kejohanan", `Menambah syarat baharu: "${title}".`);
+                    showToast("Syarat kejohanan baharu berjaya ditambah");
+                }
+
+                closeTermFormModal();
+                renderAdminTermsTable();
+                renderCompetitionTermsPublic();
+            } catch(err) {
+                console.error("Gagal menyimpan syarat:", err);
+                showToast("Gagal menyimpan syarat kejohanan.", "error");
+            }
+        }
+
+        function promptDeleteTerm(termId) {
+            const term = competitionTerms.find(t => t.id === termId);
+            if (!term) return;
+
+            pendingDeleteTermId = termId;
+            document.getElementById('delete-term-display-title').textContent = term.title;
+            document.getElementById('delete-term-display-content').textContent = term.content;
+
+            const modal = document.getElementById('term-delete-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
+        }
+
+        function closeTermDeleteModal() {
+            pendingDeleteTermId = null;
+            const modal = document.getElementById('term-delete-modal');
+            modal.classList.add('hidden');
+            restoreFocusFromModal();
+        }
+
+        async function executeDeleteTerm() {
+            if (!pendingDeleteTermId) return;
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast("Akses Ditolak! Hanya Admin dibenarkan memadam syarat.", "error");
+                return;
+            }
+
+            const term = competitionTerms.find(t => t.id === pendingDeleteTermId);
+
+            try {
+                const { db, appId, doc, deleteDoc } = window;
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'competition_terms', pendingDeleteTermId));
+
+                if (term) {
+                    logActivity("Padam Syarat Kejohanan", `Memadam syarat: "${term.title}".`);
+                }
+                showToast("Syarat kejohanan berjaya dipadam.");
+            } catch(e) {
+                console.error("Gagal memadam syarat:", e);
+                showToast("Gagal memadam syarat kejohanan.", "error");
+            }
+
+            closeTermDeleteModal();
+            renderAdminTermsTable();
+            renderCompetitionTermsPublic();
+        }
+
+        // Pautan secara terus ke objek window untuk aksesibiliti global
+        window.openCompetitionTermsModal = openCompetitionTermsModal;
+        window.closeCompetitionTermsModal = closeCompetitionTermsModal;
+        window.renderCompetitionTermsPublic = renderCompetitionTermsPublic;
+        window.renderAdminTermsTable = renderAdminTermsTable;
+        window.openTermFormModal = openTermFormModal;
+        window.editTermModal = editTermModal;
+        window.closeTermFormModal = closeTermFormModal;
+        window.handleTermFormSubmit = handleTermFormSubmit;
+        window.promptDeleteTerm = promptDeleteTerm;
+        window.closeTermDeleteModal = closeTermDeleteModal;
+        window.executeDeleteTerm = executeDeleteTerm;
 
         // PER-02: Rendering DOM yang Cekap Tanpa Pendedahan Kata Laluan
         function renderUsersTable() {
