@@ -137,7 +137,7 @@
                 <!-- Desktop Nav -->
                 <nav class="hidden md:flex items-center gap-1.5 bg-blue-900/30 p-1 rounded-2xl border border-blue-800/40" aria-label="Navigasi Utama Desktop">
                     <button id="nav-dashboard" onclick="switchTab('dashboard')" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 transition-all duration-200 flex items-center gap-2">
-                        <i class="fa-solid fa-chart-line" aria-hidden="true"></i> Papan Utama
+                        <i class="fa-solid fa-chart-line" aria-hidden="true"></i> Utama
                     </button>
                     <button id="nav-register" onclick="switchTab('register')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
                         <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Daftar Atlet
@@ -167,7 +167,7 @@
 
         <!-- Mobile Navigation Bar -->
         <nav class="md:hidden bg-slate-950/95 backdrop-blur-md border-t border-blue-900/40 px-1 py-1 flex justify-around text-xs safe-area-bottom" aria-label="Navigasi Utama Mudah Alih">
-            <button id="mobile-nav-dashboard" onclick="switchTab('dashboard')" aria-label="Papan Utama" class="flex-1 py-2 px-1 rounded-xl text-white font-bold bg-blue-600 shadow-md flex flex-col items-center justify-center active:scale-95 transition-all">
+            <button id="mobile-nav-dashboard" onclick="switchTab('dashboard')" aria-label="Utama" class="flex-1 py-2 px-1 rounded-xl text-white font-bold bg-blue-600 shadow-md flex flex-col items-center justify-center active:scale-95 transition-all">
                 <i class="fa-solid fa-chart-line text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Utama</span>
             </button>
             <button id="mobile-nav-register" onclick="switchTab('register')" aria-label="Daftar Atlet" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all">
@@ -197,10 +197,10 @@
                 </div>
                 <div class="flex flex-col sm:flex-row items-center gap-3 relative z-10 shrink-0">
                     <button onclick="openCompetitionTermsModal()" class="w-full sm:w-auto px-4 py-3 bg-blue-900/80 hover:bg-blue-800 text-amber-300 font-bold rounded-xl text-xs border border-blue-700/60 transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
-                        <i class="fa-solid fa-file-contract text-sm" aria-hidden="true"></i> Syarat Kejohanan
+                        <i class="fa-solid fa-file-contract text-sm" aria-hidden="true"></i> Syarat Penyertaan
                     </button>
                     <button onclick="switchTab('register')" class="w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-blue-950 font-black rounded-xl text-xs shadow-glow-amber transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
-                        <i class="fa-solid fa-plus" aria-hidden="true"></i> Tambah Atlet Baharu
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i> Daftar Atlet
                     </button>
                 </div>
             </div>
@@ -239,7 +239,7 @@
 
                 <div onclick="openLimitsInfoModal()" class="p-5 rounded-2xl border border-fuchsia-200/60 border-l-[6px] border-l-fuchsia-500 shadow-premium bg-gradient-to-br from-fuchsia-50/90 via-fuchsia-50/40 to-white backdrop-blur-sm flex items-center justify-between hover:-translate-y-1 transition-all duration-300 cursor-pointer touch-manipulation group active:scale-[0.98]">
                     <div>
-                        <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-fuchsia-900/70">Had Penyertaan Acara</p>
+                        <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-fuchsia-900/70">Had Penyertaan</p>
                         <h3 class="text-sm sm:text-base font-black text-slate-900 mt-1 leading-snug group-hover:text-fuchsia-700 transition-colors">Lihat Kuota <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs text-fuchsia-500" aria-hidden="true"></i></h3>
                     </div>
                     <div class="w-12 h-12 bg-fuchsia-600/15 text-fuchsia-600 rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-sm ml-2 border border-fuchsia-200/50 group-hover:scale-110 transition-transform">
@@ -835,7 +835,7 @@
                         <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <h3 id="limits-info-title" class="text-sm sm:text-lg font-bold font-heading leading-snug">Had Penyertaan Acara</h3>
+                        <h3 id="limits-info-title" class="text-sm sm:text-lg font-bold font-heading leading-snug">Had Penyertaan</h3>
                         <p class="text-fuchsia-200 text-[10px] sm:text-xs">Kuota maksimum mengikut jantina & pasukan</p>
                     </div>
                 </div>
@@ -898,7 +898,7 @@
                     <i class="fa-solid fa-list-check mr-1" aria-hidden="true"></i> Had Penyertaan
                 </button>
                 <button id="admin-tab-btn-terms" onclick="switchAdminTab('terms')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
-                    <i class="fa-solid fa-file-contract mr-1" aria-hidden="true"></i> Syarat Kejohanan
+                    <i class="fa-solid fa-file-contract mr-1" aria-hidden="true"></i> Syarat Penyertaan
                 </button>
                 <button id="admin-tab-btn-users" onclick="switchAdminTab('users')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-users-gear mr-1" aria-hidden="true"></i> Pengurusan Pengguna
@@ -992,12 +992,12 @@
                 </form>
             </div>
 
-            <!-- Tab Sub-Modul: Pengurusan Syarat Kejohanan Admin -->
+            <!-- Tab Sub-Modul: Pengurusan Syarat Penyertaan Admin -->
             <div id="admin-tab-terms" class="hidden space-y-4 overflow-y-auto flex-grow pr-1">
                 <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2">
                     <div class="text-xs text-slate-600 flex items-center gap-2">
                         <i class="fa-solid fa-circle-info text-blue-600" aria-hidden="true"></i>
-                        <span>Tambah dan kemas kini syarat kejohanan untuk paparan pengguna.</span>
+                        <span>Tambah dan kemas kini syarat penyertaan untuk paparan pengguna.</span>
                     </div>
                     <button onclick="openTermFormModal()" class="w-full sm:w-auto px-4 py-2 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 shrink-0 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-plus" aria-hidden="true"></i> Tambah Syarat
@@ -1249,7 +1249,7 @@
         </div>
     </div>
 
-    <!-- Modal Pop-Up Syarat Kejohanan (Public / User View) -->
+    <!-- Modal Pop-Up Syarat penyertaan (Public / User View) -->
     <div id="competition-terms-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
         <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[88vh] border border-slate-100 animate-fade-in my-auto overflow-hidden">
             <div class="p-4 sm:p-5 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-900 text-white flex items-center justify-between shrink-0">
@@ -1258,7 +1258,7 @@
                         <i class="fa-solid fa-file-contract" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <h3 id="terms-modal-title" class="text-base sm:text-lg font-bold font-heading">Syarat-Syarat Kejohanan</h3>
+                        <h3 id="terms-modal-title" class="text-base sm:text-lg font-bold font-heading">Syarat-Syarat Penyertaan</h3>
                         <p class="text-blue-200 text-xs">Peraturan dan panduan am pendaftaran kejohanan</p>
                     </div>
                 </div>
@@ -1280,7 +1280,7 @@
         </div>
     </div>
 
-    <!-- Modal Form Tambah / Edit Syarat Kejohanan (Admin) -->
+    <!-- Modal Form Tambah / Edit Syarat Penyertaan (Admin) -->
     <div id="term-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="term-form-title">
         <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -1310,7 +1310,7 @@
 
                 <div>
                     <label for="form-term-content" class="block font-bold text-slate-700 mb-1">Kandungan / Penerangan Lengkap *</label>
-                    <textarea id="form-term-content" rows="4" required placeholder="Masukkan penerangan terperinci syarat kejohanan di sini..."
+                    <textarea id="form-term-content" rows="4" required placeholder="Masukkan penerangan terperinci syarat penyertaan di sini..."
                         class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 font-medium leading-relaxed"></textarea>
                 </div>
 
@@ -1342,7 +1342,7 @@
                     <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                 </div>
                 <h3 id="delete-term-modal-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading">Pengesahan Memadam Syarat</h3>
-                <p class="text-xs text-slate-500 mt-1">Adakah anda pasti ingin memadam syarat kejohanan ini?</p>
+                <p class="text-xs text-slate-500 mt-1">Adakah anda pasti ingin memadam syarat penyertaan ini?</p>
             </div>
 
             <div class="bg-rose-50 p-3.5 rounded-xl border border-rose-100 space-y-1 text-xs text-slate-700">
@@ -1897,7 +1897,7 @@
             }
         }
 
-        // MODUL BAHARU: LOGIK SYARAT KEJOHANAN (PUBLIC & ADMIN ENGINE)
+        // MODUL BAHARU: LOGIK SYARAT PENYERTAAN (PUBLIC & ADMIN ENGINE)
         function openCompetitionTermsModal() {
             renderCompetitionTermsPublic();
             const modal = document.getElementById('competition-terms-modal');
@@ -1926,7 +1926,7 @@
                 bodyCont.innerHTML = `
                     <div class="py-12 text-center text-slate-400 space-y-2">
                         <i class="fa-solid fa-file-circle-xmark text-4xl text-slate-300 block"></i>
-                        <p class="text-xs font-semibold">Tiada syarat kejohanan yang dimasukkan atau diaktifkan lagi.</p>
+                        <p class="text-xs font-semibold">Tiada syarat penyertaan yang dimasukkan atau diaktifkan lagi.</p>
                     </div>
                 `;
                 return;
@@ -1957,7 +1957,7 @@
             if (!tbody) return;
 
             if (competitionTerms.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400 font-medium">Tiada syarat kejohanan ditemui. Klik "+ Tambah Syarat" untuk mendaftar.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400 font-medium">Tiada syarat penyertaan ditemui. Klik "+ Tambah Syarat" untuk mendaftar.</td></tr>`;
                 return;
             }
 
@@ -2015,7 +2015,7 @@
             const term = competitionTerms.find(t => t.id === termId);
             if (!term) return;
 
-            document.getElementById('term-form-title').innerHTML = `<i class="fa-solid fa-file-pen text-blue-900"></i> Edit Syarat Kejohanan`;
+            document.getElementById('term-form-title').innerHTML = `<i class="fa-solid fa-file-pen text-blue-900"></i> Edit Syarat Penyertaan`;
             document.getElementById('form-term-id').value = term.id;
             document.getElementById('form-term-title').value = term.title;
             document.getElementById('form-term-order').value = term.order || 1;
@@ -2067,11 +2067,11 @@
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'competition_terms', targetId), termData, { merge: true });
 
                 if (termId) {
-                    logActivity("Edit Syarat Kejohanan", `Kemaskini syarat: "${title}". Status: ${status}.`);
-                    showToast("Syarat kejohanan berjaya dikemas kini");
+                    logActivity("Edit Syarat Penyertaan", `Kemaskini syarat: "${title}". Status: ${status}.`);
+                    showToast("Syarat Penyertaan berjaya dikemas kini");
                 } else {
-                    logActivity("Tambah Syarat Kejohanan", `Menambah syarat baharu: "${title}".`);
-                    showToast("Syarat kejohanan baharu berjaya ditambah");
+                    logActivity("Tambah Syarat Penyertaan", `Menambah syarat baharu: "${title}".`);
+                    showToast("Syarat Penyertaan baharu berjaya ditambah");
                 }
 
                 closeTermFormModal();
@@ -2079,7 +2079,7 @@
                 renderCompetitionTermsPublic();
             } catch(err) {
                 console.error("Gagal menyimpan syarat:", err);
-                showToast("Gagal menyimpan syarat kejohanan.", "error");
+                showToast("Gagal menyimpan syarat penyertaan.", "error");
             }
         }
 
@@ -2117,12 +2117,12 @@
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'competition_terms', pendingDeleteTermId));
 
                 if (term) {
-                    logActivity("Padam Syarat Kejohanan", `Memadam syarat: "${term.title}".`);
+                    logActivity("Padam Syarat Penyertaan", `Memadam syarat: "${term.title}".`);
                 }
-                showToast("Syarat kejohanan berjaya dipadam.");
+                showToast("Syarat penyertaan berjaya dipadam.");
             } catch(e) {
                 console.error("Gagal memadam syarat:", e);
-                showToast("Gagal memadam syarat kejohanan.", "error");
+                showToast("Gagal memadam syarat penyertaan.", "error");
             }
 
             closeTermDeleteModal();
