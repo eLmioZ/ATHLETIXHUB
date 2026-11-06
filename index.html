@@ -160,8 +160,9 @@
                     <button id="nav-directory" onclick="switchTab('directory')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
                         <i class="fa-solid fa-users" aria-hidden="true"></i> Senarai Atlet
                     </button>
-                    <button id="nav-summary" onclick="switchTab('summary')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
+                    <button id="nav-summary" onclick="switchTab('summary')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2 relative">
                         <i class="fa-solid fa-list-check" aria-hidden="true"></i> Analisis
+                        <span id="summary-error-badge-desktop" class="hidden absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full animate-pulse border-2 border-slate-950 shadow-glow-rose"></span>
                     </button>
                     <button id="nav-admin" onclick="openAdminModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold text-amber-300 hover:bg-amber-400/20 transition-all duration-200 flex items-center gap-2 hidden">
                         <i class="fa-solid fa-gear" aria-hidden="true"></i> Tetapan Admin
@@ -191,8 +192,9 @@
             <button id="mobile-nav-directory" onclick="switchTab('directory')" aria-label="Senarai Atlet" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all">
                 <i class="fa-solid fa-users text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Senarai</span>
             </button>
-            <button id="mobile-nav-summary" onclick="switchTab('summary')" aria-label="Analisis Penyertaan" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all">
+            <button id="mobile-nav-summary" onclick="switchTab('summary')" aria-label="Analisis Penyertaan" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all relative">
                 <i class="fa-solid fa-list-check text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Analisis</span>
+                <span id="summary-error-badge-mobile" class="hidden absolute top-1 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full animate-pulse border border-slate-950"></span>
             </button>
             <button id="mobile-nav-admin" onclick="openAdminModal()" aria-label="Tetapan Admin Utama" class="flex-1 py-2 px-1 rounded-xl text-amber-300 flex flex-col items-center justify-center active:scale-95 transition-all hidden">
                 <i class="fa-solid fa-gear text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Admin</span>
@@ -2935,10 +2937,6 @@
         async function handleFormSubmit(e) {
             e.preventDefault();
 
-            if (!window.firebaseReady || !window.db) {
-                return;
-            }
-
             if (currentUser?.role !== 'admin' && isPastClosingDate()) {
                 showToast(`Pendaftaran telah ditutup pada ${getFormattedClosingDate()}`, "error");
                 return;
@@ -2953,26 +2951,59 @@
 
             const selectedEvents = Array.from(document.querySelectorAll('input[name="acara"]:checked')).map(cb => cb.value);
 
-            const { db, appId, doc, setDoc } = window;
-            try {
-                const targetId = athleteId || (Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7));
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'athletes', targetId);
-                
-                await setDoc(docRef, { nama, jantina, pasukan, bib, tahun, acara: selectedEvents }, { merge: true });
+            if (!nama || !bib) {
+                showToast("Sila lengkapkan nama dan nombor bib!", "error");
+                return;
+            }
 
-                if (athleteId) {
-                    logActivity("Kemas Kini Atlet", `Mengemaskini maklumat atlet ${nama} (${bib}) bagi pasukan ${pasukan}.`);
-                    showToast("Rekod atlet berjaya dikemas kini");
-                } else {
-                    logActivity("Daftar Atlet Baharu", `Mendaftarkan atlet baharu ${nama} (${bib}) bagi pasukan ${pasukan}.`);
-                    showToast("Pendaftaran atlet berjaya disimpan");
+            const athleteObj = {
+                id: athleteId || (Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7)),
+                nama,
+                jantina,
+                pasukan,
+                bib,
+                tahun,
+                acara: selectedEvents
+            };
+
+            // Semak jika Firestore bersedia
+            if (window.db && window.appId) {
+                try {
+                    const { db, appId, doc, setDoc } = window;
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'athletes', athleteObj.id);
+                    await setDoc(docRef, { nama, jantina, pasukan, bib, tahun, acara: selectedEvents }, { merge: true });
+
+                    if (athleteId) {
+                        logActivity("Kemas Kini Atlet", `Mengemaskini maklumat atlet ${nama} (${bib}) bagi pasukan ${pasukan}.`);
+                        showToast("Rekod atlet berjaya dikemas kini");
+                    } else {
+                        logActivity("Daftar Atlet Baharu", `Mendaftarkan atlet baharu ${nama} (${bib}) bagi pasukan ${pasukan}.`);
+                        showToast("Pendaftaran atlet berjaya disimpan");
+                    }
+                } catch(err) {
+                    console.error("Firestore Save Error:", err);
+                    showToast("Gagal menyimpan ke pangkalan data cloud, menyimpan secara tempatan...", "error");
+                    saveLocalAthlete(athleteObj, !!athleteId);
                 }
+            } else {
+                // Fallback Simpanan Tempatan (Local Memory / Mode Ujian)
+                saveLocalAthlete(athleteObj, !!athleteId);
+            }
 
-                resetForm();
-                renderAll();
-                switchTab('directory');
-            } catch(err) {
-                console.error("Firestore Save Error:", err);
+            resetForm();
+            renderAll();
+            switchTab('directory');
+        }
+
+        function saveLocalAthlete(athleteObj, isEdit) {
+            if (isEdit) {
+                const idx = athletes.findIndex(a => a.id === athleteObj.id);
+                if (idx !== -1) athletes[idx] = athleteObj;
+                else athletes.push(athleteObj);
+                showToast("Rekod atlet berjaya dikemas kini");
+            } else {
+                athletes.push(athleteObj);
+                showToast("Pendaftaran atlet berjaya disimpan");
             }
         }
 
@@ -2983,23 +3014,39 @@
             }
 
             const ath = athletes.find(a => a.id === id);
-            if (currentUser.role !== 'admin' && ath && ath.pasukan !== currentUser.team) {
+            if (!ath) {
+                showToast("Rekod atlet tidak dijumpai.", "error");
+                return;
+            }
+
+            // Semak kebenaran akses mengikut peranan
+            if (currentUser.role !== 'admin' && ath.pasukan !== currentUser.team) {
                 showToast("Anda tidak mempunyai kebenaran memadam atlet pasukan lain!", "error");
                 return;
             }
 
-            try {
-                const { db, appId, doc, deleteDoc } = window;
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'athletes', id));
-
-                if (ath) {
-                    logActivity("Padam Rekod Atlet", `Memadam atlet ${ath.nama} (${ath.bib}) dari pasukan ${ath.pasukan}.`);
-                }
-                renderAll();
-                showToast("Rekod atlet telah dipadam.");
-            } catch(e) {
-                showToast("Gagal memadam rekod.", "error");
+            // Padam daripada tatasusunan tempatan (Local Array)
+            const index = athletes.findIndex(a => a.id === id);
+            if (index !== -1) {
+                athletes.splice(index, 1);
             }
+
+            // Padam daripada Firebase Cloud jika bersambung
+            if (window.db && window.appId) {
+                try {
+                    const { db, appId, doc, deleteDoc } = window;
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'athletes', id));
+                } catch(e) {
+                    console.warn("Gagal memadam dari cloud, dipadam secara tempatan:", e);
+                }
+            }
+
+            if (ath) {
+                logActivity("Padam Rekod Atlet", `Memadam atlet ${ath.nama} (${ath.bib}) dari pasukan ${ath.pasukan}.`);
+            }
+
+            renderAll();
+            showToast("Rekod atlet telah berjaya dipadam.");
         }
 
         function editAthlete(id) {
@@ -3291,14 +3338,42 @@
             const trackEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM];
             const fieldEvents = [...FIELD_EVENTS];
 
+            // Semak jika terdapat mana-mana atlet yang mempunyai ralat pendaftaran
+            let hasAnyRegistrationError = false;
+            athletes.forEach(a => {
+                if (getAthleteErrorStatus(a).hasError) {
+                    hasAnyRegistrationError = true;
+                }
+            });
+
+            // Kawal nyalaan lampu merah indikator pada butang menu Analisis (Desktop & Mobile)
+            const deskBadge = document.getElementById('summary-error-badge-desktop');
+            const mobBadge = document.getElementById('summary-error-badge-mobile');
+            if (hasAnyRegistrationError) {
+                deskBadge?.classList.remove('hidden');
+                mobBadge?.classList.remove('hidden');
+            } else {
+                deskBadge?.classList.add('hidden');
+                mobBadge?.classList.add('hidden');
+            }
+
             if (trackGrid) {
                 trackGrid.innerHTML = trackEvents.map(eventName => {
-                    const count = athletes.filter(a => a.acara && a.acara.includes(eventName)).length;
+                    const eventAthletes = athletes.filter(a => a.acara && a.acara.includes(eventName));
+                    const count = eventAthletes.length;
+                    const eventHasError = eventAthletes.some(a => getAthleteErrorStatus(a).hasError);
                     const safeEvent = escapeHTML(eventName);
+
+                    const errorBadge = eventHasError ? 
+                        `<span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse inline-block shadow-sm" title="Terdapat ralat atlet dalam acara ini"></span>` : '';
+
                     return `
-                        <div onclick="openGenderSelectModal('${safeEvent}')" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:border-cyan-400 hover:shadow-md transition cursor-pointer active:scale-95 touch-manipulation group flex items-center justify-between">
+                        <div onclick="openGenderSelectModal('${safeEvent}')" class="p-4 bg-white rounded-2xl border ${eventHasError ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200/80'} shadow-sm hover:border-cyan-400 hover:shadow-md transition cursor-pointer active:scale-95 touch-manipulation group flex items-center justify-between">
                             <div class="space-y-1">
-                                <span class="text-xs font-bold text-slate-800 group-hover:text-cyan-700 transition">${safeEvent}</span>
+                                <div class="flex items-center gap-1.5">
+                                    ${errorBadge}
+                                    <span class="text-xs font-bold text-slate-800 group-hover:text-cyan-700 transition">${safeEvent}</span>
+                                </div>
                                 <p class="text-[11px] text-slate-500 font-medium">Klik untuk lihat senarai</p>
                             </div>
                             <span class="px-2.5 py-1 rounded-xl bg-cyan-50 text-cyan-700 font-extrabold text-xs border border-cyan-200">${count} Atlet</span>
@@ -3309,12 +3384,21 @@
 
             if (fieldGrid) {
                 fieldGrid.innerHTML = fieldEvents.map(eventName => {
-                    const count = athletes.filter(a => a.acara && a.acara.includes(eventName)).length;
+                    const eventAthletes = athletes.filter(a => a.acara && a.acara.includes(eventName));
+                    const count = eventAthletes.length;
+                    const eventHasError = eventAthletes.some(a => getAthleteErrorStatus(a).hasError);
                     const safeEvent = escapeHTML(eventName);
+
+                    const errorBadge = eventHasError ? 
+                        `<span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse inline-block shadow-sm" title="Terdapat ralat atlet dalam acara ini"></span>` : '';
+
                     return `
-                        <div onclick="openGenderSelectModal('${safeEvent}')" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:border-amber-400 hover:shadow-md transition cursor-pointer active:scale-95 touch-manipulation group flex items-center justify-between">
+                        <div onclick="openGenderSelectModal('${safeEvent}')" class="p-4 bg-white rounded-2xl border ${eventHasError ? 'border-rose-300 bg-rose-50/20' : 'border-amber-400'} shadow-sm hover:border-amber-400 hover:shadow-md transition cursor-pointer active:scale-95 touch-manipulation group flex items-center justify-between">
                             <div class="space-y-1">
-                                <span class="text-xs font-bold text-slate-800 group-hover:text-amber-700 transition">${safeEvent}</span>
+                                <div class="flex items-center gap-1.5">
+                                    ${errorBadge}
+                                    <span class="text-xs font-bold text-slate-800 group-hover:text-amber-700 transition">${safeEvent}</span>
+                                </div>
                                 <p class="text-[11px] text-slate-500 font-medium">Klik untuk lihat senarai</p>
                             </div>
                             <span class="px-2.5 py-1 rounded-xl bg-amber-50 text-amber-700 font-extrabold text-xs border border-amber-200">${count} Atlet</span>
@@ -3366,6 +3450,7 @@
             const listEl = document.getElementById('event-participants-list');
 
             const filteredAthletes = athletes.filter(a => a.acara && a.acara.includes(eventName) && a.jantina === gender);
+            const hasErrorInCategory = filteredAthletes.some(ath => getAthleteErrorStatus(ath).hasError);
 
             if (titleEl) titleEl.textContent = `${eventName} (${gender})`;
             if (countEl) countEl.textContent = `Jumlah: ${filteredAthletes.length} Peserta`;
@@ -3375,18 +3460,25 @@
                     listEl.innerHTML = `<div class="p-6 text-center text-slate-400 font-medium text-xs">Tiada atlet berdaftar untuk acara ini dalam kategori ${gender}.</div>`;
                 } else {
                     listEl.innerHTML = filteredAthletes.map(ath => {
+                        const errStatus = getAthleteErrorStatus(ath);
                         const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
                         const safeNama = escapeHTML(ath.nama);
                         const safeBib = escapeHTML(ath.bib);
                         const safeTahun = escapeHTML(ath.tahun);
                         const safePasukan = escapeHTML(ath.pasukan);
 
+                        const errorBadge = errStatus.hasError ? 
+                            `<span class="text-[10px] bg-rose-100 text-rose-700 border border-rose-200 px-2 py-0.5 rounded-md font-bold flex items-center gap-1"><i class="fa-solid fa-circle-exclamation text-rose-500"></i> Ralat Pendaftaran</span>` : '';
+
                         return `
-                            <div class="p-3 bg-white rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+                            <div class="p-3 bg-white rounded-xl border ${errStatus.hasError ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200/80'} shadow-sm flex items-center justify-between">
                                 <div class="flex items-center gap-3">
                                     <span class="font-mono font-black text-xs px-2.5 py-1 rounded-lg bg-slate-900 text-white">${safeBib}</span>
                                     <div>
-                                        <h4 class="font-bold text-slate-900 text-xs uppercase">${safeNama}</h4>
+                                        <div class="flex items-center gap-2">
+                                            <h4 class="font-bold text-slate-900 text-xs uppercase">${safeNama}</h4>
+                                            ${errorBadge}
+                                        </div>
                                         <p class="text-[10px] text-slate-500 font-semibold">${safeTahun}</p>
                                     </div>
                                 </div>
@@ -3401,7 +3493,17 @@
 
             const printBtn = document.getElementById('btn-print-event-list');
             if (printBtn) {
-                printBtn.onclick = () => printEventList(eventName, gender, filteredAthletes);
+                if (hasErrorInCategory) {
+                    printBtn.disabled = true;
+                    printBtn.className = "px-3.5 sm:px-4 py-2 bg-slate-300 text-slate-500 rounded-xl text-xs font-semibold flex items-center gap-2 cursor-not-allowed border border-slate-300";
+                    printBtn.title = "Tidak boleh mencetak senarai kerana terdapat ralat pendaftaran pada atlet acara ini!";
+                    printBtn.onclick = () => showToast("Sila betulkan ralat pendaftaran atlet sebelum mencetak senarai!", "error");
+                } else {
+                    printBtn.disabled = false;
+                    printBtn.className = "px-3.5 sm:px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-md transition active:scale-95 touch-manipulation cursor-pointer";
+                    printBtn.title = "Cetak Senarai Peserta";
+                    printBtn.onclick = () => printEventList(eventName, gender, filteredAthletes);
+                }
             }
 
             if (modal) {
@@ -3419,6 +3521,12 @@
         }
 
         function printEventList(eventName, gender, athleteList) {
+            const hasError = athleteList.some(ath => getAthleteErrorStatus(ath).hasError);
+            if (hasError) {
+                showToast("Cetakan dibatalkan: Terdapat ralat pendaftaran dalam senarai ini!", "error");
+                return;
+            }
+
             const printWin = window.open('', '_blank');
             if (!printWin) {
                 showToast("Sila benarkan pop-up untuk mencetak senarai.", "error");
