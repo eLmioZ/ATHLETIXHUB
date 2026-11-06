@@ -1479,12 +1479,9 @@
         ];
 
         // SEC-02: Kata Laluan Teks Biasa Dihapuskan Daripada Kod Klien & Memori
+        // PEMBERSIHAN AKAUN: Hanya mengekalkan 1 akaun Admin Utama (ID: admin)
         const DEFAULT_ACCOUNTS = [
-            { id: "admin", name: "Admin Utama", role: "admin", team: "Tiada", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Sistem" },
-            { id: "helang", name: "Pengurus Helang", role: "manager", team: "Helang", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
-            { id: "garuda", name: "Pengurus Garuda", role: "manager", team: "Garuda", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
-            { id: "rajawali", name: "Pengurus Rajawali", role: "manager", team: "Rajawali", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" },
-            { id: "kenyalang", name: "Pengurus Kenyalang", role: "manager", team: "Kenyalang", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Admin Utama" }
+            { id: "admin", name: "Admin Utama", role: "admin", team: "Tiada", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Sistem" }
         ];
 
         const TEAM_COLORS = {
@@ -1585,9 +1582,20 @@
                         delete sanitizedUser.pass;
                         await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', u.id), sanitizedUser);
                     });
-                    systemUsers = DEFAULT_ACCOUNTS;
+                    systemUsers = [...DEFAULT_ACCOUNTS];
                 }
                 
+                // Pembersihan automatik rekod akaun tidak berkaitan daripada Firestore jika wujud
+                const unwantedAccountIds = ['helang', 'garuda', 'rajawali', 'kenyalang'];
+                unwantedAccountIds.forEach(async (oldId) => {
+                    const match = snapshot.docs.find(d => d.id.toLowerCase() === oldId);
+                    if (match) {
+                        try {
+                            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', match.id));
+                        } catch(e) { console.warn("Pembersihan akaun lama Firestore:", e); }
+                    }
+                });
+
                 if (currentUser) {
                     const latestRecord = systemUsers.find(u => u.id === currentUser.id);
                     if (!latestRecord || latestRecord.status !== 'Aktif') {
@@ -2493,7 +2501,18 @@
             const users = getSystemUsers();
             const foundUser = users.find(u => u.id.toLowerCase() === uidInput.toLowerCase());
 
-            // Pengesahan Kredensial Admin Utama Baharu (admin / 124788)
+            // Block terus ID lama yang telah dibuang
+            const blockedOldIds = ['helang', 'garuda', 'rajawali', 'kenyalang'];
+            if (blockedOldIds.includes(uidInput.toLowerCase())) {
+                if (errDiv) {
+                    errDiv.textContent = "ID Pengguna ini telah dipadam dan tidak lagi boleh digunakan!";
+                    errDiv.classList.remove('hidden');
+                }
+                logActivity("Log Masuk Gagal", `Percubaan log masuk ID yang telah dipadam: ${uidInput}`, "Gagal", { id: uidInput, name: uidInput, role: "Unknown", team: "Tiada" });
+                return;
+            }
+
+            // Pengesahan Kredensial Admin Utama (admin / 124788)
             if (foundUser) {
                 if (foundUser.id.toLowerCase() === 'admin' && pass !== '124788') {
                     if (errDiv) {
