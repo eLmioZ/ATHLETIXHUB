@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ms" class="h-full bg-slate-100">
+<html lang="ms" class="h-full bg-slate-50">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
@@ -23,7 +23,7 @@
         body {
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            background-color: #f1f5f9; /* Tukar kod warna latar belakang di sini */
+            background-color: #f8fafc;
         }
         h1, h2, h3, h4, h5, h6, .font-heading {
             font-family: 'Montserrat', sans-serif;
@@ -78,21 +78,6 @@
             padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
         }
 
-        /* AUDIT FIX: Body scroll lock when modal is active on iOS / Android */
-        body.modal-open {
-            overflow: hidden !important;
-            touch-action: none;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* AUDIT FIX: Dynamic Viewport & Mobile Height Compatibility */
-        .modal-backdrop-fix {
-            min-height: 100vh;
-            min-height: 100dvh;
-            padding-top: max(0.75rem, env(safe-area-inset-top));
-            padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
-        }
-
         /* Glow & Shadow Tokens */
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
@@ -134,7 +119,7 @@
         }
     </style>
 </head>
-<body class="min-h-full flex flex-col bg-slate-100 text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
+<body class="min-h-full flex flex-col bg-slate-50/70 text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
 
     <header class="bg-gradient-to-r from-slate-950 via-blue-950 to-slate-950 text-white shadow-xl sticky top-0 z-40 border-b border-blue-900/40 backdrop-blur-md bg-opacity-95">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
@@ -160,9 +145,8 @@
                     <button id="nav-directory" onclick="switchTab('directory')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
                         <i class="fa-solid fa-users" aria-hidden="true"></i> Senarai Atlet
                     </button>
-                    <button id="nav-summary" onclick="switchTab('summary')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2 relative">
+                    <button id="nav-summary" onclick="switchTab('summary')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
                         <i class="fa-solid fa-list-check" aria-hidden="true"></i> Analisis
-                        <span id="summary-error-badge-desktop" class="hidden absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full animate-pulse border-2 border-slate-950 shadow-glow-rose"></span>
                     </button>
                     <button id="nav-admin" onclick="openAdminModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold text-amber-300 hover:bg-amber-400/20 transition-all duration-200 flex items-center gap-2 hidden">
                         <i class="fa-solid fa-gear" aria-hidden="true"></i> Tetapan Admin
@@ -192,9 +176,8 @@
             <button id="mobile-nav-directory" onclick="switchTab('directory')" aria-label="Senarai Atlet" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all">
                 <i class="fa-solid fa-users text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Senarai</span>
             </button>
-            <button id="mobile-nav-summary" onclick="switchTab('summary')" aria-label="Analisis Penyertaan" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all relative">
+            <button id="mobile-nav-summary" onclick="switchTab('summary')" aria-label="Analisis Penyertaan" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all">
                 <i class="fa-solid fa-list-check text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Analisis</span>
-                <span id="summary-error-badge-mobile" class="hidden absolute top-1 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full animate-pulse border border-slate-950"></span>
             </button>
             <button id="mobile-nav-admin" onclick="openAdminModal()" aria-label="Tetapan Admin Utama" class="flex-1 py-2 px-1 rounded-xl text-amber-300 flex flex-col items-center justify-center active:scale-95 transition-all hidden">
                 <i class="fa-solid fa-gear text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Admin</span>
@@ -438,7 +421,7 @@
                                 <th scope="col" class="py-3.5 px-4">Bib</th>
                                 <th scope="col" class="py-3.5 px-4">Tahun</th>
                                 <th scope="col" class="py-3.5 px-4">Acara</th>
-                                <th scope="col" class="py-3.5 px-4 text-center">Status / Tindakan</th>
+                                <th scope="col" class="py-3.5 px-4 text-center">Tindakan</th>
                             </tr>
                         </thead>
                         <tbody id="recent-table-body" class="divide-y divide-slate-100">
@@ -596,7 +579,7 @@
                                 <th scope="col" class="py-3.5 px-4">Bib</th>
                                 <th scope="col" class="py-3.5 px-4">Tahun</th>
                                 <th scope="col" class="py-3.5 px-4">Acara</th>
-                                <th scope="col" class="py-3.5 px-4 text-center">Status / Tindakan</th>
+                                <th scope="col" class="py-3.5 px-4 text-center">Tindakan</th>
                             </tr>
                         </thead>
                         <tbody id="directory-table-body" class="divide-y divide-slate-100">
@@ -638,8 +621,8 @@
     </main>
 
     <!-- Login Modal Pop-up -->
-    <div id="login-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-slate-100 animate-fade-in my-auto max-h-[90dvh] overflow-y-auto">
+    <div id="login-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-slate-100 animate-fade-in my-auto">
             <div class="text-center mb-5 sm:mb-6">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-950 text-amber-400 rounded-2xl flex items-center justify-center text-xl sm:text-2xl mx-auto mb-2.5 sm:mb-3 shadow-lg">
                     <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
@@ -673,9 +656,9 @@
     </div>
 
     <!-- Modal Selection Kategori Jantina -->
-    <div id="gender-select-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="gender-select-modal-title">
-        <div class="bg-white rounded-[18px] shadow-2xl max-w-md w-full overflow-hidden border border-slate-100 animate-fade-in my-auto max-h-[90dvh] flex flex-col">
-            <div class="p-4 sm:p-5 bg-gradient-to-r from-blue-950 to-slate-900 text-white flex items-center justify-between shrink-0">
+    <div id="gender-select-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="gender-select-modal-title">
+        <div class="bg-white rounded-[18px] shadow-2xl max-w-md w-full overflow-hidden border border-slate-100 animate-fade-in my-auto">
+            <div class="p-4 sm:p-5 bg-gradient-to-r from-blue-950 to-slate-900 text-white flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0">
                         <i class="fa-solid fa-venus-mars" aria-hidden="true"></i>
@@ -690,7 +673,7 @@
                 </button>
             </div>
 
-            <div class="p-4 sm:p-6 space-y-4 text-center overflow-y-auto flex-grow">
+            <div class="p-4 sm:p-6 space-y-4 text-center">
                 <p class="text-xs text-slate-600 font-medium">Sila pilih kategori jantina peserta untuk melihat senarai pendaftaran:</p>
                 <div class="grid grid-cols-2 gap-3 sm:gap-4 pt-1">
                     <button onclick="selectGenderCategory('Lelaki')" class="p-4 sm:p-5 bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 hover:border-blue-500 rounded-2xl flex flex-col items-center justify-center gap-2 group transition shadow-sm active:scale-95 touch-manipulation">
@@ -698,7 +681,7 @@
                             <i class="fa-solid fa-mars" aria-hidden="true"></i>
                         </div>
                         <span class="text-xs sm:text-sm font-bold text-slate-800">Lelaki</span>
-                        <span id="gender-count-m" class="text-[10px] sm:text-[11px] font-semibold text-blue-700 bg-blue-100/80 px-2 sm:px-2.5 py-0.5 rounded-full">0 daripada 4 pasukan</span>
+                        <span id="gender-count-m" class="text-[10px] sm:text-[11px] font-semibold text-blue-700 bg-blue-100/80 px-2 sm:px-2.5 py-0.5 rounded-full">0 daripada 2 peserta</span>
                     </button>
 
                     <button onclick="selectGenderCategory('Perempuan')" class="p-4 sm:p-5 bg-pink-50 hover:bg-pink-100 border-2 border-pink-200 hover:border-pink-500 rounded-2xl flex flex-col items-center justify-center gap-2 group transition shadow-sm active:scale-95 touch-manipulation">
@@ -706,12 +689,12 @@
                             <i class="fa-solid fa-venus" aria-hidden="true"></i>
                         </div>
                         <span class="text-xs sm:text-sm font-bold text-slate-800">Perempuan</span>
-                        <span id="gender-count-f" class="text-[10px] sm:text-[11px] font-semibold text-pink-700 bg-pink-100/80 px-2 sm:px-2.5 py-0.5 rounded-full">0 daripada 4 pasukan</span>
+                        <span id="gender-count-f" class="text-[10px] sm:text-[11px] font-semibold text-pink-700 bg-pink-100/80 px-2 sm:px-2.5 py-0.5 rounded-full">0 daripada 2 peserta</span>
                     </button>
                 </div>
             </div>
 
-            <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-100 flex justify-end shrink-0">
+            <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
                 <button onclick="closeGenderSelectModal()" class="px-4 py-2 bg-slate-500 hover:bg-slate-600 text-white rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                     Batal
                 </button>
@@ -720,8 +703,8 @@
     </div>
 
     <!-- Modal Pop-Up Senarai Peserta Acara -->
-    <div id="event-participants-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="event-participants-title">
-        <div class="bg-white rounded-[12px] shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200 animate-fade-in flex flex-col max-h-[85dvh] my-auto">
+    <div id="event-participants-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="event-participants-title">
+        <div class="bg-white rounded-[12px] shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200 animate-fade-in flex flex-col max-h-[85vh] my-auto">
             <div class="p-4 sm:p-5 bg-gradient-to-r from-blue-900 to-slate-900 text-white flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 bg-white/10 rounded-xl flex items-center justify-center text-amber-400 text-base sm:text-lg shrink-0">
@@ -753,9 +736,9 @@
     </div>
 
     <!-- Athlete Detail View Modal -->
-    <div id="detail-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="detail-nama">
-        <div class="bg-white rounded-[12px] shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100 animate-fade-in my-auto max-h-[90dvh] flex flex-col">
-            <div id="detail-header" class="p-5 sm:p-6 text-white bg-blue-950 shrink-0">
+    <div id="detail-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="detail-nama">
+        <div class="bg-white rounded-[12px] shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100 animate-fade-in my-auto">
+            <div id="detail-header" class="p-5 sm:p-6 text-white bg-blue-950">
                 <div class="flex items-center justify-between">
                     <span id="detail-pasukan-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-white/20">
                         Pasukan
@@ -768,7 +751,7 @@
                 <p id="detail-bib" class="text-blue-100 text-xs font-mono mt-0.5">Bib: -</p>
             </div>
 
-            <div class="p-4 sm:p-6 space-y-4 text-sm overflow-y-auto flex-grow">
+            <div class="p-4 sm:p-6 space-y-4 text-sm">
                 <div class="grid grid-cols-2 gap-3 sm:gap-4 bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-slate-100">
                     <div>
                         <p class="text-xs text-slate-400 font-medium">Jantina</p>
@@ -788,7 +771,7 @@
                 </div>
             </div>
 
-            <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2 shrink-0">
+            <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
                     <button id="detail-action-edit" onclick="" class="px-3 sm:px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Edit
@@ -805,8 +788,8 @@
     </div>
 
     <!-- Modal Pop-Up Ralat Pendaftaran Atlet -->
-    <div id="error-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="error-modal-title">
-        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88dvh] sm:max-h-[85dvh] border border-rose-100 animate-fade-in my-auto overflow-hidden">
+    <div id="error-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="error-modal-title">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88vh] sm:max-h-[85vh] border border-rose-100 animate-fade-in my-auto overflow-hidden">
             <div class="p-4 sm:p-5 text-white bg-rose-600 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 bg-white/20 rounded-xl flex items-center justify-center text-white text-base sm:text-lg shrink-0">
@@ -844,8 +827,8 @@
     </div>
 
     <!-- Modal Pop-Up Info Had Penyertaan -->
-    <div id="limits-info-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="limits-info-title">
-        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88dvh] sm:max-h-[85dvh] border border-fuchsia-100 animate-fade-in my-auto overflow-hidden">
+    <div id="limits-info-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="limits-info-title">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88vh] sm:max-h-[85vh] border border-fuchsia-100 animate-fade-in my-auto overflow-hidden">
             <div class="p-4 sm:p-5 bg-gradient-to-r from-fuchsia-950 via-fuchsia-900 to-slate-900 text-white flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-2.5 sm:gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 bg-white/15 rounded-xl flex items-center justify-center text-fuchsia-300 text-base sm:text-lg shrink-0">
@@ -892,8 +875,8 @@
     </div>
 
     <!-- Admin Settings Modal -->
-    <div id="admin-date-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-4 sm:p-6 border border-slate-100 animate-fade-in max-h-[90dvh] flex flex-col my-auto overflow-hidden">
+    <div id="admin-date-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-4 sm:p-6 border border-slate-100 animate-fade-in max-h-[90vh] flex flex-col my-auto">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 sm:pb-4 mb-3 sm:mb-4 shrink-0">
                 <div>
                     <h3 id="admin-modal-title" class="text-base sm:text-lg font-bold text-slate-900 font-heading flex items-center gap-2">
@@ -913,9 +896,6 @@
                 </button>
                 <button id="admin-tab-btn-limits" onclick="switchAdminTab('limits')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-list-check mr-1" aria-hidden="true"></i> Had Penyertaan
-                </button>
-                <button id="admin-tab-btn-eligibility" onclick="switchAdminTab('eligibility')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
-                    <i class="fa-solid fa-user-check mr-1" aria-hidden="true"></i> Kelayakan Acara
                 </button>
                 <button id="admin-tab-btn-terms" onclick="switchAdminTab('terms')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-file-contract mr-1" aria-hidden="true"></i> Syarat Penyertaan
@@ -979,45 +959,33 @@
                     <i class="fa-solid fa-circle-info mr-1" aria-hidden="true"></i>
                     Tetapkan had maksimum penyertaan atlet bagi setiap pasukan mengikut acara dan kategori jantina.
                 </div>
-            </div>
 
-            <!-- Tab Sub-Modul: Tetapan Kelayakan Acara (Pemetaan Tahun) -->
-            <div id="admin-tab-eligibility" class="hidden space-y-4 overflow-y-auto flex-grow pr-1">
-                <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-900 text-xs leading-relaxed">
-                    <i class="fa-solid fa-circle-info mr-1" aria-hidden="true"></i>
-                    Tetapkan tahun persekolahan (Tahun 1 hingga Tahun 6) yang layak menyertai setiap acara. Nama acara tidak akan berubah.
-                </div>
-
-                <form id="admin-eligibility-form" onsubmit="handleSaveEventEligibility(event)" class="space-y-4">
+                <form id="admin-limits-form" onsubmit="handleSaveEventLimits(event)" class="space-y-4">
                     <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
-                        <table class="w-full text-left text-xs min-w-[650px]">
+                        <table class="w-full text-left text-xs min-w-[500px]">
                             <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
                                 <tr>
                                     <th scope="col" class="p-3">Nama Acara</th>
-                                    <th scope="col" class="p-3 text-center">Tahun 1</th>
-                                    <th scope="col" class="p-3 text-center">Tahun 2</th>
-                                    <th scope="col" class="p-3 text-center">Tahun 3</th>
-                                    <th scope="col" class="p-3 text-center">Tahun 4</th>
-                                    <th scope="col" class="p-3 text-center">Tahun 5</th>
-                                    <th scope="col" class="p-3 text-center">Tahun 6</th>
+                                    <th scope="col" class="p-3 text-center w-32">Lelaki</th>
+                                    <th scope="col" class="p-3 text-center w-32">Perempuan</th>
                                 </tr>
                             </thead>
-                            <tbody id="admin-eligibility-table-body" class="divide-y divide-slate-100">
+                            <tbody id="admin-limits-table-body" class="divide-y divide-slate-100">
                                 <!-- Generated via JS -->
                             </tbody>
                         </table>
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2">
-                        <button type="button" onclick="resetEventEligibilityToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
-                            Reset Kelayakan Asal
+                        <button type="button" onclick="resetEventLimitsToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                            Reset Nilai Asal (2)
                         </button>
                         <div class="flex gap-2 w-full sm:w-auto">
                             <button type="button" onclick="closeAdminModal()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                                 Batal
                             </button>
                             <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
-                                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Kelayakan
+                                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Tetapan
                             </button>
                         </div>
                     </div>
@@ -1166,8 +1134,8 @@
     </div>
 
     <!-- User Add/Edit Form Modal -->
-    <div id="user-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="user-form-title">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto max-h-[90dvh] overflow-y-auto">
+    <div id="user-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="user-form-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 id="user-form-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading flex items-center gap-2">
                     <i class="fa-solid fa-user-gear text-blue-900" aria-hidden="true"></i> Tambah Pengguna Baharu
@@ -1255,8 +1223,8 @@
     </div>
 
     <!-- Modal Confirm Delete User Modal -->
-    <div id="user-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto max-h-[90dvh] overflow-y-auto">
+    <div id="user-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto">
             <div class="text-center">
                 <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2 shadow-sm">
                     <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
@@ -1282,8 +1250,8 @@
     </div>
 
     <!-- Modal Pop-Up Syarat penyertaan (Public / User View) -->
-    <div id="competition-terms-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
-        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[88dvh] border border-slate-100 animate-fade-in my-auto overflow-hidden">
+    <div id="competition-terms-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[88vh] border border-slate-100 animate-fade-in my-auto overflow-hidden">
             <div class="p-4 sm:p-5 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-900 text-white flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0 border border-amber-500/30">
@@ -1313,8 +1281,8 @@
     </div>
 
     <!-- Modal Form Tambah / Edit Syarat Penyertaan (Admin) -->
-    <div id="term-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="term-form-title">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto max-h-[90dvh] overflow-y-auto">
+    <div id="term-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="term-form-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 id="term-form-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading flex items-center gap-2">
                     <i class="fa-solid fa-file-pen text-blue-900" aria-hidden="true"></i> Tambah Syarat Baharu
@@ -1367,8 +1335,8 @@
     </div>
 
     <!-- Modal Pengesahan Memadam Syarat (Admin) -->
-    <div id="term-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="delete-term-modal-title">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto max-h-[90dvh] overflow-y-auto">
+    <div id="term-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="delete-term-modal-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto">
             <div class="text-center">
                 <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2 shadow-sm">
                     <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
@@ -1412,75 +1380,77 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, runTransaction, doc, collection, onSnapshot, setDoc, deleteDoc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // SEC-01 & INF-01: Konfigurasi Firebase Rasmi Projek ATHLETIX HUB
+        const firebaseConfig = {
+            apiKey: "AIzaSyCs_gVKdEE76Ir5cI5Q9iZ7uuN3tCy4AG4",
+            authDomain: "athletix-hub-79967.firebaseapp.com",
+            databaseURL: "https://athletix-hub-79967-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "athletix-hub-79967",
+            storageBucket: "athletix-hub-79967.firebasestorage.app",
+            messagingSenderId: "357242453149",
+            appId: "1:357242453149:web:9abab7bfb8aa7d9af52874",
+            measurementId: "G-YK2QL3TGR1"
+        };
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'skbk-athletix-hub';
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        window.db = db;
+        window.auth = auth;
+        window.appId = appId;
+        window.firebaseReady = false;
+        window.runTransaction = runTransaction;
+        window.doc = doc;
+        window.collection = collection;
+        window.onSnapshot = onSnapshot;
+        window.setDoc = setDoc;
+        window.deleteDoc = deleteDoc;
+        window.getDoc = getDoc;
+        window.getDocs = getDocs;
+
+        // SEC-01: Firebase Auth State Listener
+        async function initFirebase() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token && __initial_auth_token.trim() !== '') {
+                    try {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } catch (tokenErr) {
+                        console.warn("Custom token sign-in failed, falling back to anonymous auth:", tokenErr);
+                        await signInAnonymously(auth);
+                    }
+                } else {
+                    await signInAnonymously(auth);
+                }
+                
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        window.firebaseReady = true;
+                        console.log("Firebase Auth Authenticated. UID:", user.uid);
+                        if (typeof window.onFirebaseReady === 'function') {
+                            window.onFirebaseReady();
+                        }
+                    } else {
+                        window.firebaseReady = false;
+                    }
+                });
+            } catch (err) {
+                console.error("Firebase Auth Initialization Error:", err);
+                window.firebaseReady = true;
+                if (typeof window.onFirebaseReady === 'function') {
+                    window.onFirebaseReady();
+                }
+            }
+        }
+        initFirebase();
+    </script>
+
+    <script>
         /**
          * SEC-03: SANITISASI & KESELAMATAN (XSS PREVENTATIVE HELPER)
          */
-        // AUDIT FIX: Deklarasi Pembolehubah Keadaan Global (Global State Variables)
-        let currentUser = null;
-        let athletes = [];
-        let systemUsers = [];
-        let activityLogs = [];
-        let competitionTerms = [];
-        let eventLimitsData = null;
-        let eventEligibilityData = null;
-        let activeModalPreviousFocus = null;
-        let pendingDeleteUserId = null;
-        let pendingDeleteTermId = null;
-
-        const TRACK_INDIVIDUAL = [
-            "80m Tahun 1", "80m Tahun 2", "80m Tahun 3", "80m Lari Berpagar",
-            "100m Tahun 4", "100m Tahun 5", "100m Tahun 6", "200m Tahun 4", "200m Tahun 5"
-        ];
-        const TRACK_TEAM = [
-            "4x50m Tahun 1", "4x50m Tahun 2", "4x100m Tahun 3", "4x100m Tahun 4",
-            "4x100m Tahun 5", "4x200m Tahun 4", "4x200m Tahun 5"
-        ];
-        const FIELD_EVENTS = [
-            "Lompat Jauh", "Lompat Tinggi", "Lontar Peluru"
-        ];
-
-        const TEAM_COLORS = {
-            "Helang": { bg: "bg-emerald-100", text: "text-emerald-800", border: "border-emerald-300" },
-            "Garuda": { bg: "bg-rose-100", text: "text-rose-800", border: "border-rose-300" },
-            "Rajawali": { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-300" },
-            "Kenyalang": { bg: "bg-amber-100", text: "text-amber-800", border: "border-amber-300" }
-        };
-
-        const DEFAULT_ACCOUNTS = [
-            { id: "ADMIN", name: "Admin Utama", role: "admin", team: "Tiada", status: "Aktif" },
-            { id: "PGR-HELANG-001", name: "Pengurus Helang", role: "manager", team: "Helang", status: "Aktif" },
-            { id: "PGR-GARUDA-001", name: "Pengurus Garuda", role: "manager", team: "Garuda", status: "Aktif" },
-            { id: "PGR-RAJAWALI-001", name: "Pengurus Rajawali", role: "manager", team: "Rajawali", status: "Aktif" },
-            { id: "PGR-KENYALANG-001", name: "Pengurus Kenyalang", role: "manager", team: "Kenyalang", status: "Aktif" }
-        ];
-
-        const DEFAULT_EVENT_ELIGIBILITY = {
-            "80m Tahun 1": ["Tahun 1"],
-            "80m Tahun 2": ["Tahun 2"],
-            "80m Tahun 3": ["Tahun 3"],
-            "80m Lari Berpagar": ["Tahun 4", "Tahun 5", "Tahun 6"],
-            "100m Tahun 4": ["Tahun 4"],
-            "100m Tahun 5": ["Tahun 5"],
-            "100m Tahun 6": ["Tahun 6"],
-            "200m Tahun 4": ["Tahun 4"],
-            "200m Tahun 5": ["Tahun 5"],
-            "4x50m Tahun 1": ["Tahun 1"],
-            "4x50m Tahun 2": ["Tahun 2"],
-            "4x100m Tahun 3": ["Tahun 3"],
-            "4x100m Tahun 4": ["Tahun 4"],
-            "4x100m Tahun 5": ["Tahun 5"],
-            "4x200m Tahun 4": ["Tahun 4"],
-            "4x200m Tahun 5": ["Tahun 5"],
-            "Lompat Jauh": ["Tahun 4", "Tahun 5", "Tahun 6"],
-            "Lompat Tinggi": ["Tahun 4", "Tahun 5", "Tahun 6"],
-            "Lontar Peluru": ["Tahun 4", "Tahun 5", "Tahun 6"]
-        };
-
-        const systemSettings = {
-            closingDate: '2026-10-29',
-            closingTime: '23:59'
-        };
-
         function escapeHTML(str) {
             if (str === null || str === undefined) return '';
             return String(str)
@@ -1491,22 +1461,52 @@
                 .replace(/'/g, '&#039;');
         }
 
-        // AUDIT FIX: Global Body Scroll Lock Handler for Mobile Modals
-        function toggleBodyScrollLock(isLocked) {
-            if (isLocked) {
-                document.body.classList.add('modal-open');
-            } else {
-                const openModals = document.querySelectorAll('[role="dialog"]:not(.hidden)');
-                if (openModals.length === 0) {
-                    document.body.classList.remove('modal-open');
-                }
-            }
-        }
+        /**
+         * DEFINISI DATA KEJOHANAN
+         */
+        const TRACK_INDIVIDUAL = [
+            "80m Tahun 1", "80m Tahun 2", "80m Tahun 3", "80m Lari Berpagar",
+            "100m Tahun 4", "100m Tahun 5", "100m Tahun 6",
+            "200m Tahun 4", "200m Tahun 5"
+        ];
+
+        const TRACK_TEAM = [
+            "4x50m Tahun 1", "4x50m Tahun 2", "4x100m Tahun 3", "4x100m Tahun 4", "4x100m Tahun 5", "4x200m Tahun 4", "4x200m Tahun 5"
+        ];
+
+        const FIELD_EVENTS = [
+            "Lompat Jauh", "Lompat Tinggi", "Lontar Peluru"
+        ];
+
+        // SEC-02: Kata Laluan Teks Biasa Dihapuskan Daripada Kod Klien & Memori
+        // PEMBERSIHAN AKAUN: Hanya mengekalkan 1 akaun Admin Utama (ID: admin)
+        const DEFAULT_ACCOUNTS = [
+            { id: "admin", name: "Admin Utama", role: "admin", team: "Tiada", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Sistem" }
+        ];
+
+        const TEAM_COLORS = {
+            "Helang": { bg: "bg-emerald-100", text: "text-emerald-800", border: "border-emerald-300", hex: "#10b981" },
+            "Garuda": { bg: "bg-rose-100", text: "text-rose-800", border: "border-rose-300", hex: "#ef4444" },
+            "Rajawali": { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-300", hex: "#3b82f6" },
+            "Kenyalang": { bg: "bg-amber-100", text: "text-amber-800", border: "border-amber-300", hex: "#f59e0b" }
+        };
+
+        // FIRESTORE REST API CLIENT LAYER
+        let athletes = [];
+        let systemUsers = [...DEFAULT_ACCOUNTS];
+        let activityLogs = [];
+        let competitionTerms = [];
+        let eventLimitsData = null;
+        let systemSettings = { closingDate: '2026-10-29', closingTime: '23:59' };
+
+        let currentUser = null;
+        let pendingDeleteUserId = null;
+        let pendingDeleteTermId = null;
+        let activeModalPreviousFocus = null;
 
         // A11Y-02: Focus Trap Helper untuk Dialog Modal
         function trapFocusInModal(modalEl) {
             activeModalPreviousFocus = document.activeElement;
-            toggleBodyScrollLock(true);
             const focusableEls = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
             if (focusableEls.length > 0) {
                 focusableEls[0].focus();
@@ -1514,7 +1514,6 @@
         }
 
         function restoreFocusFromModal() {
-            toggleBodyScrollLock(false);
             if (activeModalPreviousFocus && typeof activeModalPreviousFocus.focus === 'function') {
                 activeModalPreviousFocus.focus();
             }
@@ -1618,7 +1617,6 @@
                     if (data.closingDate) systemSettings.closingDate = data.closingDate;
                     if (data.closingTime) systemSettings.closingTime = data.closingTime;
                     if (data.eventLimits) eventLimitsData = data.eventLimits;
-                    if (data.eventEligibility) eventEligibilityData = data.eventEligibility;
                 } else {
                     const defaults = {};
                     [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS].forEach(ev => {
@@ -1627,11 +1625,9 @@
                     setDoc(settingsRef, {
                         closingDate: '2026-10-29',
                         closingTime: '23:59',
-                        eventLimits: defaults,
-                        eventEligibility: DEFAULT_EVENT_ELIGIBILITY
+                        eventLimits: defaults
                     });
                     eventLimitsData = defaults;
-                    eventEligibilityData = DEFAULT_EVENT_ELIGIBILITY;
                 }
                 renderAll();
             }, (err) => console.error("Settings sync error:", err));
@@ -1744,21 +1740,6 @@
             return defaults;
         }
 
-        function getEventEligibility() {
-            return eventEligibilityData || DEFAULT_EVENT_ELIGIBILITY;
-        }
-
-        async function saveEventEligibility(eligibility) {
-            try {
-                const { db, appId, doc, setDoc } = window;
-                const settingsRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config');
-                await setDoc(settingsRef, { eventEligibility: eligibility }, { merge: true });
-                eventEligibilityData = eligibility;
-            } catch(e) {
-                console.error("Failed to save event eligibility:", e);
-            }
-        }
-
         async function saveEventLimits(limits) {
             try {
                 const { db, appId, doc, setDoc } = window;
@@ -1854,19 +1835,17 @@
         function switchAdminTab(tab) {
             const dateTab = document.getElementById('admin-tab-date');
             const limitsTab = document.getElementById('admin-tab-limits');
-            const eligibilityTab = document.getElementById('admin-tab-eligibility');
             const termsTab = document.getElementById('admin-tab-terms');
             const usersTab = document.getElementById('admin-tab-users');
             const historyTab = document.getElementById('admin-tab-history');
             
             const dateBtn = document.getElementById('admin-tab-btn-date');
             const limitsBtn = document.getElementById('admin-tab-btn-limits');
-            const eligibilityBtn = document.getElementById('admin-tab-btn-eligibility');
             const termsBtn = document.getElementById('admin-tab-btn-terms');
             const usersBtn = document.getElementById('admin-tab-btn-users');
             const historyBtn = document.getElementById('admin-tab-btn-history');
 
-            [dateBtn, limitsBtn, eligibilityBtn, termsBtn, usersBtn, historyBtn].forEach(btn => {
+            [dateBtn, limitsBtn, termsBtn, usersBtn, historyBtn].forEach(btn => {
                 if (btn) {
                     btn.classList.remove('border-blue-900', 'text-blue-900');
                     btn.classList.add('border-transparent', 'text-slate-500');
@@ -1876,7 +1855,6 @@
             if (tab === 'date') {
                 if (dateTab) dateTab.classList.remove('hidden');
                 if (limitsTab) limitsTab.classList.add('hidden');
-                if (eligibilityTab) eligibilityTab.classList.add('hidden');
                 if (termsTab) termsTab.classList.add('hidden');
                 if (usersTab) usersTab.classList.add('hidden');
                 if (historyTab) historyTab.classList.add('hidden');
@@ -1884,25 +1862,14 @@
             } else if (tab === 'limits') {
                 if (dateTab) dateTab.classList.add('hidden');
                 if (limitsTab) limitsTab.classList.remove('hidden');
-                if (eligibilityTab) eligibilityTab.classList.add('hidden');
                 if (termsTab) termsTab.classList.add('hidden');
                 if (usersTab) usersTab.classList.add('hidden');
                 if (historyTab) historyTab.classList.add('hidden');
                 if (limitsBtn) { limitsBtn.classList.add('border-blue-900', 'text-blue-900'); limitsBtn.classList.remove('border-transparent', 'text-slate-500'); }
                 renderAdminLimitsTable();
-            } else if (tab === 'eligibility') {
-                if (dateTab) dateTab.classList.add('hidden');
-                if (limitsTab) limitsTab.classList.add('hidden');
-                if (eligibilityTab) eligibilityTab.classList.remove('hidden');
-                if (termsTab) termsTab.classList.add('hidden');
-                if (usersTab) usersTab.classList.add('hidden');
-                if (historyTab) historyTab.classList.add('hidden');
-                if (eligibilityBtn) { eligibilityBtn.classList.add('border-blue-900', 'text-blue-900'); eligibilityBtn.classList.remove('border-transparent', 'text-slate-500'); }
-                renderAdminEligibilityTable();
             } else if (tab === 'terms') {
                 if (dateTab) dateTab.classList.add('hidden');
                 if (limitsTab) limitsTab.classList.add('hidden');
-                if (eligibilityTab) eligibilityTab.classList.add('hidden');
                 if (termsTab) termsTab.classList.remove('hidden');
                 if (usersTab) usersTab.classList.add('hidden');
                 if (historyTab) historyTab.classList.add('hidden');
@@ -1911,7 +1878,6 @@
             } else if (tab === 'users') {
                 if (dateTab) dateTab.classList.add('hidden');
                 if (limitsTab) limitsTab.classList.add('hidden');
-                if (eligibilityTab) eligibilityTab.classList.add('hidden');
                 if (termsTab) termsTab.classList.add('hidden');
                 if (usersTab) usersTab.classList.remove('hidden');
                 if (historyTab) historyTab.classList.add('hidden');
@@ -1920,7 +1886,6 @@
             } else if (tab === 'history') {
                 if (dateTab) dateTab.classList.add('hidden');
                 if (limitsTab) limitsTab.classList.add('hidden');
-                if (eligibilityTab) eligibilityTab.classList.add('hidden');
                 if (termsTab) termsTab.classList.add('hidden');
                 if (usersTab) usersTab.classList.add('hidden');
                 if (historyTab) historyTab.classList.remove('hidden');
@@ -2362,7 +2327,7 @@
                 }
             });
 
-            let candidateId = `${prefix}-${String(count).padStart(3, '0')}`;
+            let candidateId = `prefix-{String(count).padStart(3, '0')}`;
 
             if (window.db) {
                 try {
@@ -2372,7 +2337,7 @@
                         const snap = await getDoc(doc(window.db, 'artifacts', window.appId, 'public', 'data', 'users', candidateId));
                         if (snap.exists() || users.some(u => u.id === candidateId)) {
                             count++;
-                            candidateId = `${prefix}-${String(count).padStart(3, '0')}`;
+                            candidateId = `prefix-{String(count).padStart(3, '0')}`;
                         } else {
                             exists = false;
                         }
@@ -2450,7 +2415,7 @@
                 }
 
                 await saveSystemUsersToFirestore(users);
-                logActivity("Edit Akaun", `Kemaskini akaun ID: ${userId} (${userName}). Status: Berjaya.`);
+                logActivity("Edit Akaun", `Kemaskini akaun ID: userId({userName}). Status: Berjaya.`);
                 showToast("Maklumat pengguna berjaya dikemaskini.");
             } else {
                 const newUser = {
@@ -2465,7 +2430,7 @@
                 };
                 users.push(newUser);
                 await saveSystemUsersToFirestore(users);
-                logActivity("Tambah Akaun", `Menambah akaun baharu ID: ${userId} (${userName}). Status: Berjaya.`);
+                logActivity("Tambah Akaun", `Menambah akaun baharu ID: userId({userName}). Status: Berjaya.`);
                 showToast("Pengguna baharu berjaya ditambah.");
             }
 
@@ -2518,7 +2483,7 @@
             }
 
             if (user) {
-                logActivity("Padam Akaun", `Memadam akaun ID: ${user.id} (${user.name}). Status: Berjaya.`);
+                logActivity("Padam Akaun", `Memadam akaun ID: user.id({user.name}). Status: Berjaya.`);
             }
 
             closeUserDeleteModal();
@@ -2595,7 +2560,7 @@
                 }
                 updateUserUI();
                 renderAll();
-                logActivity("Log Masuk", `Pengguna ${foundUser.name} (${foundUser.id}) berjaya log masuk ke dalam sistem.`, "Berjaya");
+                logActivity("Log Masuk", `Pengguna foundUser.name({foundUser.id}) berjaya log masuk ke dalam sistem.`, "Berjaya");
                 showToast(`Selamat datang, ${currentUser.name}!`);
             } else {
                 if (errDiv) {
@@ -2679,27 +2644,28 @@
                     `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-800 border border-slate-300">${escapeHTML(l.role || 'Pengurus Pasukan')}</span>`;
 
                 const safeTeam = escapeHTML(l.team || 'Tiada');
-                const teamBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">${safeTeam}</span>`;
+                const teamBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} teamInfo.border">{safeTeam}</span>`;
 
                 const safeIp = escapeHTML(l.ip || 'N/A (Sesi Terpelihara Klien)');
                 const safeDevice = escapeHTML(l.device || 'Desktop');
                 const safeBrowser = escapeHTML(l.browser || 'Chrome');
                 const safeOs = escapeHTML(l.os || 'Windows');
-                const sysInfo = `${safeIp}<br><span class="text-[10px] text-slate-400">${safeDevice} • ${safeBrowser} • ${safeOs}</span>`;
-
-                const safeUserId = escapeHTML(l.userId || '-');
-                const safeUserName = escapeHTML(l.userName || '-');
-                const safeAction = escapeHTML(l.action || '-');
-                const safeDetails = escapeHTML(l.details || '-');
+                const sysInfo = `safeIp<br><spanclass="text-[10px]text-slate-400">{safeDevice} • ${safeBrowser} • ${safeOs}</span>`;
 
                 tr.innerHTML = `
-                    <td class="p-2.5 whitespace-nowrap"><span class="font-bold text-slate-900 text-xs">${dateStr}</span><br><span class="text-[10px] text-slate-400 font-mono">${timeStr}</span></td>
-                    <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${safeUserId}</td>
-                    <td class="p-2.5 font-semibold text-slate-800 text-xs">${safeUserName}<br>${teamBadge}</td>
+                    <td class="p-2.5 font-mono text-[11px] text-slate-600 whitespace-nowrap">
+                        <div class="font-bold text-slate-800">${dateStr}</div>
+                        <div class="text-[10px] text-slate-400">${timeStr}</div>
+                    </td>
+                    <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${escapeHTML(l.userId || l.userName || '-')}</td>
+                    <td class="p-2.5">${teamBadge}</td>
                     <td class="p-2.5">${roleBadge}</td>
-                    <td class="p-2.5 text-xs"><strong class="text-slate-900">${safeAction}</strong><br><span class="text-slate-600">${safeDetails}</span></td>
-                    <td class="p-2.5 text-center">${statusBadge}</td>
-                    <td class="p-2.5 text-xs text-slate-600 font-mono">${sysInfo}</td>
+                    <td class="p-2.5">
+                        <div class="font-bold text-slate-800 text-xs">${escapeHTML(l.action)}</div>
+                        <div class="text-slate-500 text-[11px] leading-tight mt-0.5">${escapeHTML(l.details)}</div>
+                    </td>
+                    <td class="p-2.5 text-center whitespace-nowrap">${statusBadge}</td>
+                    <td class="p-2.5 font-mono text-xs text-slate-600 leading-tight">${sysInfo}</td>
                 `;
                 fragment.appendChild(tr);
             });
@@ -2708,74 +2674,53 @@
             tbody.appendChild(fragment);
         }
 
-        function renderAdminEligibilityTable() {
-            const tbody = document.getElementById('admin-eligibility-table-body');
+        function renderAdminLimitsTable() {
+            const tbody = document.getElementById('admin-limits-table-body');
             if (!tbody) return;
-            const eligibilityMap = getEventEligibility();
+            const limits = getEventLimits();
             const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-            const years = ["Tahun 1", "Tahun 2", "Tahun 3", "Tahun 4", "Tahun 5", "Tahun 6"];
 
             tbody.innerHTML = allEvents.map((ev) => {
-                const allowed = eligibilityMap[ev] || DEFAULT_EVENT_ELIGIBILITY[ev] || [];
+                const limitL = limits[ev]?.Lelaki ?? 2;
+                const limitP = limits[ev]?.Perempuan ?? 2;
                 const safeEv = escapeHTML(ev);
-
-                const checkboxesHtml = years.map(y => {
-                    const isChecked = allowed.includes(y) ? 'checked' : '';
-                    return `
-                        <td class="p-3 text-center">
-                            <input type="checkbox" data-event="${safeEv}" data-year="${y}" ${isChecked}
-                                class="eligibility-checkbox w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
-                        </td>
-                    `;
-                }).join('');
-
                 return `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3 font-bold text-slate-800">${safeEv}</td>
-                        ${checkboxesHtml}
+                        <td class="p-3 text-center">
+                            <input type="number" min="1" max="50" data-event="safeEv"data-gender="Lelaki"value="{limitL}"
+                                class="limit-input w-20 px-2.5 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-slate-800 focus:ring-2 focus:ring-blue-600">
+                        </td>
+                        <td class="p-3 text-center">
+                            <input type="number" min="1" max="50" data-event="safeEv"data-gender="Perempuan"value="{limitP}"
+                                class="limit-input w-20 px-2.5 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-slate-800 focus:ring-2 focus:ring-blue-600">
+                        </td>
                     </tr>
                 `;
             }).join('');
         }
 
-        async function handleSaveEventEligibility(e) {
+        async function handleSaveEventLimits(e) {
             e.preventDefault();
             if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak! Hanya Admin dibenarkan menukar kelayakan acara.", "error");
+                showToast("Akses Ditolak! Hanya Admin dibenarkan menukar had acara.", "error");
                 return;
             }
 
-            const checkboxes = document.querySelectorAll('.eligibility-checkbox');
-            const newEligibility = {};
+            const inputs = document.querySelectorAll('.limit-input');
+            const limits = getEventLimits();
 
-            const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-            allEvents.forEach(ev => { newEligibility[ev] = []; });
-
-            checkboxes.forEach(cb => {
-                const ev = cb.dataset.event;
-                const year = cb.dataset.year;
-                if (cb.checked) {
-                    if (!newEligibility[ev]) newEligibility[ev] = [];
-                    newEligibility[ev].push(year);
-                }
+            inputs.forEach(input => {
+                const ev = input.dataset.event;
+                const gender = input.dataset.gender;
+                const val = parseInt(input.value, 10) || 2;
+                if (!limits[ev]) limits[ev] = { Lelaki: 2, Perempuan: 2 };
+                limits[ev][gender] = val;
             });
 
-            await saveEventEligibility(newEligibility);
-            logActivity("Kemaskini Kelayakan Acara", "Menukar pemetaan tahun kelayakan peserta mengikut acara.");
+            await saveEventLimits(limits);
+            logActivity("Kemaskini Had Kelayakan", "Menukar had maksimum penyertaan kelayakan acara.");
             showToast("Tetapan kelayakan acara berjaya disimpan");
-            renderAll();
-        }
-
-        async function resetEventEligibilityToDefault() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak! Hanya Admin dibenarkan mereset tetapan.", "error");
-                return;
-            }
-
-            await saveEventEligibility(DEFAULT_EVENT_ELIGIBILITY);
-            renderAdminEligibilityTable();
-            logActivity("Reset Kelayakan Acara", "Memulihkan pemetaan tahun kelayakan acara ke nilai asal.");
-            showToast("Tetapan kelayakan acara telah di-reset ke nilai asal.");
             renderAll();
         }
 
@@ -2929,13 +2874,18 @@
             const filterAcara = document.getElementById('filter-acara');
             if (filterAcara) {
                 const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-                filterAcara.innerHTML = `<option value="">Semua Acara</option>` + allEvents.map(e => `<option value="${escapeHTML(e)}">${escapeHTML(e)}</option>`).join('');
+                filterAcara.innerHTML = `<option value="">Semua Acara</option>` + allEvents.map(e => `<option value="escapeHTML(e)">{escapeHTML(e)}</option>`).join('');
             }
         }
 
         // DAT-01: HAD KUOTA ATOMIK DENGAN FIRESTORE TRANSACTIONS & RETRY MECHANISM
         async function handleFormSubmit(e) {
             e.preventDefault();
+
+            if (!window.firebaseReady || !window.db) {
+                showToast("Pangkalan data belum bersedia. Sila cuba sebentar lagi.", "error");
+                return;
+            }
 
             if (currentUser?.role !== 'admin' && isPastClosingDate()) {
                 showToast(`Pendaftaran telah ditutup pada ${getFormattedClosingDate()}`, "error");
@@ -2951,59 +2901,70 @@
 
             const selectedEvents = Array.from(document.querySelectorAll('input[name="acara"]:checked')).map(cb => cb.value);
 
-            if (!nama || !bib) {
-                showToast("Sila lengkapkan nama dan nombor bib!", "error");
+            const TEAM_PREFIXES = { "Helang": "H", "Garuda": "G", "Rajawali": "R", "Kenyalang": "K" };
+            if (pasukan && TEAM_PREFIXES[pasukan]) {
+                const reqPrefix = TEAM_PREFIXES[pasukan];
+                if (!bib.startsWith(reqPrefix)) {
+                    showToast(`No. Bib pasukan MESTI bermula dengan huruf '${reqPrefix}' (Contoh: ${reqPrefix}101)!`, "error");
+                    return;
+                }
+            }
+
+            if (selectedEvents.length === 0) {
+                showToast("Sila pilih sekurang-kurangnya SATU acara!", "error");
                 return;
             }
 
-            const athleteObj = {
-                id: athleteId || (Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7)),
-                nama,
-                jantina,
-                pasukan,
-                bib,
-                tahun,
-                acara: selectedEvents
-            };
+            const { db, appId, runTransaction, doc, collection, getDocs } = window;
+            const limits = getEventLimits();
 
-            // Semak jika Firestore bersedia
-            if (window.db && window.appId) {
-                try {
-                    const { db, appId, doc, setDoc } = window;
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'athletes', athleteObj.id);
-                    await setDoc(docRef, { nama, jantina, pasukan, bib, tahun, acara: selectedEvents }, { merge: true });
+            try {
+                // Pelaksanaan Transaksi Atomik Terjamin
+                await runTransaction(db, async (transaction) => {
+                    const athletesRef = collection(db, 'artifacts', appId, 'public', 'data', 'athletes');
+                    const snapshot = await getDocs(athletesRef);
+                    const currentAthletes = [];
+                    snapshot.forEach(d => currentAthletes.push({ id: d.id, ...d.data() }));
 
-                    if (athleteId) {
-                        logActivity("Kemas Kini Atlet", `Mengemaskini maklumat atlet ${nama} (${bib}) bagi pasukan ${pasukan}.`);
-                        showToast("Rekod atlet berjaya dikemas kini");
-                    } else {
-                        logActivity("Daftar Atlet Baharu", `Mendaftarkan atlet baharu ${nama} (${bib}) bagi pasukan ${pasukan}.`);
-                        showToast("Pendaftaran atlet berjaya disimpan");
+                    let limitErrors = [];
+                    selectedEvents.forEach(ev => {
+                        const maxAllowed = limits[ev]?.[jantina] ?? 2;
+                        const currentTeamCount = currentAthletes.filter(a =>
+                            a.id !== athleteId &&
+                            a.pasukan === pasukan &&
+                            a.jantina === jantina &&
+                            a.acara.includes(ev)
+                        ).length;
+
+                        if (currentTeamCount + 1 > maxAllowed) {
+                            limitErrors.push(`Acara ev({jantina}): Had kuota pasukan pasukan({maxAllowed} orang) telah dicapai.`);
+                        }
+                    });
+
+                    if (limitErrors.length > 0) {
+                        throw new Error(limitErrors[0]);
                     }
-                } catch(err) {
-                    console.error("Firestore Save Error:", err);
-                    showToast("Gagal menyimpan ke pangkalan data cloud, menyimpan secara tempatan...", "error");
-                    saveLocalAthlete(athleteObj, !!athleteId);
+
+                    const targetId = athleteId || (Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7));
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'athletes', targetId);
+                    
+                    transaction.set(docRef, { nama, jantina, pasukan, bib, tahun, acara: selectedEvents }, { merge: true });
+                });
+
+                if (athleteId) {
+                    logActivity("Kemas Kini Atlet", `Mengemaskini maklumat atlet nama({bib}) bagi pasukan ${pasukan}.`);
+                    showToast("Rekod atlet berjaya dikemas kini");
+                } else {
+                    logActivity("Daftar Atlet Baharu", `Mendaftarkan atlet baharu nama({bib}) bagi pasukan pasukan({selectedEvents.length} acara).`);
+                    showToast("Pendaftaran atlet baharu berjaya disimpan");
                 }
-            } else {
-                // Fallback Simpanan Tempatan (Local Memory / Mode Ujian)
-                saveLocalAthlete(athleteObj, !!athleteId);
-            }
 
-            resetForm();
-            renderAll();
-            switchTab('directory');
-        }
-
-        function saveLocalAthlete(athleteObj, isEdit) {
-            if (isEdit) {
-                const idx = athletes.findIndex(a => a.id === athleteObj.id);
-                if (idx !== -1) athletes[idx] = athleteObj;
-                else athletes.push(athleteObj);
-                showToast("Rekod atlet berjaya dikemas kini");
-            } else {
-                athletes.push(athleteObj);
-                showToast("Pendaftaran atlet berjaya disimpan");
+                resetForm();
+                renderAll();
+                switchTab('directory');
+            } catch(err) {
+                console.error("Firestore Atomic Transaction Error:", err);
+                showToast(err.message || "Gagal menyimpan data. Sila semak kuota acara atau rangkaian.", "error");
             }
         }
 
@@ -3014,39 +2975,23 @@
             }
 
             const ath = athletes.find(a => a.id === id);
-            if (!ath) {
-                showToast("Rekod atlet tidak dijumpai.", "error");
-                return;
-            }
-
-            // Semak kebenaran akses mengikut peranan
-            if (currentUser.role !== 'admin' && ath.pasukan !== currentUser.team) {
+            if (currentUser.role !== 'admin' && ath && ath.pasukan !== currentUser.team) {
                 showToast("Anda tidak mempunyai kebenaran memadam atlet pasukan lain!", "error");
                 return;
             }
 
-            // Padam daripada tatasusunan tempatan (Local Array)
-            const index = athletes.findIndex(a => a.id === id);
-            if (index !== -1) {
-                athletes.splice(index, 1);
-            }
+            try {
+                const { db, appId, doc, deleteDoc } = window;
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'athletes', id));
 
-            // Padam daripada Firebase Cloud jika bersambung
-            if (window.db && window.appId) {
-                try {
-                    const { db, appId, doc, deleteDoc } = window;
-                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'athletes', id));
-                } catch(e) {
-                    console.warn("Gagal memadam dari cloud, dipadam secara tempatan:", e);
+                if (ath) {
+                    logActivity("Padam Rekod Atlet", `Memadam atlet ath.nama({ath.bib}) dari pasukan ${ath.pasukan}.`);
                 }
+                renderAll();
+                showToast("Rekod atlet telah dipadam.");
+            } catch(e) {
+                showToast("Gagal memadam rekod.", "error");
             }
-
-            if (ath) {
-                logActivity("Padam Rekod Atlet", `Memadam atlet ${ath.nama} (${ath.bib}) dari pasukan ${ath.pasukan}.`);
-            }
-
-            renderAll();
-            showToast("Rekod atlet telah berjaya dipadam.");
         }
 
         function editAthlete(id) {
@@ -3097,7 +3042,7 @@
             if (athlete.pasukan && TEAM_PREFIXES[athlete.pasukan]) {
                 const reqPrefix = TEAM_PREFIXES[athlete.pasukan];
                 if (!athlete.bib.toUpperCase().startsWith(reqPrefix)) {
-                    reasons.push(`No. Bib pasukan ${athlete.pasukan} mesti bermula dengan huruf '${reqPrefix}'`);
+                    reasons.push(`No. Bib pasukan athlete.pasukanmestibermuladenganhuruf'{reqPrefix}'`);
                 }
             }
 
@@ -3120,12 +3065,31 @@
                 reasons.push(`Penyertaan melebihi had 2 acara berpasukan (${teamEventsCount} acara berpasukan dipilih)`);
             }
 
-            // DYNAMIC EVENT ELIGIBILITY MAP CHECK
-            const eligibilityMap = getEventEligibility();
+            const EVENT_ELIGIBILITY = {
+                "80m Tahun 1": ["Tahun 1"],
+                "80m Tahun 2": ["Tahun 2"],
+                "80m Tahun 3": ["Tahun 3"],
+                "80m Lari Berpagar": ["Tahun 4", "Tahun 5"],
+                "100m Tahun 4": ["Tahun 4"],
+                "100m Tahun 5": ["Tahun 5"],
+                "100m Tahun 6": ["Tahun 6"],
+                "200m Tahun 4": ["Tahun 4"],
+                "200m Tahun 5": ["Tahun 5"],
+                "4x50m Tahun 1": ["Tahun 1"],
+                "4x50m Tahun 2": ["Tahun 2"],
+                "4x100m Tahun 3": ["Tahun 3"],
+                "4x100m Tahun 4": ["Tahun 4"],
+                "4x200m Tahun 4": ["Tahun 4"],
+                "4x100m Tahun 5": ["Tahun 5"],
+                "4x200m Tahun 5": ["Tahun 5"],
+                "Lompat Jauh": ["Tahun 3", "Tahun 4", "Tahun 5"],
+                "Lompat Tinggi": ["Tahun 4", "Tahun 5"],
+                "Lontar Peluru": ["Tahun 4", "Tahun 5"]
+            };
+
             let invalidEvents = [];
             athlete.acara.forEach(ev => {
-                const allowedYears = eligibilityMap[ev] || DEFAULT_EVENT_ELIGIBILITY[ev] || [];
-                if (allowedYears.length > 0 && !allowedYears.includes(athlete.tahun)) {
+                if (EVENT_ELIGIBILITY[ev] && !EVENT_ELIGIBILITY[ev].includes(athlete.tahun)) {
                     invalidEvents.push(ev);
                 }
             });
@@ -3144,7 +3108,7 @@
                 ).length;
 
                 if (teamCount > maxAllowed) {
-                    reasons.push(`Kuota pasukan ${athlete.pasukan} bagi ${ev} (${athlete.jantina}) melebihi had (${teamCount}/${maxAllowed})`);
+                    reasons.push(`Kuota pasukan ${athlete.pasukan} bagi ev({athlete.jantina}) melebihi had (teamCount/{maxAllowed})`);
                 }
             });
 
@@ -3154,274 +3118,262 @@
             return { hasError: false, reason: "Pendaftaran Sah" };
         }
 
-        /**
-         * FUNGSI RENDER JADUAL ATLET DIRECTORY
-         */
-        function renderAthletesTable() {
-            const tbody = document.getElementById('directory-table-body');
-            if (!tbody) return;
-
-            const searchKey = document.getElementById('filter-search')?.value.toLowerCase().trim() || '';
-            const pasukanFilter = document.getElementById('filter-pasukan')?.value || '';
-            const tahunFilter = document.getElementById('filter-tahun')?.value || '';
-            const acaraFilter = document.getElementById('filter-acara')?.value || '';
-
-            let filtered = [...athletes];
-
-            if (pasukanFilter) {
-                filtered = filtered.filter(a => a.pasukan === pasukanFilter);
-            }
-            if (tahunFilter) {
-                filtered = filtered.filter(a => a.tahun === tahunFilter);
-            }
-            if (acaraFilter) {
-                filtered = filtered.filter(a => a.acara && a.acara.includes(acaraFilter));
-            }
-            if (searchKey) {
-                filtered = filtered.filter(a =>
-                    a.nama.toLowerCase().includes(searchKey) ||
-                    a.bib.toLowerCase().includes(searchKey)
-                );
-            }
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400 font-medium">Tiada rekod atlet dijumpai mengikut tapisan.</td></tr>`;
-                return;
-            }
-
-            const fragment = document.createDocumentFragment();
-            filtered.forEach(ath => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 transition';
-
-                const errStatus = getAthleteErrorStatus(ath);
-                const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
-
-                const safeId = escapeHTML(ath.id);
-                const safeNama = escapeHTML(ath.nama);
-                const safeJantina = escapeHTML(ath.jantina);
-                const safePasukan = escapeHTML(ath.pasukan);
-                const safeBib = escapeHTML(ath.bib);
-                const safeTahun = escapeHTML(ath.tahun);
-                const acaraBadges = ath.acara.map(a => `<span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-[10px] font-semibold border border-slate-200">${escapeHTML(a)}</span>`).join(' ');
-
-                const statusIndicator = errStatus.hasError ? 
-                    `<button onclick="openErrorModal('${safeId}')" title="${escapeHTML(errStatus.reason)}" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation flex items-center justify-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse inline-block shadow-sm"></span></button>` :
-                    `<span title="Pendaftaran Sah (Tiada Ralat)" class="p-1.5 text-emerald-600 inline-flex items-center justify-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-sm"></span></span>`;
-
-                tr.innerHTML = `
-                    <td class="p-3.5 font-bold text-slate-900">${safeNama}</td>
-                    <td class="p-3.5 text-slate-600">${safeJantina}</td>
-                    <td class="p-3.5">
-                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
-                            ${safePasukan}
-                        </span>
-                    </td>
-                    <td class="p-3.5 font-mono font-bold text-slate-800">${safeBib}</td>
-                    <td class="p-3.5 text-slate-600">${safeTahun}</td>
-                    <td class="p-3.5"><div class="flex flex-wrap gap-1">${acaraBadges}</div></td>
-                    <td class="p-3.5 text-center">
-                        <div class="flex items-center justify-center gap-1.5">
-                            ${statusIndicator}
-                            <button onclick="openDetailModal('${safeId}')" title="Lihat Butiran" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                            <button onclick="editAthlete('${safeId}')" title="Edit Atlet" class="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button onclick="deleteAthlete('${safeId}')" title="Padam Atlet" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                fragment.appendChild(tr);
+        function sortAthletesByTahun(list) {
+            const order = { "Tahun 1": 1, "Tahun 2": 2, "Tahun 3": 3, "Tahun 4": 4, "Tahun 5": 5, "Tahun 6": 6 };
+            return [...list].sort((a, b) => {
+                const tA = order[a.tahun] || 99;
+                const tB = order[b.tahun] || 99;
+                if (tA !== tB) return tA - tB;
+                return a.nama.localeCompare(b.nama);
             });
-
-            tbody.innerHTML = '';
-            tbody.appendChild(fragment);
-        }
-
-        /**
-         * RENDER ALL & COMPONENT RENDERING ENGINE
-         */
-        function renderAll() {
-            renderDashboard();
-            renderAthletesTable();
-            renderEventBreakdown();
         }
 
         function renderDashboard() {
+            const hasTeamFilter = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            const filtered = hasTeamFilter ? athletes.filter(a => a.pasukan === currentUser.team) : athletes;
+
             const statClosing = document.getElementById('stat-closing-date');
-            const statAthletes = document.getElementById('stat-total-athletes');
-            const statTeams = document.getElementById('stat-total-teams');
-
             if (statClosing) statClosing.textContent = getFormattedClosingDate();
-            if (statAthletes) statAthletes.textContent = athletes.length;
 
+            const statAthletes = document.getElementById('stat-total-athletes');
+            if (statAthletes) statAthletes.textContent = filtered.length;
+
+            const statTeams = document.getElementById('stat-total-teams');
             if (statTeams) {
-                const uniqueTeams = new Set(athletes.map(a => a.pasukan));
-                statTeams.textContent = uniqueTeams.size;
+                const uniqueTeams = new Set(filtered.map(a => a.pasukan)).size;
+                statTeams.textContent = `${uniqueTeams} Pasukan`;
             }
 
-            renderRecentTable();
+            const recentBody = document.getElementById('recent-table-body');
+            if (recentBody) {
+                const sorted = sortAthletesByTahun(filtered);
+                const recentAthletes = sorted.slice(0, 5);
+                
+                const fragment = document.createDocumentFragment();
+                recentAthletes.forEach(ath => {
+                    const temp = document.createElement('tbody');
+                    temp.innerHTML = createTableRowHtml(ath);
+                    fragment.appendChild(temp.firstElementChild);
+                });
+                recentBody.innerHTML = '';
+                recentBody.appendChild(fragment);
+            }
         }
 
-        function renderRecentTable() {
-            const tbody = document.getElementById('recent-table-body');
-            if (!tbody) return;
+        function createTableRowHtml(ath) {
+            const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
+            const errorStatus = getAthleteErrorStatus(ath);
 
-            const recentAthletes = [...athletes].slice(-5).reverse();
+            const badgesHtml = ath.acara.map(ev => {
+                let cls = 'bg-cyan-100 text-cyan-800 border-cyan-200';
+                if (FIELD_EVENTS.includes(ev)) {
+                    cls = 'bg-amber-100 text-amber-800 border-amber-200';
+                } else if (TRACK_TEAM.includes(ev)) {
+                    cls = 'bg-green-100 text-green-800 border-green-200';
+                }
+                return `<span class="px-2 py-0.5 rounded-md text-[10px] font-semibold border cls">{escapeHTML(ev)}</span>`;
+            }).join(' ');
 
-            if (recentAthletes.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400 font-medium">Tiada pendaftaran atlet terkini dijumpai.</td></tr>`;
-                return;
-            }
+            const safeId = escapeHTML(ath.id);
+            const safeNama = escapeHTML(ath.nama);
+            const safeJantina = escapeHTML(ath.jantina);
+            const safePasukan = escapeHTML(ath.pasukan);
+            const safeBib = escapeHTML(ath.bib);
+            const safeTahun = escapeHTML(ath.tahun);
 
-            const fragment = document.createDocumentFragment();
-            recentAthletes.forEach(ath => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 transition';
+            const lightHtml = errorStatus.hasError ? 
+                `<button type="button" onclick="showAthleteErrors('${safeId}')" title="Klik untuk lihat ralat: ${escapeHTML(errorStatus.reason)}" class="w-3.5 h-3.5 rounded-full bg-rose-500 shadow-md shadow-rose-500/50 animate-pulse-fast inline-block cursor-pointer hover:scale-125 transition-transform touch-manipulation" aria-label="Lihat Ralat"></button>` :
+                `<span title="Status Sah" class="w-3.5 h-3.5 rounded-full bg-emerald-500 inline-block"></span>`;
 
-                const errStatus = getAthleteErrorStatus(ath);
-                const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
-
-                const safeId = escapeHTML(ath.id);
-                const safeNama = escapeHTML(ath.nama);
-                const safeJantina = escapeHTML(ath.jantina);
-                const safePasukan = escapeHTML(ath.pasukan);
-                const safeBib = escapeHTML(ath.bib);
-                const safeTahun = escapeHTML(ath.tahun);
-                const acaraBadges = ath.acara.map(a => `<span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-[10px] font-semibold border border-slate-200">${escapeHTML(a)}</span>`).join(' ');
-
-                const errorButton = errStatus.hasError ? 
-                    `<button onclick="openErrorModal('${safeId}')" title="${escapeHTML(errStatus.reason)}" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation relative group"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse inline-block shadow-sm"></span></button>` : '';
-
-                tr.innerHTML = `
-                    <td class="p-3.5 font-bold text-slate-900">${safeNama}</td>
-                    <td class="p-3.5 text-slate-600">${safeJantina}</td>
-                    <td class="p-3.5">
-                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
+            return `
+                <tr class="hover:bg-slate-50/80 transition">
+                    <td class="py-3 px-4 font-semibold text-slate-900 uppercase">${safeNama}</td>
+                    <td class="py-3 px-4 text-xs">${safeJantina}</td>
+                    <td class="py-3 px-4">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
                             ${safePasukan}
                         </span>
                     </td>
-                    <td class="p-3.5 font-mono font-bold text-slate-800">${safeBib}</td>
-                    <td class="p-3.5 text-slate-600">${safeTahun}</td>
-                    <td class="p-3.5"><div class="flex flex-wrap gap-1">${acaraBadges}</div></td>
-                    <td class="p-3.5 text-center">
-                        <div class="flex items-center justify-center gap-1.5">
-                            ${errorButton}
-                            <button onclick="openDetailModal('${safeId}')" title="Lihat Butiran" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-eye"></i>
+                    <td class="py-3 px-4 font-mono font-bold text-xs">${safeBib}</td>
+                    <td class="py-3 px-4 text-xs">${safeTahun}</td>
+                    <td class="py-3 px-4 flex flex-wrap gap-1 max-w-xs">${badgesHtml}</td>
+                    <td class="py-3 px-4 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            ${lightHtml}
+                            <button onclick="viewAthleteDetails('${safeId}')" title="Lihat Butiran" aria-label="Lihat Butiran Atlet" class="p-1.5 text-slate-500 hover:text-blue-800 transition touch-manipulation">
+                                <i class="fa-solid fa-eye text-sm" aria-hidden="true"></i>
                             </button>
-                            <button onclick="editAthlete('${safeId}')" title="Edit Atlet" class="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                            <button onclick="editAthlete('${safeId}')" title="Kemas Kini" aria-label="Kemas Kini Atlet" class="p-1.5 text-slate-500 hover:text-blue-600 transition touch-manipulation">
+                                <i class="fa-solid fa-pen-to-square text-sm" aria-hidden="true"></i>
                             </button>
-                            <button onclick="deleteAthlete('${safeId}')" title="Padam Atlet" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-trash"></i>
+                            <button onclick="deleteAthlete('${safeId}')" title="Padam Rekod" aria-label="Padam Rekod Atlet" class="p-1.5 text-slate-500 hover:text-rose-600 transition touch-manipulation">
+                                <i class="fa-solid fa-trash text-sm" aria-hidden="true"></i>
                             </button>
                         </div>
                     </td>
-                `;
-                fragment.appendChild(tr);
-            });
-
-            tbody.innerHTML = '';
-            tbody.appendChild(fragment);
+                </tr>
+            `;
         }
 
-        // FUNGSI ANALISIS PENYERTAAN (SUMMARY BREAKDOWN)
+        // PER-02: Pengurangan Manipulasi DOM Menggunakan DocumentFragment
+        function renderAthletesTable() {
+            const searchInput = document.getElementById('filter-search');
+            const pasukanInput = document.getElementById('filter-pasukan');
+            const tahunInput = document.getElementById('filter-tahun');
+            const acaraInput = document.getElementById('filter-acara');
+
+            const search = searchInput ? searchInput.value.toLowerCase() : '';
+            const pasukan = pasukanInput ? pasukanInput.value : '';
+            const tahun = tahunInput ? tahunInput.value : '';
+            const acara = acaraInput ? acaraInput.value : '';
+
+            let filtered = athletes;
+
+            if (currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin') {
+                filtered = filtered.filter(a => a.pasukan === currentUser.team);
+            } else if (pasukan) {
+                filtered = filtered.filter(a => a.pasukan === pasukan);
+            }
+
+            if (tahun) filtered = filtered.filter(a => a.tahun === tahun);
+            if (acara) filtered = filtered.filter(a => a.acara.includes(acara));
+            if (search) {
+                filtered = filtered.filter(a => 
+                    a.nama.toLowerCase().includes(search) || 
+                    a.bib.toLowerCase().includes(search)
+                );
+            }
+
+            const sorted = sortAthletesByTahun(filtered);
+
+            const dirBody = document.getElementById('directory-table-body');
+            if (dirBody) {
+                if (sorted.length === 0) {
+                    dirBody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 text-sm">Tiada rekod atlet dijumpai.</td></tr>`;
+                } else {
+                    const fragment = document.createDocumentFragment();
+                    sorted.forEach(ath => {
+                        const temp = document.createElement('tbody');
+                        temp.innerHTML = createTableRowHtml(ath);
+                        fragment.appendChild(temp.firstElementChild);
+                    });
+                    dirBody.innerHTML = '';
+                    dirBody.appendChild(fragment);
+                }
+            }
+        }
+
         function renderEventBreakdown() {
+            const allTrack = [...TRACK_INDIVIDUAL, ...TRACK_TEAM];
             const trackGrid = document.getElementById('summary-track-grid');
             const fieldGrid = document.getElementById('summary-field-grid');
 
-            const trackEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM];
-            const fieldEvents = [...FIELD_EVENTS];
-
-            // Semak jika terdapat mana-mana atlet yang mempunyai ralat pendaftaran
-            let hasAnyRegistrationError = false;
-            athletes.forEach(a => {
-                if (getAthleteErrorStatus(a).hasError) {
-                    hasAnyRegistrationError = true;
-                }
-            });
-
-            // Kawal nyalaan lampu merah indikator pada butang menu Analisis (Desktop & Mobile)
-            const deskBadge = document.getElementById('summary-error-badge-desktop');
-            const mobBadge = document.getElementById('summary-error-badge-mobile');
-            if (hasAnyRegistrationError) {
-                deskBadge?.classList.remove('hidden');
-                mobBadge?.classList.remove('hidden');
-            } else {
-                deskBadge?.classList.add('hidden');
-                mobBadge?.classList.add('hidden');
-            }
+            const hasTeamFilter = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            const filtered = hasTeamFilter ? athletes.filter(a => a.pasukan === currentUser.team) : athletes;
 
             if (trackGrid) {
-                trackGrid.innerHTML = trackEvents.map(eventName => {
-                    const eventAthletes = athletes.filter(a => a.acara && a.acara.includes(eventName));
+                trackGrid.innerHTML = allTrack.map(ev => {
+                    const eventAthletes = filtered.filter(a => a.acara.includes(ev));
                     const count = eventAthletes.length;
-                    const eventHasError = eventAthletes.some(a => getAthleteErrorStatus(a).hasError);
-                    const safeEvent = escapeHTML(eventName);
 
-                    const errorBadge = eventHasError ? 
-                        `<span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse inline-block shadow-sm" title="Terdapat ralat atlet dalam acara ini"></span>` : '';
+                    let statusLight = '';
+                    if (count > 0) {
+                        const hasError = eventAthletes.some(a => getAthleteErrorStatus(a).hasError);
+                        if (hasError) {
+                            statusLight = `<span title="Status Ralat" class="w-3 h-3 rounded-full bg-rose-500 shadow-sm shadow-rose-500/50 animate-pulse-fast shrink-0 inline-block" aria-label="Status Ralat"></span>`;
+                        } else {
+                            statusLight = `<span title="Status Sah" class="w-3 h-3 rounded-full bg-emerald-500 shrink-0 inline-block" aria-label="Status Sah"></span>`;
+                        }
+                    }
 
+                    const safeEv = escapeHTML(ev);
                     return `
-                        <div onclick="openGenderSelectModal('${safeEvent}')" class="p-4 bg-white rounded-2xl border ${eventHasError ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200/80'} shadow-sm hover:border-cyan-400 hover:shadow-md transition cursor-pointer active:scale-95 touch-manipulation group flex items-center justify-between">
-                            <div class="space-y-1">
-                                <div class="flex items-center gap-1.5">
-                                    ${errorBadge}
-                                    <span class="text-xs font-bold text-slate-800 group-hover:text-cyan-700 transition">${safeEvent}</span>
-                                </div>
-                                <p class="text-[11px] text-slate-500 font-medium">Klik untuk lihat senarai</p>
+                        <div onclick="openGenderSelectModal('${safeEv}')" class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between cursor-pointer hover:border-blue-400 hover:shadow-md active:scale-[0.98] transition touch-manipulation">
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-xs sm:text-sm flex items-center gap-1.5">
+                                    ${statusLight}
+                                    ${safeEv} <i class="fa-solid fa-circle-info text-blue-500 text-xs" aria-hidden="true"></i>
+                                </h4>
+                                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Balapan</p>
                             </div>
-                            <span class="px-2.5 py-1 rounded-xl bg-cyan-50 text-cyan-700 font-extrabold text-xs border border-cyan-200">${count} Atlet</span>
+                            <span class="px-2.5 sm:px-3 py-1 bg-cyan-100 text-cyan-800 font-extrabold text-xs sm:text-sm rounded-xl shrink-0">${count} Peserta</span>
                         </div>
                     `;
                 }).join('');
             }
 
             if (fieldGrid) {
-                fieldGrid.innerHTML = fieldEvents.map(eventName => {
-                    const eventAthletes = athletes.filter(a => a.acara && a.acara.includes(eventName));
+                fieldGrid.innerHTML = FIELD_EVENTS.map(ev => {
+                    const eventAthletes = filtered.filter(a => a.acara.includes(ev));
                     const count = eventAthletes.length;
-                    const eventHasError = eventAthletes.some(a => getAthleteErrorStatus(a).hasError);
-                    const safeEvent = escapeHTML(eventName);
 
-                    const errorBadge = eventHasError ? 
-                        `<span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse inline-block shadow-sm" title="Terdapat ralat atlet dalam acara ini"></span>` : '';
+                    let statusLight = '';
+                    if (count > 0) {
+                        const hasError = eventAthletes.some(a => getAthleteErrorStatus(a).hasError);
+                        if (hasError) {
+                            statusLight = `<span title="Status Ralat" class="w-3 h-3 rounded-full bg-rose-500 shadow-sm shadow-rose-500/50 animate-pulse-fast shrink-0 inline-block" aria-label="Status Ralat"></span>`;
+                        } else {
+                            statusLight = `<span title="Status Sah" class="w-3 h-3 rounded-full bg-emerald-500 shrink-0 inline-block" aria-label="Status Sah"></span>`;
+                        }
+                    }
 
+                    const safeEv = escapeHTML(ev);
                     return `
-                        <div onclick="openGenderSelectModal('${safeEvent}')" class="p-4 bg-white rounded-2xl border ${eventHasError ? 'border-rose-300 bg-rose-50/20' : 'border-amber-400'} shadow-sm hover:border-amber-400 hover:shadow-md transition cursor-pointer active:scale-95 touch-manipulation group flex items-center justify-between">
-                            <div class="space-y-1">
-                                <div class="flex items-center gap-1.5">
-                                    ${errorBadge}
-                                    <span class="text-xs font-bold text-slate-800 group-hover:text-amber-700 transition">${safeEvent}</span>
-                                </div>
-                                <p class="text-[11px] text-slate-500 font-medium">Klik untuk lihat senarai</p>
+                        <div onclick="openGenderSelectModal('${safeEv}')" class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between cursor-pointer hover:border-amber-400 hover:shadow-md active:scale-[0.98] transition touch-manipulation">
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-xs sm:text-sm flex items-center gap-1.5">
+                                    ${statusLight}
+                                    ${safeEv} <i class="fa-solid fa-circle-info text-amber-500 text-xs" aria-hidden="true"></i>
+                                </h4>
+                                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Padang</p>
                             </div>
-                            <span class="px-2.5 py-1 rounded-xl bg-amber-50 text-amber-700 font-extrabold text-xs border border-amber-200">${count} Atlet</span>
+                            <span class="px-2.5 sm:px-3 py-1 bg-amber-100 text-amber-800 font-extrabold text-xs sm:text-sm rounded-xl shrink-0">${count} Peserta</span>
                         </div>
                     `;
                 }).join('');
             }
         }
 
-        // Modal Kategori Jantina & Senarai Peserta
-        let selectedModalEvent = null;
+        let activeEventForGender = '';
 
         function openGenderSelectModal(eventName) {
-            selectedModalEvent = eventName;
-            document.getElementById('gender-select-event-title').textContent = `Acara: ${eventName}`;
-
-            const countM = athletes.filter(a => a.acara && a.acara.includes(eventName) && a.jantina === 'Lelaki').length;
-            const countF = athletes.filter(a => a.acara && a.acara.includes(eventName) && a.jantina === 'Perempuan').length;
-
-            document.getElementById('gender-count-m').textContent = `${countM} Atlet Registered`;
-            document.getElementById('gender-count-f').textContent = `${countF} Atlet Registered`;
-
+            activeEventForGender = eventName;
             const modal = document.getElementById('gender-select-modal');
+            const titleEl = document.getElementById('gender-select-event-title');
+            const countMEl = document.getElementById('gender-count-m');
+            const countFEl = document.getElementById('gender-count-f');
+
+            if (titleEl) titleEl.textContent = `Acara: ${eventName}`;
+
+            const limits = getEventLimits();
+            const limitM = limits[eventName]?.Lelaki ?? 2;
+            const limitF = limits[eventName]?.Perempuan ?? 2;
+
+            const hasTeamFilter = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            const filteredAthletes = (hasTeamFilter ? athletes.filter(a => a.pasukan === currentUser.team) : athletes)
+                .filter(a => a.acara.includes(eventName));
+
+            if (currentUser?.role !== 'admin') {
+                const hasErrorInEvent = filteredAthletes.some(a => getAthleteErrorStatus(a).hasError);
+                if (hasErrorInEvent) {
+                    showToast("Tindakan tidak dibenarkan! Terdapat ralat pendaftaran atlet dalam acara ini yang perlu diperbaiki terlebih dahulu.", "error");
+                    return;
+                }
+            }
+
+            const countM = filteredAthletes.filter(a => a.jantina === 'Lelaki').length;
+            const countF = filteredAthletes.filter(a => a.jantina === 'Perempuan').length;
+
+            if (hasTeamFilter) {
+                if (countMEl) countMEl.textContent = `${countM} daripada ${limitM} peserta`;
+                if (countFEl) countFEl.textContent = `${countF} daripada ${limitF} peserta`;
+            } else {
+                const totalCapM = limitM * 4;
+                const totalCapF = limitF * 4;
+                if (countMEl) countMEl.textContent = `${countM} daripada totalCapMpeserta({limitM}/pasukan)`;
+                if (countFEl) countFEl.textContent = `${countF} daripada totalCapFpeserta({limitF}/pasukan)`;
+            }
+
             if (modal) {
                 modal.classList.remove('hidden');
                 trapFocusInModal(modal);
@@ -3438,72 +3390,79 @@
 
         function selectGenderCategory(gender) {
             closeGenderSelectModal();
-            if (selectedModalEvent) {
-                openEventParticipantsModal(selectedModalEvent, gender);
+            if (activeEventForGender) {
+                openEventParticipantsModal(activeEventForGender, gender);
             }
         }
 
-        function openEventParticipantsModal(eventName, gender) {
+        function openEventParticipantsModal(eventName, gender = null) {
             const modal = document.getElementById('event-participants-modal');
             const titleEl = document.getElementById('event-participants-title');
             const countEl = document.getElementById('event-participants-count');
             const listEl = document.getElementById('event-participants-list');
+            const printBtn = document.getElementById('btn-print-event-list');
 
-            const filteredAthletes = athletes.filter(a => a.acara && a.acara.includes(eventName) && a.jantina === gender);
-            const hasErrorInCategory = filteredAthletes.some(ath => getAthleteErrorStatus(ath).hasError);
+            const genderTitleStr = gender ? ` (${gender})` : '';
+            if (titleEl) titleEl.textContent = `Senarai peserta - eventName{genderTitleStr}`;
 
-            if (titleEl) titleEl.textContent = `${eventName} (${gender})`;
+            const hasTeamFilter = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            let filteredAthletes = (hasTeamFilter ? athletes.filter(a => a.pasukan === currentUser.team) : athletes)
+                .filter(a => a.acara.includes(eventName));
+
+            if (gender) {
+                filteredAthletes = filteredAthletes.filter(a => a.jantina === gender);
+            }
+
+            filteredAthletes = sortAthletesByTahun(filteredAthletes);
+
             if (countEl) countEl.textContent = `Jumlah: ${filteredAthletes.length} Peserta`;
 
             if (listEl) {
                 if (filteredAthletes.length === 0) {
-                    listEl.innerHTML = `<div class="p-6 text-center text-slate-400 font-medium text-xs">Tiada atlet berdaftar untuk acara ini dalam kategori ${gender}.</div>`;
+                    listEl.innerHTML = `
+                        <div class="py-12 text-center text-slate-400 text-sm">
+                            <i class="fa-solid fa-users-slash text-3xl mb-2 text-slate-300 block" aria-hidden="true"></i>
+                            Tiada peserta yang didaftarkan bagi acara ini
+                        </div>
+                    `;
                 } else {
                     listEl.innerHTML = filteredAthletes.map(ath => {
-                        const errStatus = getAthleteErrorStatus(ath);
                         const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
+                        const safeId = escapeHTML(ath.id);
                         const safeNama = escapeHTML(ath.nama);
-                        const safeBib = escapeHTML(ath.bib);
-                        const safeTahun = escapeHTML(ath.tahun);
                         const safePasukan = escapeHTML(ath.pasukan);
-
-                        const errorBadge = errStatus.hasError ? 
-                            `<span class="text-[10px] bg-rose-100 text-rose-700 border border-rose-200 px-2 py-0.5 rounded-md font-bold flex items-center gap-1"><i class="fa-solid fa-circle-exclamation text-rose-500"></i> Ralat Pendaftaran</span>` : '';
+                        const safeJantina = escapeHTML(ath.jantina);
+                        const safeTahun = escapeHTML(ath.tahun);
+                        const safeBib = escapeHTML(ath.bib);
 
                         return `
-                            <div class="p-3 bg-white rounded-xl border ${errStatus.hasError ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200/80'} shadow-sm flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <span class="font-mono font-black text-xs px-2.5 py-1 rounded-lg bg-slate-900 text-white">${safeBib}</span>
-                                    <div>
-                                        <div class="flex items-center gap-2">
-                                            <h4 class="font-bold text-slate-900 text-xs uppercase">${safeNama}</h4>
-                                            ${errorBadge}
-                                        </div>
-                                        <p class="text-[10px] text-slate-500 font-semibold">${safeTahun}</p>
+                            <div onclick="viewAthleteDetails('${safeId}')" class="bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 hover:border-blue-400 shadow-sm transition flex items-center justify-between group cursor-pointer touch-manipulation">
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-blue-600 transition uppercase">${safeNama}</span>
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
+                                            ${safePasukan}
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center gap-2.5 sm:gap-3 text-[11px] sm:text-xs text-slate-500 flex-wrap">
+                                        <span><i class="fa-solid fa-venus-mars text-slate-400 mr-1" aria-hidden="true"></i>${safeJantina}</span>
+                                        <span><i class="fa-solid fa-graduation-cap text-slate-400 mr-1" aria-hidden="true"></i>${safeTahun}</span>
+                                        <span><i class="fa-solid fa-id-badge text-slate-400 mr-1" aria-hidden="true"></i>Bib: <strong class="text-slate-700 font-mono">${safeBib || '-'}</strong></span>
                                     </div>
                                 </div>
-                                <span class="px-2.5 py-1 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
-                                    ${safePasukan}
-                                </span>
+                                <button onclick="event.stopPropagation(); viewAthleteDetails('${safeId}')" title="Lihat Maklumat Atlet" aria-label="Lihat Maklumat Atlet" class="w-8 h-8 sm:w-9 sm:h-9 bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-800 rounded-xl flex items-center justify-center transition shrink-0 ml-2 touch-manipulation">
+                                    <i class="fa-solid fa-eye text-sm sm:text-base" aria-hidden="true"></i>
+                                </button>
                             </div>
                         `;
                     }).join('');
                 }
             }
 
-            const printBtn = document.getElementById('btn-print-event-list');
             if (printBtn) {
-                if (hasErrorInCategory) {
-                    printBtn.disabled = true;
-                    printBtn.className = "px-3.5 sm:px-4 py-2 bg-slate-300 text-slate-500 rounded-xl text-xs font-semibold flex items-center gap-2 cursor-not-allowed border border-slate-300";
-                    printBtn.title = "Tidak boleh mencetak senarai kerana terdapat ralat pendaftaran pada atlet acara ini!";
-                    printBtn.onclick = () => showToast("Sila betulkan ralat pendaftaran atlet sebelum mencetak senarai!", "error");
-                } else {
-                    printBtn.disabled = false;
-                    printBtn.className = "px-3.5 sm:px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-md transition active:scale-95 touch-manipulation cursor-pointer";
-                    printBtn.title = "Cetak Senarai Peserta";
-                    printBtn.onclick = () => printEventList(eventName, gender, filteredAthletes);
-                }
+                printBtn.onclick = function() {
+                    printEventParticipantsList(`eventName{genderTitleStr}`, filteredAthletes);
+                };
             }
 
             if (modal) {
@@ -3520,182 +3479,213 @@
             }
         }
 
-        function printEventList(eventName, gender, athleteList) {
-            const hasError = athleteList.some(ath => getAthleteErrorStatus(ath).hasError);
-            if (hasError) {
-                showToast("Cetakan dibatalkan: Terdapat ralat pendaftaran dalam senarai ini!", "error");
-                return;
+        // FUN-01: PENCETAKAN TERSEMBUNYI MENGGUNAKAN IFRAME UNTUK MENGELAKKAN POPUP BLOCKER
+        function printEventParticipantsList(eventName, athleteList) {
+            let printIframe = document.getElementById('hidden-print-iframe');
+            if (!printIframe) {
+                printIframe = document.createElement('iframe');
+                printIframe.id = 'hidden-print-iframe';
+                printIframe.style.position = 'fixed';
+                printIframe.style.right = '0';
+                printIframe.style.bottom = '0';
+                printIframe.style.width = '0';
+                printIframe.style.height = '0';
+                printIframe.style.border = '0';
+                document.body.appendChild(printIframe);
             }
 
-            const printWin = window.open('', '_blank');
-            if (!printWin) {
-                showToast("Sila benarkan pop-up untuk mencetak senarai.", "error");
-                return;
-            }
-
-            const rows = athleteList.map((a, i) => `
+            const rowsHtml = athleteList.map((a, i) => `
                 <tr>
                     <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${i + 1}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">${escapeHTML(a.nama)}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${escapeHTML(a.bib)}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${escapeHTML(a.pasukan)}</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${escapeHTML(a.tahun)}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; text-transform: uppercase;">${escapeHTML(a.nama)}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">${escapeHTML(a.jantina)}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">${escapeHTML(a.pasukan)}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-family: monospace;">${escapeHTML(a.bib)}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">${escapeHTML(a.tahun)}</td>
                 </tr>
             `).join('');
 
-            printWin.document.write(`
+            const safeEventTitle = escapeHTML(eventName);
+            const iframeDoc = printIframe.contentWindow.document;
+
+            iframeDoc.open();
+            iframeDoc.write(`
                 <!DOCTYPE html>
-                <html>
+                <html lang="ms">
                 <head>
-                    <title>Senarai Peserta - ${escapeHTML(eventName)} (${escapeHTML(gender)})</title>
+                    <meta charset="UTF-8">
+                    <title>Senarai Peserta - ${safeEventTitle}</title>
                     <style>
-                        body { font-family: sans-serif; padding: 20px; }
-                        h2 { margin-bottom: 4px; }
-                        p { font-size: 12px; color: #666; margin-top: 0; }
-                        table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 15px; }
-                        th { background: #f2f2f2; padding: 8px; border: 1px solid #ddd; text-align: left; }
+                        body { font-family: Arial, sans-serif; padding: 20px; color: #1e293b; }
+                        h2 { margin-bottom: 4px; color: #0f172a; }
+                        p { font-size: 13px; color: #64748b; margin-top: 0; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
+                        th { background-color: #f1f5f9; padding: 8px; border: 1px solid #cbd5e1; text-align: left; }
+                        .footer { margin-top: 25px; font-size: 11px; color: #94a3b8; text-align: right; }
                     </style>
                 </head>
                 <body>
-                    <h2>SENARAI PESERTA: ${escapeHTML(eventName).toUpperCase()} (${escapeHTML(gender).toUpperCase()})</h2>
-                    <p>Kejohanan Olahraga SKBK • Tarikh Cetakan: ${new Date().toLocaleDateString('ms-MY')}</p>
+                    <h2>Senarai Peserta - ${safeEventTitle}</h2>
+                    <p>Sistem Pendaftaran ATHLETIX HUB | Jumlah Peserta: ${athleteList.length}</p>
                     <table>
                         <thead>
                             <tr>
-                                <th style="text-align: center; width: 40px;">No</th>
-                                <th>Nama Penuh Atlet</th>
-                                <th style="text-align: center; width: 80px;">No. Bib</th>
-                                <th style="text-align: center; width: 100px;">Pasukan</th>
-                                <th style="text-align: center; width: 80px;">Tahun</th>
+                                <th style="width: 40px; text-align: center;">Bil</th>
+                                <th>Nama Atlet</th>
+                                <th>Jantina</th>
+                                <th>Pasukan</th>
+                                <th>No. Bib</th>
+                                <th>Tahun</th>
                             </tr>
                         </thead>
-                        <tbody>${rows || '<tr><td colspan="5" style="text-align:center; padding: 15px;">Tiada peserta berdaftar.</td></tr>'}</tbody>
+                        <tbody>
+                            ${rowsHtml.length > 0 ? rowsHtml : '<tr><td colspan="6" style="text-align:center; padding: 15px;">Tiada peserta</td></tr>'}
+                        </tbody>
                     </table>
+                    <div class="footer">Dicetak pada: ${escapeHTML(new Date().toLocaleString('ms-MY'))}</div>
                 </body>
                 </html>
             `);
-            printWin.document.close();
-            printWin.focus();
-            setTimeout(() => { printWin.print(); }, 500);
+            iframeDoc.close();
+
+            setTimeout(() => {
+                printIframe.contentWindow.focus();
+                printIframe.contentWindow.print();
+            }, 250);
         }
 
-        // Modal Detail View Atlet
-        function openDetailModal(id) {
+        function viewAthleteDetails(id) {
             const ath = athletes.find(a => a.id === id);
             if (!ath) return;
 
-            const modal = document.getElementById('detail-modal');
-            const header = document.getElementById('detail-header');
-            const badge = document.getElementById('detail-pasukan-badge');
-            const namaEl = document.getElementById('detail-nama');
+            const nameEl = document.getElementById('detail-nama');
             const bibEl = document.getElementById('detail-bib');
             const jantinaEl = document.getElementById('detail-jantina');
             const tahunEl = document.getElementById('detail-tahun');
-            const acaraListEl = document.getElementById('detail-acara-list');
+            const badge = document.getElementById('detail-pasukan-badge');
+            const listCont = document.getElementById('detail-acara-list');
 
-            const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
-
-            if (namaEl) namaEl.textContent = ath.nama;
-            if (bibEl) bibEl.textContent = `BIB: ${ath.bib}`;
+            if (nameEl) nameEl.textContent = ath.nama.toUpperCase();
+            if (bibEl) bibEl.textContent = `No. Bib: ${ath.bib}`;
             if (jantinaEl) jantinaEl.textContent = ath.jantina;
             if (tahunEl) tahunEl.textContent = ath.tahun;
+            if (badge) badge.textContent = ath.pasukan;
 
-            if (badge) {
-                badge.textContent = ath.pasukan;
-                badge.className = `px-3 py-1 rounded-full text-xs font-bold uppercase ${teamInfo.bg} ${teamInfo.text}`;
-            }
-
-            if (acaraListEl) {
-                acaraListEl.innerHTML = ath.acara.map(ac => `
-                    <span class="px-3 py-1 bg-slate-100 text-slate-800 rounded-xl text-xs font-bold border border-slate-200 shadow-sm">${escapeHTML(ac)}</span>
+            if (listCont) {
+                listCont.innerHTML = ath.acara.map(ev => `
+                    <span class="px-2.5 sm:px-3 py-1 rounded-xl text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200">
+                        ${escapeHTML(ev)}
+                    </span>
                 `).join('');
             }
 
-            const btnEdit = document.getElementById('detail-action-edit');
-            const btnDelete = document.getElementById('detail-action-delete');
+            const editBtn = document.getElementById('detail-action-edit');
+            const deleteBtn = document.getElementById('detail-action-delete');
 
-            if (btnEdit) btnEdit.onclick = () => { closeDetailModal(); editAthlete(ath.id); };
-            if (btnDelete) btnDelete.onclick = () => { closeDetailModal(); deleteAthlete(ath.id); };
+            if (editBtn) {
+                editBtn.onclick = function() {
+                    closeDetailModal();
+                    closeEventParticipantsModal();
+                    editAthlete(id);
+                };
+            }
 
-            if (modal) {
-                modal.classList.remove('hidden');
-                trapFocusInModal(modal);
+            if (deleteBtn) {
+                deleteBtn.onclick = function() {
+                    closeDetailModal();
+                    deleteAthlete(id);
+                    const modalPart = document.getElementById('event-participants-modal');
+                    if (modalPart && !modalPart.classList.contains('hidden')) {
+                        closeEventParticipantsModal();
+                    }
+                };
+            }
+
+            const detailModal = document.getElementById('detail-modal');
+            if (detailModal) {
+                detailModal.classList.remove('hidden');
+                trapFocusInModal(detailModal);
             }
         }
 
         function closeDetailModal() {
-            const modal = document.getElementById('detail-modal');
-            if (modal) {
-                modal.classList.add('hidden');
+            const detailModal = document.getElementById('detail-modal');
+            if (detailModal) {
+                detailModal.classList.add('hidden');
                 restoreFocusFromModal();
             }
         }
 
-        // Modal Ralat
-        function openErrorModal(id) {
+        function showAthleteErrors(id) {
             const ath = athletes.find(a => a.id === id);
             if (!ath) return;
 
             const errStatus = getAthleteErrorStatus(ath);
-            const modal = document.getElementById('error-modal');
-            const subtitleEl = document.getElementById('error-modal-subtitle');
-            const listEl = document.getElementById('error-modal-list');
-            const editBtn = document.getElementById('error-modal-edit-btn');
+            if (!errStatus.hasError) return;
 
-            if (subtitleEl) subtitleEl.textContent = `${ath.nama} (${ath.bib})`;
+            const subEl = document.getElementById('error-modal-subtitle');
+            if (subEl) subEl.textContent = `ath.nama.toUpperCase()({ath.bib} - ${ath.pasukan})`;
 
-            if (listEl) {
-                const reasons = errStatus.reason.split(" | ");
-                listEl.innerHTML = reasons.map(r => `
-                    <li class="flex items-start gap-2 bg-rose-100/60 p-2.5 rounded-xl border border-rose-200">
-                        <i class="fa-solid fa-xmark text-rose-600 mt-0.5 shrink-0"></i>
+            const reasons = errStatus.reason.split(' | ');
+            const listCont = document.getElementById('error-modal-list');
+            if (listCont) {
+                listCont.innerHTML = reasons.map(r => `
+                    <li class="flex items-start gap-2 bg-rose-50/80 p-2.5 rounded-xl border border-rose-100">
+                        <i class="fa-solid fa-circle-exclamation text-rose-500 mt-0.5 shrink-0" aria-hidden="true"></i>
                         <span>${escapeHTML(r)}</span>
                     </li>
                 `).join('');
             }
 
+            const editBtn = document.getElementById('error-modal-edit-btn');
             if (editBtn) {
-                editBtn.onclick = () => {
+                editBtn.onclick = function() {
                     closeErrorModal();
-                    editAthlete(ath.id);
+                    editAthlete(id);
                 };
             }
 
-            if (modal) {
-                modal.classList.remove('hidden');
-                trapFocusInModal(modal);
+            const errorModal = document.getElementById('error-modal');
+            if (errorModal) {
+                errorModal.classList.remove('hidden');
+                trapFocusInModal(errorModal);
             }
         }
 
         function closeErrorModal() {
-            const modal = document.getElementById('error-modal');
-            if (modal) {
-                modal.classList.add('hidden');
+            const errorModal = document.getElementById('error-modal');
+            if (errorModal) {
+                errorModal.classList.add('hidden');
                 restoreFocusFromModal();
             }
         }
 
-        // Modal Had Penyertaan Info
         function openLimitsInfoModal() {
             const modal = document.getElementById('limits-info-modal');
             const tbody = document.getElementById('limits-info-table-body');
-            const limits = getEventLimits();
-            const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-
+            
             if (tbody) {
+                const limits = getEventLimits();
+                const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
+                
                 tbody.innerHTML = allEvents.map(ev => {
-                    const lLimit = limits[ev]?.Lelaki ?? 2;
-                    const pLimit = limits[ev]?.Perempuan ?? 2;
+                    const limitL = limits[ev]?.Lelaki ?? 2;
+                    const limitP = limits[ev]?.Perempuan ?? 2;
+                    const safeEv = escapeHTML(ev);
                     return `
-                        <tr class="hover:bg-fuchsia-50/40 transition">
-                            <td class="p-2.5 sm:p-3 font-semibold text-slate-800">${escapeHTML(ev)}</td>
-                            <td class="p-2.5 sm:p-3 text-center font-bold text-blue-700">${lLimit}</td>
-                            <td class="p-2.5 sm:p-3 text-center font-bold text-pink-700">${pLimit}</td>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 sm:p-3 font-semibold text-slate-800">${safeEv}</td>
+                            <td class="p-2.5 sm:p-3 text-center font-bold text-blue-700">
+                                ${limitL} <i class="fa-solid fa-person ml-1 text-blue-400" aria-hidden="true"></i>
+                            </td>
+                            <td class="p-2.5 sm:p-3 text-center font-bold text-pink-700">
+                                ${limitP} <i class="fa-solid fa-person-dress ml-1 text-pink-400" aria-hidden="true"></i>
+                            </td>
                         </tr>
                     `;
                 }).join('');
             }
-
+            
             if (modal) {
                 modal.classList.remove('hidden');
                 trapFocusInModal(modal);
@@ -3710,209 +3700,94 @@
             }
         }
 
-        function renderAdminLimitsTable() {
-            const limitsTab = document.getElementById('admin-tab-limits');
-            if (!limitsTab) return;
-
-            const limits = getEventLimits();
-            const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-
-            limitsTab.innerHTML = `
-                <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-900 text-xs leading-relaxed mb-3">
-                    <i class="fa-solid fa-circle-info mr-1"></i>
-                    Tetapkan had maksimum penyertaan atlet bagi setiap pasukan mengikut acara dan kategori jantina.
-                </div>
-                <form id="admin-limits-form" onsubmit="handleSaveEventLimits(event)" class="space-y-4">
-                    <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
-                        <table class="w-full text-left text-xs min-w-[500px]">
-                            <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
-                                <tr>
-                                    <th class="p-3">Nama Acara</th>
-                                    <th class="p-3 text-center w-32">Had Lelaki</th>
-                                    <th class="p-3 text-center w-32">Had Perempuan</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                ${allEvents.map(ev => {
-                                    const lLimit = limits[ev]?.Lelaki ?? 2;
-                                    const pLimit = limits[ev]?.Perempuan ?? 2;
-                                    const safeEv = escapeHTML(ev);
-                                    return `
-                                        <tr class="hover:bg-slate-50">
-                                            <td class="p-3 font-bold text-slate-800">${safeEv}</td>
-                                            <td class="p-3 text-center">
-                                                <input type="number" min="1" max="10" value="${lLimit}" data-event="${safeEv}" data-gender="Lelaki" class="limit-input w-20 px-2 py-1 border border-slate-300 rounded-lg text-center font-bold text-blue-700 focus:ring-2 focus:ring-blue-600">
-                                            </td>
-                                            <td class="p-3 text-center">
-                                                <input type="number" min="1" max="10" value="${pLimit}" data-event="${safeEv}" data-gender="Perempuan" class="limit-input w-20 px-2 py-1 border border-slate-300 rounded-lg text-center font-bold text-pink-700 focus:ring-2 focus:ring-blue-600">
-                                            </td>
-                                        </tr>
-                                    `;
-                                }).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2">
-                        <button type="button" onclick="resetEventLimitsToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
-                            Reset Had Asal (2)
-                        </button>
-                        <div class="flex gap-2 w-full sm:w-auto">
-                            <button type="button" onclick="closeAdminModal()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
-                                Batal
-                            </button>
-                            <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
-                                <i class="fa-solid fa-floppy-disk"></i> Simpan Had
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            `;
-        }
-
-        async function handleSaveEventLimits(e) {
-            e.preventDefault();
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak! Hanya Admin dibenarkan menukar had.", "error");
-                return;
+        // DAT-02: Pensanitisasian Eksport CSV UTF-8 & Halangan Formula Injection
+        function sanitizeCSVField(field) {
+            let val = String(field || '').trim();
+            if (/^[=+@-]/.test(val)) {
+                val = "'" + val;
             }
-
-            const limitInputs = document.querySelectorAll('.limit-input');
-            const newLimits = {};
-
-            limitInputs.forEach(input => {
-                const ev = input.dataset.event;
-                const gender = input.dataset.gender;
-                const val = parseInt(input.value, 10) || 2;
-
-                if (!newLimits[ev]) newLimits[ev] = {};
-                newLimits[ev][gender] = val;
-            });
-
-            await saveEventLimits(newLimits);
-            logActivity("Kemaskini Had Penyertaan", "Mengemaskini had maksimum penyertaan atlet mengikut acara.");
-            showToast("Had penyertaan acara berjaya disimpan");
-            renderAll();
+            return `"${val.replace(/"/g, '""')}"`;
         }
 
-        // Toast Notification System
-        function showToast(message, type = "info") {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-message');
-            const toastIcon = document.getElementById('toast-icon');
-
-            if (!toast || !toastMsg) return;
-
-            toastMsg.textContent = message;
-
-            if (type === "error") {
-                toastIcon.className = "fa-solid fa-circle-exclamation text-rose-400 text-xl shrink-0";
-            } else {
-                toastIcon.className = "fa-solid fa-circle-check text-sky-400 text-xl shrink-0";
-            }
-
-            toast.classList.remove('hidden');
-
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3500);
-        }
-
-        // Export to CSV Function
         function exportToCSV() {
-            if (athletes.length === 0) {
-                showToast("Tiada data atlet untuk dieksport.", "error");
+            const hasTeamFilter = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            let data = hasTeamFilter ? athletes.filter(a => a.pasukan === currentUser.team) : athletes;
+            if (data.length === 0) {
+                showToast("Tiada data untuk dieksport!", "error");
                 return;
             }
 
-            let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Nama Atlet,Jantina,Pasukan,No Bib,Tahun Persekolahan,Acara Disertai,Status Pendaftaran\n";
+            if (currentUser?.role !== 'admin') {
+                const hasErrorAthletes = data.some(a => getAthleteErrorStatus(a).hasError);
+                if (hasErrorAthletes) {
+                    showToast("Eksport CSV tidak dibenarkan! Sila perbaiki ralat pendaftaran atlet pasukan anda terlebih dahulu.", "error");
+                    return;
+                }
+            }
 
-            athletes.forEach(a => {
-                const errStatus = getAthleteErrorStatus(a);
-                const statusStr = errStatus.hasError ? `Ralat: ${errStatus.reason}` : "Sah";
-                const eventsStr = a.acara ? a.acara.join(" | ") : "";
+            data = sortAthletesByTahun(data);
 
+            let csvRows = [];
+            csvRows.push(["Nama Atlet", "Jantina", "Pasukan", "No Bib", "Tahun", "Acara Disertai"].map(sanitizeCSVField).join(','));
+
+            data.forEach(a => {
                 const row = [
-                    `"${a.nama.replace(/"/g, '""')}"`,
-                    `"${a.jantina}"`,
-                    `"${a.pasukan}"`,
-                    `"${a.bib}"`,
-                    `"${a.tahun}"`,
-                    `"${eventsStr.replace(/"/g, '""')}"`,
-                    `"${statusStr.replace(/"/g, '""')}"`
-                ].join(",");
-
-                csvContent += row + "\n";
+                    a.nama.toUpperCase(),
+                    a.jantina,
+                    a.pasukan,
+                    a.bib,
+                    a.tahun,
+                    a.acara.join('; ')
+                ].map(sanitizeCSVField).join(',');
+                csvRows.push(row);
             });
 
-            const encodedUri = encodeURI(csvContent);
+            const csvString = "\uFEFF" + csvRows.join("\n");
+            const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
             const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Athletix_Hub_Atlet_${new Date().toISOString().slice(0, 10)}.csv`);
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute("href", url);
+            link.setAttribute("download", `Data_Atlet_ATHLETIX_HUB_${new Date().toISOString().slice(0,10)}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-
-            logActivity("Eksport CSV", "Pengguna memuat turun fail senarai pendaftaran atlet.");
-            showToast("Fail CSV berjaya dijana!");
+            URL.revokeObjectURL(url);
+            showToast("Fail CSV berjaya dimuat turun!");
         }
 
-        // Window Event Bindings
-        window.switchTab = switchTab;
-        window.handleLogin = handleLogin;
-        window.handleLogout = handleLogout;
-        window.handleFormSubmit = handleFormSubmit;
-        window.resetForm = resetForm;
-        window.openAdminModal = openAdminModal;
-        window.closeAdminModal = closeAdminModal;
-        window.switchAdminTab = switchAdminTab;
-        window.handleSaveClosingDate = handleSaveClosingDate;
-        window.handleDeleteClosingDate = handleDeleteClosingDate;
-        window.handleSaveEventLimits = handleSaveEventLimits;
-        window.resetEventLimitsToDefault = resetEventLimitsToDefault;
-        window.handleSaveEventEligibility = handleSaveEventEligibility;
-        window.resetEventEligibilityToDefault = resetEventEligibilityToDefault;
-        window.renderUsersTable = renderUsersTable;
-        window.openAddUserModal = openAddUserModal;
-        window.editUserModal = editUserModal;
-        window.closeUserFormModal = closeUserFormModal;
-        window.toggleAutoIdGeneration = toggleAutoIdGeneration;
-        window.autoGenerateUserId = autoGenerateUserId;
-        window.generateRandomPassword = generateRandomPassword;
-        window.togglePasswordVisibility = togglePasswordVisibility;
-        window.handleUserFormSubmit = handleUserFormSubmit;
-        window.promptDeleteUser = promptDeleteUser;
-        window.closeUserDeleteModal = closeUserDeleteModal;
-        window.executeDeleteUser = executeDeleteUser;
-        window.renderActivityLogs = renderActivityLogs;
-        window.clearActivityLogs = clearActivityLogs;
-        window.renderAthletesTable = renderAthletesTable;
-        window.openDetailModal = openDetailModal;
-        window.closeDetailModal = closeDetailModal;
-        window.editAthlete = editAthlete;
-        window.deleteAthlete = deleteAthlete;
-        window.openErrorModal = openErrorModal;
-        window.closeErrorModal = closeErrorModal;
-        window.openLimitsInfoModal = openLimitsInfoModal;
-        window.closeLimitsInfoModal = closeLimitsInfoModal;
-        window.openGenderSelectModal = openGenderSelectModal;
-        window.closeGenderSelectModal = closeGenderSelectModal;
-        window.selectGenderCategory = selectGenderCategory;
-        window.closeEventParticipantsModal = closeEventParticipantsModal;
-        window.exportToCSV = exportToCSV;
+        // A11Y-01: Pemberitahuan Toast dengan Aksesibiliti aria-live
+        function showToast(msg, type = "success") {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
+            const message = document.getElementById('toast-message');
 
-        // Application Initialization Entry Point
+            if (!toast || !icon || !message) return;
+
+            message.textContent = msg;
+            if (type === "error") {
+                icon.className = "fa-solid fa-circle-xmark text-rose-400 text-xl shrink-0";
+            } else {
+                icon.className = "fa-solid fa-circle-check text-sky-400 text-xl shrink-0";
+            }
+
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3500);
+        }
+
+        function renderAll() {
+            renderDashboard();
+            renderAthletesTable();
+            renderEventBreakdown();
+        }
+
         window.onload = function() {
             initEventCheckboxes();
             checkAuth();
-
-            // Firebase Mock/Fallback setup if CDN fails
-            if (typeof window.onFirebaseReady === 'function') {
-                window.onFirebaseReady();
-            } else {
-                renderAll();
-            }
+            renderAll();
         };
     </script>
 </body>
 </html>
+
+
