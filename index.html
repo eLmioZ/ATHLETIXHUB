@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ms" class="h-full bg-slate-50">
+<html lang="ms" class="h-full bg-slate-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
@@ -23,7 +23,7 @@
         body {
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            background-color: #f8fafc;
+            background-color: #f1f5f9; /* Tukar kod warna latar belakang di sini */
         }
         h1, h2, h3, h4, h5, h6, .font-heading {
             font-family: 'Montserrat', sans-serif;
@@ -119,7 +119,7 @@
         }
     </style>
 </head>
-<body class="min-h-full flex flex-col bg-slate-50/70 text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
+<body class="min-h-full flex flex-col bg-slate-100 text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
 
     <header class="bg-gradient-to-r from-slate-950 via-blue-950 to-slate-950 text-white shadow-xl sticky top-0 z-40 border-b border-blue-900/40 backdrop-blur-md bg-opacity-95">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
@@ -3411,20 +3411,19 @@
             const femaleAthletes = athletes.filter(a => a.jantina === 'Perempuan' && a.acara.includes(eventName));
 
             const totalAthletes = maleAthletes.length + femaleAthletes.length;
-            const themeColor = category === 'track' ? 'cyan' : 'amber';
 
             return `
-                <div onclick="openGenderSelectModal('${safeEv}')" class="p-4 bg-white rounded-2xl border border-slate-200/80 hover:border-${themeColor}-400 shadow-sm hover:shadow transition duration-200 cursor-pointer active:scale-95 touch-manipulation group">
+                <div onclick="openGenderSelectModal('${safeEv}')" class="p-4 bg-slate-100 hover:bg-slate-200 rounded-2xl border border-slate-300 shadow-sm hover:shadow transition duration-200 cursor-pointer active:scale-95 touch-manipulation group text-slate-900">
                     <div class="flex items-center justify-between mb-3">
-                        <h4 class="font-bold text-slate-800 text-xs sm:text-sm font-heading group-hover:text-${themeColor}-700 transition">${safeEv}</h4>
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-${themeColor}-50 text-${themeColor}-700 border border-${themeColor}-200">${totalAthletes} Atlet</span>
+                        <h4 class="font-bold text-slate-900 text-xs sm:text-sm font-heading">${safeEv}</h4>
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-slate-200 text-slate-800 border border-slate-400">${totalAthletes} Atlet</span>
                     </div>
                     <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
-                        <div class="p-2 bg-blue-50/70 rounded-xl border border-blue-100 flex items-center justify-between text-blue-950">
+                        <div class="p-2 bg-white rounded-xl border border-slate-300 flex items-center justify-between text-slate-800">
                             <span><i class="fa-solid fa-mars text-blue-600 mr-1"></i> Lelaki</span>
                             <span class="font-bold">${maleAthletes.length}</span>
                         </div>
-                        <div class="p-2 bg-pink-50/70 rounded-xl border border-pink-100 flex items-center justify-between text-pink-950">
+                        <div class="p-2 bg-white rounded-xl border border-slate-300 flex items-center justify-between text-slate-800">
                             <span><i class="fa-solid fa-venus text-pink-600 mr-1"></i> Perempuan</span>
                             <span class="font-bold">${femaleAthletes.length}</span>
                         </div>
