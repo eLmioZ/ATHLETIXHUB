@@ -3171,7 +3171,7 @@
                 } else if (TRACK_TEAM.includes(ev)) {
                     cls = 'bg-green-100 text-green-800 border-green-200';
                 }
-                return `<span class="px-2 py-0.5 rounded-md text-[10px] font-semibold border cls">{escapeHTML(ev)}</span>`;
+                return `<span class="px-2 py-0.5 rounded-md text-[10px] font-semibold border ${cls}">${escapeHTML(ev)}</span>`;
             }).join(' ');
 
             const safeId = escapeHTML(ath.id);
@@ -3370,8 +3370,8 @@
             } else {
                 const totalCapM = limitM * 4;
                 const totalCapF = limitF * 4;
-                if (countMEl) countMEl.textContent = `${countM} daripada totalCapMpeserta({limitM}/pasukan)`;
-                if (countFEl) countFEl.textContent = `${countF} daripada totalCapFpeserta({limitF}/pasukan)`;
+                if (countMEl) countMEl.textContent = `${countM} daripada ${totalCapM} peserta (${limitM}/pasukan)`;
+                if (countFEl) countFEl.textContent = `${countF} daripada ${totalCapF} peserta (${limitF}/pasukan)`;
             }
 
             if (modal) {
@@ -3789,5 +3789,3 @@
     </script>
 </body>
 </html>
-
-
