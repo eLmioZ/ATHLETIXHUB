@@ -78,6 +78,21 @@
             padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
         }
 
+        /* AUDIT FIX: Body scroll lock when modal is active on iOS / Android */
+        body.modal-open {
+            overflow: hidden !important;
+            touch-action: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* AUDIT FIX: Dynamic Viewport & Mobile Height Compatibility */
+        .modal-backdrop-fix {
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding-top: max(0.75rem, env(safe-area-inset-top));
+            padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+        }
+
         /* Glow & Shadow Tokens */
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
@@ -621,8 +636,8 @@
     </main>
 
     <!-- Login Modal Pop-up -->
-    <div id="login-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-slate-100 animate-fade-in my-auto">
+    <div id="login-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-slate-100 animate-fade-in my-auto max-h-[90dvh] overflow-y-auto">
             <div class="text-center mb-5 sm:mb-6">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-950 text-amber-400 rounded-2xl flex items-center justify-center text-xl sm:text-2xl mx-auto mb-2.5 sm:mb-3 shadow-lg">
                     <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
@@ -656,9 +671,9 @@
     </div>
 
     <!-- Modal Selection Kategori Jantina -->
-    <div id="gender-select-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="gender-select-modal-title">
-        <div class="bg-white rounded-[18px] shadow-2xl max-w-md w-full overflow-hidden border border-slate-100 animate-fade-in my-auto">
-            <div class="p-4 sm:p-5 bg-gradient-to-r from-blue-950 to-slate-900 text-white flex items-center justify-between">
+    <div id="gender-select-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="gender-select-modal-title">
+        <div class="bg-white rounded-[18px] shadow-2xl max-w-md w-full overflow-hidden border border-slate-100 animate-fade-in my-auto max-h-[90dvh] flex flex-col">
+            <div class="p-4 sm:p-5 bg-gradient-to-r from-blue-950 to-slate-900 text-white flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0">
                         <i class="fa-solid fa-venus-mars" aria-hidden="true"></i>
@@ -673,7 +688,7 @@
                 </button>
             </div>
 
-            <div class="p-4 sm:p-6 space-y-4 text-center">
+            <div class="p-4 sm:p-6 space-y-4 text-center overflow-y-auto flex-grow">
                 <p class="text-xs text-slate-600 font-medium">Sila pilih kategori jantina peserta untuk melihat senarai pendaftaran:</p>
                 <div class="grid grid-cols-2 gap-3 sm:gap-4 pt-1">
                     <button onclick="selectGenderCategory('Lelaki')" class="p-4 sm:p-5 bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 hover:border-blue-500 rounded-2xl flex flex-col items-center justify-center gap-2 group transition shadow-sm active:scale-95 touch-manipulation">
@@ -694,7 +709,7 @@
                 </div>
             </div>
 
-            <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+            <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-100 flex justify-end shrink-0">
                 <button onclick="closeGenderSelectModal()" class="px-4 py-2 bg-slate-500 hover:bg-slate-600 text-white rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                     Batal
                 </button>
@@ -703,8 +718,8 @@
     </div>
 
     <!-- Modal Pop-Up Senarai Peserta Acara -->
-    <div id="event-participants-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="event-participants-title">
-        <div class="bg-white rounded-[12px] shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200 animate-fade-in flex flex-col max-h-[85vh] my-auto">
+    <div id="event-participants-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="event-participants-title">
+        <div class="bg-white rounded-[12px] shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200 animate-fade-in flex flex-col max-h-[85dvh] my-auto">
             <div class="p-4 sm:p-5 bg-gradient-to-r from-blue-900 to-slate-900 text-white flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 bg-white/10 rounded-xl flex items-center justify-center text-amber-400 text-base sm:text-lg shrink-0">
@@ -736,9 +751,9 @@
     </div>
 
     <!-- Athlete Detail View Modal -->
-    <div id="detail-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="detail-nama">
-        <div class="bg-white rounded-[12px] shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100 animate-fade-in my-auto">
-            <div id="detail-header" class="p-5 sm:p-6 text-white bg-blue-950">
+    <div id="detail-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="detail-nama">
+        <div class="bg-white rounded-[12px] shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100 animate-fade-in my-auto max-h-[90dvh] flex flex-col">
+            <div id="detail-header" class="p-5 sm:p-6 text-white bg-blue-950 shrink-0">
                 <div class="flex items-center justify-between">
                     <span id="detail-pasukan-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-white/20">
                         Pasukan
@@ -751,7 +766,7 @@
                 <p id="detail-bib" class="text-blue-100 text-xs font-mono mt-0.5">Bib: -</p>
             </div>
 
-            <div class="p-4 sm:p-6 space-y-4 text-sm">
+            <div class="p-4 sm:p-6 space-y-4 text-sm overflow-y-auto flex-grow">
                 <div class="grid grid-cols-2 gap-3 sm:gap-4 bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-slate-100">
                     <div>
                         <p class="text-xs text-slate-400 font-medium">Jantina</p>
@@ -771,7 +786,7 @@
                 </div>
             </div>
 
-            <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+            <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2 shrink-0">
                 <div class="flex items-center gap-2">
                     <button id="detail-action-edit" onclick="" class="px-3 sm:px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Edit
@@ -788,8 +803,8 @@
     </div>
 
     <!-- Modal Pop-Up Ralat Pendaftaran Atlet -->
-    <div id="error-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="error-modal-title">
-        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88vh] sm:max-h-[85vh] border border-rose-100 animate-fade-in my-auto overflow-hidden">
+    <div id="error-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="error-modal-title">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88dvh] sm:max-h-[85dvh] border border-rose-100 animate-fade-in my-auto overflow-hidden">
             <div class="p-4 sm:p-5 text-white bg-rose-600 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 bg-white/20 rounded-xl flex items-center justify-center text-white text-base sm:text-lg shrink-0">
@@ -827,8 +842,8 @@
     </div>
 
     <!-- Modal Pop-Up Info Had Penyertaan -->
-    <div id="limits-info-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="limits-info-title">
-        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88vh] sm:max-h-[85vh] border border-fuchsia-100 animate-fade-in my-auto overflow-hidden">
+    <div id="limits-info-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="limits-info-title">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88dvh] sm:max-h-[85dvh] border border-fuchsia-100 animate-fade-in my-auto overflow-hidden">
             <div class="p-4 sm:p-5 bg-gradient-to-r from-fuchsia-950 via-fuchsia-900 to-slate-900 text-white flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-2.5 sm:gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 bg-white/15 rounded-xl flex items-center justify-center text-fuchsia-300 text-base sm:text-lg shrink-0">
@@ -875,8 +890,8 @@
     </div>
 
     <!-- Admin Settings Modal -->
-    <div id="admin-date-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-4 sm:p-6 border border-slate-100 animate-fade-in max-h-[90vh] flex flex-col my-auto">
+    <div id="admin-date-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-4 sm:p-6 border border-slate-100 animate-fade-in max-h-[90dvh] flex flex-col my-auto overflow-hidden">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 sm:pb-4 mb-3 sm:mb-4 shrink-0">
                 <div>
                     <h3 id="admin-modal-title" class="text-base sm:text-lg font-bold text-slate-900 font-heading flex items-center gap-2">
@@ -1149,8 +1164,8 @@
     </div>
 
     <!-- User Add/Edit Form Modal -->
-    <div id="user-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="user-form-title">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto">
+    <div id="user-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="user-form-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto max-h-[90dvh] overflow-y-auto">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 id="user-form-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading flex items-center gap-2">
                     <i class="fa-solid fa-user-gear text-blue-900" aria-hidden="true"></i> Tambah Pengguna Baharu
@@ -1238,8 +1253,8 @@
     </div>
 
     <!-- Modal Confirm Delete User Modal -->
-    <div id="user-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto">
+    <div id="user-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto max-h-[90dvh] overflow-y-auto">
             <div class="text-center">
                 <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2 shadow-sm">
                     <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
@@ -1265,8 +1280,8 @@
     </div>
 
     <!-- Modal Pop-Up Syarat penyertaan (Public / User View) -->
-    <div id="competition-terms-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
-        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[88vh] border border-slate-100 animate-fade-in my-auto overflow-hidden">
+    <div id="competition-terms-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[88dvh] border border-slate-100 animate-fade-in my-auto overflow-hidden">
             <div class="p-4 sm:p-5 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-900 text-white flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0 border border-amber-500/30">
@@ -1296,8 +1311,8 @@
     </div>
 
     <!-- Modal Form Tambah / Edit Syarat Penyertaan (Admin) -->
-    <div id="term-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="term-form-title">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto">
+    <div id="term-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="term-form-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto max-h-[90dvh] overflow-y-auto">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 id="term-form-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading flex items-center gap-2">
                     <i class="fa-solid fa-file-pen text-blue-900" aria-hidden="true"></i> Tambah Syarat Baharu
@@ -1350,8 +1365,8 @@
     </div>
 
     <!-- Modal Pengesahan Memadam Syarat (Admin) -->
-    <div id="term-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="delete-term-modal-title">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto">
+    <div id="term-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-backdrop-fix" role="dialog" aria-modal="true" aria-labelledby="delete-term-modal-title">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto max-h-[90dvh] overflow-y-auto">
             <div class="text-center">
                 <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2 shadow-sm">
                     <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
@@ -1395,77 +1410,75 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, runTransaction, doc, collection, onSnapshot, setDoc, deleteDoc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // SEC-01 & INF-01: Konfigurasi Firebase Rasmi Projek ATHLETIX HUB
-        const firebaseConfig = {
-            apiKey: "AIzaSyCs_gVKdEE76Ir5cI5Q9iZ7uuN3tCy4AG4",
-            authDomain: "athletix-hub-79967.firebaseapp.com",
-            databaseURL: "https://athletix-hub-79967-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "athletix-hub-79967",
-            storageBucket: "athletix-hub-79967.firebasestorage.app",
-            messagingSenderId: "357242453149",
-            appId: "1:357242453149:web:9abab7bfb8aa7d9af52874",
-            measurementId: "G-YK2QL3TGR1"
-        };
-
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'skbk-athletix-hub';
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        window.db = db;
-        window.auth = auth;
-        window.appId = appId;
-        window.firebaseReady = false;
-        window.runTransaction = runTransaction;
-        window.doc = doc;
-        window.collection = collection;
-        window.onSnapshot = onSnapshot;
-        window.setDoc = setDoc;
-        window.deleteDoc = deleteDoc;
-        window.getDoc = getDoc;
-        window.getDocs = getDocs;
-
-        // SEC-01: Firebase Auth State Listener
-        async function initFirebase() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token && __initial_auth_token.trim() !== '') {
-                    try {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } catch (tokenErr) {
-                        console.warn("Custom token sign-in failed, falling back to anonymous auth:", tokenErr);
-                        await signInAnonymously(auth);
-                    }
-                } else {
-                    await signInAnonymously(auth);
-                }
-                
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        window.firebaseReady = true;
-                        console.log("Firebase Auth Authenticated. UID:", user.uid);
-                        if (typeof window.onFirebaseReady === 'function') {
-                            window.onFirebaseReady();
-                        }
-                    } else {
-                        window.firebaseReady = false;
-                    }
-                });
-            } catch (err) {
-                console.error("Firebase Auth Initialization Error:", err);
-                window.firebaseReady = true;
-                if (typeof window.onFirebaseReady === 'function') {
-                    window.onFirebaseReady();
-                }
-            }
-        }
-        initFirebase();
-    </script>
-
-    <script>
         /**
          * SEC-03: SANITISASI & KESELAMATAN (XSS PREVENTATIVE HELPER)
          */
+        // AUDIT FIX: Deklarasi Pembolehubah Keadaan Global (Global State Variables)
+        let currentUser = null;
+        let athletes = [];
+        let systemUsers = [];
+        let activityLogs = [];
+        let competitionTerms = [];
+        let eventLimitsData = null;
+        let eventEligibilityData = null;
+        let activeModalPreviousFocus = null;
+        let pendingDeleteUserId = null;
+        let pendingDeleteTermId = null;
+
+        const TRACK_INDIVIDUAL = [
+            "80m Tahun 1", "80m Tahun 2", "80m Tahun 3", "80m Lari Berpagar",
+            "100m Tahun 4", "100m Tahun 5", "100m Tahun 6", "200m Tahun 4", "200m Tahun 5"
+        ];
+        const TRACK_TEAM = [
+            "4x50m Tahun 1", "4x50m Tahun 2", "4x100m Tahun 3", "4x100m Tahun 4",
+            "4x100m Tahun 5", "4x200m Tahun 4", "4x200m Tahun 5"
+        ];
+        const FIELD_EVENTS = [
+            "Lompat Jauh", "Lompat Tinggi", "Lontar Peluru"
+        ];
+
+        const TEAM_COLORS = {
+            "Helang": { bg: "bg-emerald-100", text: "text-emerald-800", border: "border-emerald-300" },
+            "Garuda": { bg: "bg-rose-100", text: "text-rose-800", border: "border-rose-300" },
+            "Rajawali": { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-300" },
+            "Kenyalang": { bg: "bg-amber-100", text: "text-amber-800", border: "border-amber-300" }
+        };
+
+        const DEFAULT_ACCOUNTS = [
+            { id: "ADMIN", name: "Admin Utama", role: "admin", team: "Tiada", status: "Aktif" },
+            { id: "PGR-HELANG-001", name: "Pengurus Helang", role: "manager", team: "Helang", status: "Aktif" },
+            { id: "PGR-GARUDA-001", name: "Pengurus Garuda", role: "manager", team: "Garuda", status: "Aktif" },
+            { id: "PGR-RAJAWALI-001", name: "Pengurus Rajawali", role: "manager", team: "Rajawali", status: "Aktif" },
+            { id: "PGR-KENYALANG-001", name: "Pengurus Kenyalang", role: "manager", team: "Kenyalang", status: "Aktif" }
+        ];
+
+        const DEFAULT_EVENT_ELIGIBILITY = {
+            "80m Tahun 1": ["Tahun 1"],
+            "80m Tahun 2": ["Tahun 2"],
+            "80m Tahun 3": ["Tahun 3"],
+            "80m Lari Berpagar": ["Tahun 4", "Tahun 5", "Tahun 6"],
+            "100m Tahun 4": ["Tahun 4"],
+            "100m Tahun 5": ["Tahun 5"],
+            "100m Tahun 6": ["Tahun 6"],
+            "200m Tahun 4": ["Tahun 4"],
+            "200m Tahun 5": ["Tahun 5"],
+            "4x50m Tahun 1": ["Tahun 1"],
+            "4x50m Tahun 2": ["Tahun 2"],
+            "4x100m Tahun 3": ["Tahun 3"],
+            "4x100m Tahun 4": ["Tahun 4"],
+            "4x100m Tahun 5": ["Tahun 5"],
+            "4x200m Tahun 4": ["Tahun 4"],
+            "4x200m Tahun 5": ["Tahun 5"],
+            "Lompat Jauh": ["Tahun 4", "Tahun 5", "Tahun 6"],
+            "Lompat Tinggi": ["Tahun 4", "Tahun 5", "Tahun 6"],
+            "Lontar Peluru": ["Tahun 4", "Tahun 5", "Tahun 6"]
+        };
+
+        const systemSettings = {
+            closingDate: '2026-10-29',
+            closingTime: '23:59'
+        };
+
         function escapeHTML(str) {
             if (str === null || str === undefined) return '';
             return String(str)
@@ -1476,76 +1489,22 @@
                 .replace(/'/g, '&#039;');
         }
 
-        /**
-         * DEFINISI DATA KEJOHANAN
-         */
-        const TRACK_INDIVIDUAL = [
-            "80m Tahun 1", "80m Tahun 2", "80m Tahun 3", "80m Lari Berpagar",
-            "100m Tahun 4", "100m Tahun 5", "100m Tahun 6",
-            "200m Tahun 4", "200m Tahun 5"
-        ];
-
-        const TRACK_TEAM = [
-            "4x50m Tahun 1", "4x50m Tahun 2", "4x100m Tahun 3", "4x100m Tahun 4", "4x100m Tahun 5", "4x200m Tahun 4", "4x200m Tahun 5"
-        ];
-
-        const FIELD_EVENTS = [
-            "Lompat Jauh", "Lompat Tinggi", "Lontar Peluru"
-        ];
-
-        // LOGIK TETAPAN KELAYAKAN ACARA ASAL (DEFAULT MAP)
-        const DEFAULT_EVENT_ELIGIBILITY = {
-            "80m Tahun 1": ["Tahun 1"],
-            "80m Tahun 2": ["Tahun 2"],
-            "80m Tahun 3": ["Tahun 3"],
-            "80m Lari Berpagar": ["Tahun 4", "Tahun 5"],
-            "100m Tahun 4": ["Tahun 4"],
-            "100m Tahun 5": ["Tahun 5"],
-            "100m Tahun 6": ["Tahun 6"],
-            "200m Tahun 4": ["Tahun 4"],
-            "200m Tahun 5": ["Tahun 5"],
-            "4x50m Tahun 1": ["Tahun 1"],
-            "4x50m Tahun 2": ["Tahun 2"],
-            "4x100m Tahun 3": ["Tahun 3"],
-            "4x100m Tahun 4": ["Tahun 4"],
-            "4x200m Tahun 4": ["Tahun 4"],
-            "4x100m Tahun 5": ["Tahun 5"],
-            "4x200m Tahun 5": ["Tahun 5"],
-            "Lompat Jauh": ["Tahun 3", "Tahun 4", "Tahun 5"],
-            "Lompat Tinggi": ["Tahun 4", "Tahun 5"],
-            "Lontar Peluru": ["Tahun 4", "Tahun 5"]
-        };
-
-        // SEC-02: Kata Laluan Teks Biasa Dihapuskan Daripada Kod Klien & Memori
-        // PEMBERSIHAN AKAUN: Hanya mengekalkan 1 akaun Admin Utama (ID: admin)
-        const DEFAULT_ACCOUNTS = [
-            { id: "admin", name: "Admin Utama", role: "admin", team: "Tiada", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Sistem" }
-        ];
-
-        const TEAM_COLORS = {
-            "Helang": { bg: "bg-emerald-100", text: "text-emerald-800", border: "border-emerald-300", hex: "#10b981" },
-            "Garuda": { bg: "bg-rose-100", text: "text-rose-800", border: "border-rose-300", hex: "#ef4444" },
-            "Rajawali": { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-300", hex: "#3b82f6" },
-            "Kenyalang": { bg: "bg-amber-100", text: "text-amber-800", border: "border-amber-300", hex: "#f59e0b" }
-        };
-
-        // FIRESTORE REST API CLIENT LAYER
-        let athletes = [];
-        let systemUsers = [...DEFAULT_ACCOUNTS];
-        let activityLogs = [];
-        let competitionTerms = [];
-        let eventLimitsData = null;
-        let eventEligibilityData = null;
-        let systemSettings = { closingDate: '2026-10-29', closingTime: '23:59' };
-
-        let currentUser = null;
-        let pendingDeleteUserId = null;
-        let pendingDeleteTermId = null;
-        let activeModalPreviousFocus = null;
+        // AUDIT FIX: Global Body Scroll Lock Handler for Mobile Modals
+        function toggleBodyScrollLock(isLocked) {
+            if (isLocked) {
+                document.body.classList.add('modal-open');
+            } else {
+                const openModals = document.querySelectorAll('[role="dialog"]:not(.hidden)');
+                if (openModals.length === 0) {
+                    document.body.classList.remove('modal-open');
+                }
+            }
+        }
 
         // A11Y-02: Focus Trap Helper untuk Dialog Modal
         function trapFocusInModal(modalEl) {
             activeModalPreviousFocus = document.activeElement;
+            toggleBodyScrollLock(true);
             const focusableEls = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
             if (focusableEls.length > 0) {
                 focusableEls[0].focus();
@@ -1553,6 +1512,7 @@
         }
 
         function restoreFocusFromModal() {
+            toggleBodyScrollLock(false);
             if (activeModalPreviousFocus && typeof activeModalPreviousFocus.focus === 'function') {
                 activeModalPreviousFocus.focus();
             }
@@ -3235,70 +3195,6 @@
             tbody.appendChild(fragment);
         }
 
-        function renderRecentTable() {
-            const tbody = document.getElementById('recent-table-body');
-            if (!tbody) return;
-
-            const recentAthletes = [...athletes].slice(-5).reverse();
-
-            if (recentAthletes.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400 font-medium">Tiada pendaftaran atlet terkini dijumpai.</td></tr>`;
-                return;
-            }
-
-            const fragment = document.createDocumentFragment();
-            recentAthletes.forEach(ath => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 transition';
-
-                const errStatus = getAthleteErrorStatus(ath);
-                const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
-
-                const safeId = escapeHTML(ath.id);
-                const safeNama = escapeHTML(ath.nama);
-                const safeJantina = escapeHTML(ath.jantina);
-                const safePasukan = escapeHTML(ath.pasukan);
-                const safeBib = escapeHTML(ath.bib);
-                const safeTahun = escapeHTML(ath.tahun);
-                const acaraBadges = ath.acara.map(a => `<span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-[10px] font-semibold border border-slate-200">${escapeHTML(a)}</span>`).join(' ');
-
-                const statusIndicator = errStatus.hasError ? 
-                    `<button onclick="openErrorModal('${safeId}')" title="${escapeHTML(errStatus.reason)}" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation flex items-center justify-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse inline-block shadow-sm"></span></button>` :
-                    `<span title="Pendaftaran Sah (Tiada Ralat)" class="p-1.5 text-emerald-600 inline-flex items-center justify-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-sm"></span></span>`;
-
-                tr.innerHTML = `
-                    <td class="p-3.5 font-bold text-slate-900">${safeNama}</td>
-                    <td class="p-3.5 text-slate-600">${safeJantina}</td>
-                    <td class="p-3.5">
-                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
-                            ${safePasukan}
-                        </span>
-                    </td>
-                    <td class="p-3.5 font-mono font-bold text-slate-800">${safeBib}</td>
-                    <td class="p-3.5 text-slate-600">${safeTahun}</td>
-                    <td class="p-3.5"><div class="flex flex-wrap gap-1">${acaraBadges}</div></td>
-                    <td class="p-3.5 text-center">
-                        <div class="flex items-center justify-center gap-1.5">
-                            ${statusIndicator}
-                            <button onclick="openDetailModal('${safeId}')" title="Lihat Butiran" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                            <button onclick="editAthlete('${safeId}')" title="Edit Atlet" class="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button onclick="deleteAthlete('${safeId}')" title="Padam Atlet" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                fragment.appendChild(tr);
-            });
-
-            tbody.innerHTML = '';
-            tbody.appendChild(fragment);
-        }
-
         /**
          * RENDER ALL & COMPONENT RENDERING ENGINE
          */
@@ -3392,148 +3288,54 @@
             const trackGrid = document.getElementById('summary-track-grid');
             const fieldGrid = document.getElementById('summary-field-grid');
 
-            if (!trackGrid && !fieldGrid) return;
-
-            const allTrackEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM];
+            const trackEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM];
+            const fieldEvents = [...FIELD_EVENTS];
 
             if (trackGrid) {
-                trackGrid.innerHTML = allTrackEvents.map(ev => createSummaryCardHTML(ev, 'track')).join('');
+                trackGrid.innerHTML = trackEvents.map(eventName => {
+                    const count = athletes.filter(a => a.acara && a.acara.includes(eventName)).length;
+                    const safeEvent = escapeHTML(eventName);
+                    return `
+                        <div onclick="openGenderSelectModal('${safeEvent}')" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:border-cyan-400 hover:shadow-md transition cursor-pointer active:scale-95 touch-manipulation group flex items-center justify-between">
+                            <div class="space-y-1">
+                                <span class="text-xs font-bold text-slate-800 group-hover:text-cyan-700 transition">${safeEvent}</span>
+                                <p class="text-[11px] text-slate-500 font-medium">Klik untuk lihat senarai</p>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-xl bg-cyan-50 text-cyan-700 font-extrabold text-xs border border-cyan-200">${count} Atlet</span>
+                        </div>
+                    `;
+                }).join('');
             }
 
             if (fieldGrid) {
-                fieldGrid.innerHTML = FIELD_EVENTS.map(ev => createSummaryCardHTML(ev, 'field')).join('');
+                fieldGrid.innerHTML = fieldEvents.map(eventName => {
+                    const count = athletes.filter(a => a.acara && a.acara.includes(eventName)).length;
+                    const safeEvent = escapeHTML(eventName);
+                    return `
+                        <div onclick="openGenderSelectModal('${safeEvent}')" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:border-amber-400 hover:shadow-md transition cursor-pointer active:scale-95 touch-manipulation group flex items-center justify-between">
+                            <div class="space-y-1">
+                                <span class="text-xs font-bold text-slate-800 group-hover:text-amber-700 transition">${safeEvent}</span>
+                                <p class="text-[11px] text-slate-500 font-medium">Klik untuk lihat senarai</p>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-xl bg-amber-50 text-amber-700 font-extrabold text-xs border border-amber-200">${count} Atlet</span>
+                        </div>
+                    `;
+                }).join('');
             }
         }
 
-        function createSummaryCardHTML(eventName, category) {
-            const safeEv = escapeHTML(eventName);
-            const maleAthletes = athletes.filter(a => a.jantina === 'Lelaki' && a.acara.includes(eventName));
-            const femaleAthletes = athletes.filter(a => a.jantina === 'Perempuan' && a.acara.includes(eventName));
-
-            const totalAthletes = maleAthletes.length + femaleAthletes.length;
-
-            return `
-                <div onclick="openGenderSelectModal('${safeEv}')" class="p-4 bg-slate-100 hover:bg-slate-200 rounded-2xl border border-slate-300 shadow-sm hover:shadow transition duration-200 cursor-pointer active:scale-95 touch-manipulation group text-slate-900">
-                    <div class="flex items-center justify-between mb-3">
-                        <h4 class="font-bold text-slate-900 text-xs sm:text-sm font-heading">${safeEv}</h4>
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-slate-200 text-slate-800 border border-slate-400">${totalAthletes} Atlet</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
-                        <div class="p-2 bg-white rounded-xl border border-slate-300 flex items-center justify-between text-slate-800">
-                            <span><i class="fa-solid fa-mars text-blue-600 mr-1"></i> Lelaki</span>
-                            <span class="font-bold">${maleAthletes.length}</span>
-                        </div>
-                        <div class="p-2 bg-white rounded-xl border border-slate-300 flex items-center justify-between text-slate-800">
-                            <span><i class="fa-solid fa-venus text-pink-600 mr-1"></i> Perempuan</span>
-                            <span class="font-bold">${femaleAthletes.length}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // FUNGSI JADUAL HAD PENYERTAAN (ADMIN LIMITS)
-        function renderAdminLimitsTable() {
-            const container = document.getElementById('admin-tab-limits');
-            if (!container) return;
-
-            const limits = getEventLimits();
-            const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-
-            let tableHtml = `
-                <form onsubmit="handleSaveEventLimits(event)" class="space-y-4">
-                    <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
-                        <table class="w-full text-left text-xs min-w-[500px]">
-                            <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
-                                <tr>
-                                    <th scope="col" class="p-3">Nama Acara</th>
-                                    <th scope="col" class="p-3 text-center w-32">Lelaki</th>
-                                    <th scope="col" class="p-3 text-center w-32">Perempuan</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-            `;
-
-            allEvents.forEach(ev => {
-                const safeEv = escapeHTML(ev);
-                const limitL = limits[ev]?.Lelaki ?? 2;
-                const limitP = limits[ev]?.Perempuan ?? 2;
-
-                tableHtml += `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-3 font-bold text-slate-800">${safeEv}</td>
-                        <td class="p-2 text-center">
-                            <input type="number" name="limit-L-${safeEv}" min="1" max="10" value="${limitL}" class="w-20 px-2 py-1 border border-slate-300 rounded-lg text-center font-bold">
-                        </td>
-                        <td class="p-2 text-center">
-                            <input type="number" name="limit-P-${safeEv}" min="1" max="10" value="${limitP}" class="w-20 px-2 py-1 border border-slate-300 rounded-lg text-center font-bold">
-                        </td>
-                    </tr>
-                `;
-            });
-
-            tableHtml += `
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2">
-                        <button type="button" onclick="resetEventLimitsToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition">
-                            Reset Had Asal (2)
-                        </button>
-                        <div class="flex gap-2 w-full sm:w-auto">
-                            <button type="button" onclick="closeAdminModal()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition">
-                                Batal
-                            </button>
-                            <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5">
-                                <i class="fa-solid fa-floppy-disk"></i> Simpan Had
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            `;
-
-            container.innerHTML = tableHtml;
-        }
-
-        async function handleSaveEventLimits(e) {
-            e.preventDefault();
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak!", "error");
-                return;
-            }
-
-            const formData = new FormData(e.target);
-            const newLimits = {};
-            const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-
-            allEvents.forEach(ev => {
-                const limitL = parseInt(formData.get(`limit-L-${ev}`), 10) || 2;
-                const limitP = parseInt(formData.get(`limit-P-${ev}`), 10) || 2;
-                newLimits[ev] = { Lelaki: limitL, Perempuan: limitP };
-            });
-
-            await saveEventLimits(newLimits);
-            logActivity("Kemaskini Had Acara", "Menukar had kuota penyertaan atlet mengikut acara.");
-            showToast("Had penyertaan acara berjaya disimpan.");
-            renderAll();
-        }
-
-        // FUNGSI MODAL DIALOGS & EKSPORT CSV
-        let currentSelectedEvent = '';
+        // Modal Kategori Jantina & Senarai Peserta
+        let selectedModalEvent = null;
 
         function openGenderSelectModal(eventName) {
-            currentSelectedEvent = eventName;
+            selectedModalEvent = eventName;
             document.getElementById('gender-select-event-title').textContent = `Acara: ${eventName}`;
-            
-            const maleCount = athletes.filter(a => a.acara.includes(eventName) && a.jantina === 'Lelaki').length;
-            const femaleCount = athletes.filter(a => a.acara.includes(eventName) && a.jantina === 'Perempuan').length;
-            
-            const limits = getEventLimits();
-            const maxL = limits[eventName]?.Lelaki ?? 2;
-            const maxP = limits[eventName]?.Perempuan ?? 2;
 
-            document.getElementById('gender-count-m').textContent = `${maleCount} daripada ${maxL} peserta`;
-            document.getElementById('gender-count-f').textContent = `${femaleCount} daripada ${maxP} peserta`;
+            const countM = athletes.filter(a => a.acara && a.acara.includes(eventName) && a.jantina === 'Lelaki').length;
+            const countF = athletes.filter(a => a.acara && a.acara.includes(eventName) && a.jantina === 'Perempuan').length;
+
+            document.getElementById('gender-count-m').textContent = `${countM} Atlet Registered`;
+            document.getElementById('gender-count-f').textContent = `${countF} Atlet Registered`;
 
             const modal = document.getElementById('gender-select-modal');
             if (modal) {
@@ -3552,38 +3354,44 @@
 
         function selectGenderCategory(gender) {
             closeGenderSelectModal();
-            openEventParticipantsModal(currentSelectedEvent, gender);
+            if (selectedModalEvent) {
+                openEventParticipantsModal(selectedModalEvent, gender);
+            }
         }
 
         function openEventParticipantsModal(eventName, gender) {
-            const listContainer = document.getElementById('event-participants-list');
+            const modal = document.getElementById('event-participants-modal');
             const titleEl = document.getElementById('event-participants-title');
             const countEl = document.getElementById('event-participants-count');
-            const printBtn = document.getElementById('btn-print-event-list');
+            const listEl = document.getElementById('event-participants-list');
 
-            const filteredAthletes = athletes.filter(a => a.acara.includes(eventName) && a.jantina === gender);
+            const filteredAthletes = athletes.filter(a => a.acara && a.acara.includes(eventName) && a.jantina === gender);
 
             if (titleEl) titleEl.textContent = `${eventName} (${gender})`;
             if (countEl) countEl.textContent = `Jumlah: ${filteredAthletes.length} Peserta`;
-            if (printBtn) printBtn.onclick = () => window.print();
 
-            if (listContainer) {
+            if (listEl) {
                 if (filteredAthletes.length === 0) {
-                    listContainer.innerHTML = `<div class="p-6 text-center text-slate-400 font-medium">Tiada peserta mendaftar bagi kategori ini lagi.</div>`;
+                    listEl.innerHTML = `<div class="p-6 text-center text-slate-400 font-medium text-xs">Tiada atlet berdaftar untuk acara ini dalam kategori ${gender}.</div>`;
                 } else {
-                    listContainer.innerHTML = filteredAthletes.map((a, idx) => {
-                        const teamInfo = TEAM_COLORS[a.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
+                    listEl.innerHTML = filteredAthletes.map(ath => {
+                        const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
+                        const safeNama = escapeHTML(ath.nama);
+                        const safeBib = escapeHTML(ath.bib);
+                        const safeTahun = escapeHTML(ath.tahun);
+                        const safePasukan = escapeHTML(ath.pasukan);
+
                         return `
-                            <div class="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
+                            <div class="p-3 bg-white rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
                                 <div class="flex items-center gap-3">
-                                    <span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center">${idx + 1}</span>
+                                    <span class="font-mono font-black text-xs px-2.5 py-1 rounded-lg bg-slate-900 text-white">${safeBib}</span>
                                     <div>
-                                        <h5 class="font-bold text-slate-900 text-xs uppercase">${escapeHTML(a.nama)}</h5>
-                                        <span class="text-[10px] text-slate-500 font-mono">Bib: ${escapeHTML(a.bib)} • ${escapeHTML(a.tahun)}</span>
+                                        <h4 class="font-bold text-slate-900 text-xs uppercase">${safeNama}</h4>
+                                        <p class="text-[10px] text-slate-500 font-semibold">${safeTahun}</p>
                                     </div>
                                 </div>
                                 <span class="px-2.5 py-1 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
-                                    ${escapeHTML(a.pasukan)}
+                                    ${safePasukan}
                                 </span>
                             </div>
                         `;
@@ -3591,7 +3399,11 @@
                 }
             }
 
-            const modal = document.getElementById('event-participants-modal');
+            const printBtn = document.getElementById('btn-print-event-list');
+            if (printBtn) {
+                printBtn.onclick = () => printEventList(eventName, gender, filteredAthletes);
+            }
+
             if (modal) {
                 modal.classList.remove('hidden');
                 trapFocusInModal(modal);
@@ -3606,40 +3418,97 @@
             }
         }
 
+        function printEventList(eventName, gender, athleteList) {
+            const printWin = window.open('', '_blank');
+            if (!printWin) {
+                showToast("Sila benarkan pop-up untuk mencetak senarai.", "error");
+                return;
+            }
+
+            const rows = athleteList.map((a, i) => `
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${i + 1}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">${escapeHTML(a.nama)}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${escapeHTML(a.bib)}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${escapeHTML(a.pasukan)}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${escapeHTML(a.tahun)}</td>
+                </tr>
+            `).join('');
+
+            printWin.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Senarai Peserta - ${escapeHTML(eventName)} (${escapeHTML(gender)})</title>
+                    <style>
+                        body { font-family: sans-serif; padding: 20px; }
+                        h2 { margin-bottom: 4px; }
+                        p { font-size: 12px; color: #666; margin-top: 0; }
+                        table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 15px; }
+                        th { background: #f2f2f2; padding: 8px; border: 1px solid #ddd; text-align: left; }
+                    </style>
+                </head>
+                <body>
+                    <h2>SENARAI PESERTA: ${escapeHTML(eventName).toUpperCase()} (${escapeHTML(gender).toUpperCase()})</h2>
+                    <p>Kejohanan Olahraga SKBK • Tarikh Cetakan: ${new Date().toLocaleDateString('ms-MY')}</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 40px;">No</th>
+                                <th>Nama Penuh Atlet</th>
+                                <th style="text-align: center; width: 80px;">No. Bib</th>
+                                <th style="text-align: center; width: 100px;">Pasukan</th>
+                                <th style="text-align: center; width: 80px;">Tahun</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows || '<tr><td colspan="5" style="text-align:center; padding: 15px;">Tiada peserta berdaftar.</td></tr>'}</tbody>
+                    </table>
+                </body>
+                </html>
+            `);
+            printWin.document.close();
+            printWin.focus();
+            setTimeout(() => { printWin.print(); }, 500);
+        }
+
+        // Modal Detail View Atlet
         function openDetailModal(id) {
             const ath = athletes.find(a => a.id === id);
             if (!ath) return;
 
-            const safeNama = escapeHTML(ath.nama);
-            const safeBib = escapeHTML(ath.bib);
-            const safeJantina = escapeHTML(ath.jantina);
-            const safeTahun = escapeHTML(ath.tahun);
-            const safePasukan = escapeHTML(ath.pasukan);
-
-            document.getElementById('detail-nama').textContent = safeNama;
-            document.getElementById('detail-bib').textContent = `Bib: ${safeBib}`;
-            document.getElementById('detail-jantina').textContent = safeJantina;
-            document.getElementById('detail-tahun').textContent = safeTahun;
-            
+            const modal = document.getElementById('detail-modal');
+            const header = document.getElementById('detail-header');
             const badge = document.getElementById('detail-pasukan-badge');
+            const namaEl = document.getElementById('detail-nama');
+            const bibEl = document.getElementById('detail-bib');
+            const jantinaEl = document.getElementById('detail-jantina');
+            const tahunEl = document.getElementById('detail-tahun');
+            const acaraListEl = document.getElementById('detail-acara-list');
+
+            const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
+
+            if (namaEl) namaEl.textContent = ath.nama;
+            if (bibEl) bibEl.textContent = `BIB: ${ath.bib}`;
+            if (jantinaEl) jantinaEl.textContent = ath.jantina;
+            if (tahunEl) tahunEl.textContent = ath.tahun;
+
             if (badge) {
-                badge.textContent = safePasukan;
-                badge.className = `px-3 py-1 rounded-full text-xs font-bold uppercase ${TEAM_COLORS[ath.pasukan]?.bg || 'bg-white/20'} ${TEAM_COLORS[ath.pasukan]?.text || 'text-white'}`;
+                badge.textContent = ath.pasukan;
+                badge.className = `px-3 py-1 rounded-full text-xs font-bold uppercase ${teamInfo.bg} ${teamInfo.text}`;
             }
 
-            const acaraList = document.getElementById('detail-acara-list');
-            if (acaraList) {
-                acaraList.innerHTML = ath.acara.map(ac => `
-                    <span class="px-2.5 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-lg text-xs font-semibold">
-                        ${escapeHTML(ac)}
-                    </span>
+            if (acaraListEl) {
+                acaraListEl.innerHTML = ath.acara.map(ac => `
+                    <span class="px-3 py-1 bg-slate-100 text-slate-800 rounded-xl text-xs font-bold border border-slate-200 shadow-sm">${escapeHTML(ac)}</span>
                 `).join('');
             }
 
-            document.getElementById('detail-action-edit').onclick = () => { closeDetailModal(); editAthlete(ath.id); };
-            document.getElementById('detail-action-delete').onclick = () => { closeDetailModal(); deleteAthlete(ath.id); };
+            const btnEdit = document.getElementById('detail-action-edit');
+            const btnDelete = document.getElementById('detail-action-delete');
 
-            const modal = document.getElementById('detail-modal');
+            if (btnEdit) btnEdit.onclick = () => { closeDetailModal(); editAthlete(ath.id); };
+            if (btnDelete) btnDelete.onclick = () => { closeDetailModal(); deleteAthlete(ath.id); };
+
             if (modal) {
                 modal.classList.remove('hidden');
                 trapFocusInModal(modal);
@@ -3654,27 +3523,36 @@
             }
         }
 
+        // Modal Ralat
         function openErrorModal(id) {
             const ath = athletes.find(a => a.id === id);
             if (!ath) return;
 
             const errStatus = getAthleteErrorStatus(ath);
-            document.getElementById('error-modal-subtitle').textContent = `Atlet: ${ath.nama} (${ath.bib})`;
-
+            const modal = document.getElementById('error-modal');
+            const subtitleEl = document.getElementById('error-modal-subtitle');
             const listEl = document.getElementById('error-modal-list');
+            const editBtn = document.getElementById('error-modal-edit-btn');
+
+            if (subtitleEl) subtitleEl.textContent = `${ath.nama} (${ath.bib})`;
+
             if (listEl) {
                 const reasons = errStatus.reason.split(" | ");
                 listEl.innerHTML = reasons.map(r => `
-                    <li class="p-2.5 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-2">
-                        <i class="fa-solid fa-circle-xmark text-rose-600 mt-0.5 shrink-0"></i>
+                    <li class="flex items-start gap-2 bg-rose-100/60 p-2.5 rounded-xl border border-rose-200">
+                        <i class="fa-solid fa-xmark text-rose-600 mt-0.5 shrink-0"></i>
                         <span>${escapeHTML(r)}</span>
                     </li>
                 `).join('');
             }
 
-            document.getElementById('error-modal-edit-btn').onclick = () => { closeErrorModal(); editAthlete(ath.id); };
+            if (editBtn) {
+                editBtn.onclick = () => {
+                    closeErrorModal();
+                    editAthlete(ath.id);
+                };
+            }
 
-            const modal = document.getElementById('error-modal');
             if (modal) {
                 modal.classList.remove('hidden');
                 trapFocusInModal(modal);
@@ -3689,26 +3567,27 @@
             }
         }
 
+        // Modal Had Penyertaan Info
         function openLimitsInfoModal() {
+            const modal = document.getElementById('limits-info-modal');
             const tbody = document.getElementById('limits-info-table-body');
-            if (!tbody) return;
-
             const limits = getEventLimits();
             const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
 
-            tbody.innerHTML = allEvents.map(ev => {
-                const limitL = limits[ev]?.Lelaki ?? 2;
-                const limitP = limits[ev]?.Perempuan ?? 2;
-                return `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-2.5 sm:p-3 font-bold text-slate-800">${escapeHTML(ev)}</td>
-                        <td class="p-2.5 sm:p-3 text-center font-bold text-blue-700 bg-blue-50/50">${limitL}</td>
-                        <td class="p-2.5 sm:p-3 text-center font-bold text-pink-700 bg-pink-50/50">${limitP}</td>
-                    </tr>
-                `;
-            }).join('');
+            if (tbody) {
+                tbody.innerHTML = allEvents.map(ev => {
+                    const lLimit = limits[ev]?.Lelaki ?? 2;
+                    const pLimit = limits[ev]?.Perempuan ?? 2;
+                    return `
+                        <tr class="hover:bg-fuchsia-50/40 transition">
+                            <td class="p-2.5 sm:p-3 font-semibold text-slate-800">${escapeHTML(ev)}</td>
+                            <td class="p-2.5 sm:p-3 text-center font-bold text-blue-700">${lLimit}</td>
+                            <td class="p-2.5 sm:p-3 text-center font-bold text-pink-700">${pLimit}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
 
-            const modal = document.getElementById('limits-info-modal');
             if (modal) {
                 modal.classList.remove('hidden');
                 trapFocusInModal(modal);
@@ -3723,53 +3602,104 @@
             }
         }
 
-        function exportToCSV() {
-            if (athletes.length === 0) {
-                showToast("Tiada rekod atlet untuk dieksport.", "error");
+        function renderAdminLimitsTable() {
+            const limitsTab = document.getElementById('admin-tab-limits');
+            if (!limitsTab) return;
+
+            const limits = getEventLimits();
+            const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
+
+            limitsTab.innerHTML = `
+                <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-900 text-xs leading-relaxed mb-3">
+                    <i class="fa-solid fa-circle-info mr-1"></i>
+                    Tetapkan had maksimum penyertaan atlet bagi setiap pasukan mengikut acara dan kategori jantina.
+                </div>
+                <form id="admin-limits-form" onsubmit="handleSaveEventLimits(event)" class="space-y-4">
+                    <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
+                        <table class="w-full text-left text-xs min-w-[500px]">
+                            <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+                                <tr>
+                                    <th class="p-3">Nama Acara</th>
+                                    <th class="p-3 text-center w-32">Had Lelaki</th>
+                                    <th class="p-3 text-center w-32">Had Perempuan</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                ${allEvents.map(ev => {
+                                    const lLimit = limits[ev]?.Lelaki ?? 2;
+                                    const pLimit = limits[ev]?.Perempuan ?? 2;
+                                    const safeEv = escapeHTML(ev);
+                                    return `
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="p-3 font-bold text-slate-800">${safeEv}</td>
+                                            <td class="p-3 text-center">
+                                                <input type="number" min="1" max="10" value="${lLimit}" data-event="${safeEv}" data-gender="Lelaki" class="limit-input w-20 px-2 py-1 border border-slate-300 rounded-lg text-center font-bold text-blue-700 focus:ring-2 focus:ring-blue-600">
+                                            </td>
+                                            <td class="p-3 text-center">
+                                                <input type="number" min="1" max="10" value="${pLimit}" data-event="${safeEv}" data-gender="Perempuan" class="limit-input w-20 px-2 py-1 border border-slate-300 rounded-lg text-center font-bold text-pink-700 focus:ring-2 focus:ring-blue-600">
+                                            </td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2">
+                        <button type="button" onclick="resetEventLimitsToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                            Reset Had Asal (2)
+                        </button>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <button type="button" onclick="closeAdminModal()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                                Batal
+                            </button>
+                            <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
+                                <i class="fa-solid fa-floppy-disk"></i> Simpan Had
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            `;
+        }
+
+        async function handleSaveEventLimits(e) {
+            e.preventDefault();
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast("Akses Ditolak! Hanya Admin dibenarkan menukar had.", "error");
                 return;
             }
 
-            let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "ID,Nama,Jantina,Pasukan,Bib,Tahun,Acara\n";
+            const limitInputs = document.querySelectorAll('.limit-input');
+            const newLimits = {};
 
-            athletes.forEach(a => {
-                const row = [
-                    `"${a.id}"`,
-                    `"${a.nama.replace(/"/g, '""')}"`,
-                    `"${a.jantina}"`,
-                    `"${a.pasukan}"`,
-                    `"${a.bib}"`,
-                    `"${a.tahun}"`,
-                    `"${a.acara.join('; ')}"`
-                ].join(',');
-                csvContent += row + "\n";
+            limitInputs.forEach(input => {
+                const ev = input.dataset.event;
+                const gender = input.dataset.gender;
+                const val = parseInt(input.value, 10) || 2;
+
+                if (!newLimits[ev]) newLimits[ev] = {};
+                newLimits[ev][gender] = val;
             });
 
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Senarai_Atlet_AthletixHub_${new Date().toISOString().slice(0, 10)}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            logActivity("Eksport CSV", `Pengguna mengeksport ${athletes.length} rekod atlet ke format CSV.`);
-            showToast("Eksport CSV berjaya dimuat turun!");
+            await saveEventLimits(newLimits);
+            logActivity("Kemaskini Had Penyertaan", "Mengemaskini had maksimum penyertaan atlet mengikut acara.");
+            showToast("Had penyertaan acara berjaya disimpan");
+            renderAll();
         }
 
-        function showToast(msg, type = "success") {
+        // Toast Notification System
+        function showToast(message, type = "info") {
             const toast = document.getElementById('toast');
-            const icon = document.getElementById('toast-icon');
-            const message = document.getElementById('toast-message');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
 
-            if (!toast || !message) return;
+            if (!toast || !toastMsg) return;
 
-            message.textContent = msg;
+            toastMsg.textContent = message;
 
             if (type === "error") {
-                icon.className = "fa-solid fa-circle-exclamation text-rose-400 text-xl shrink-0";
+                toastIcon.className = "fa-solid fa-circle-exclamation text-rose-400 text-xl shrink-0";
             } else {
-                icon.className = "fa-solid fa-circle-check text-sky-400 text-xl shrink-0";
+                toastIcon.className = "fa-solid fa-circle-check text-sky-400 text-xl shrink-0";
             }
 
             toast.classList.remove('hidden');
@@ -3779,43 +3709,62 @@
             }, 3500);
         }
 
-        // INITIALIZATION UPON PAGE LOAD
-        window.addEventListener('load', () => {
-            initEventCheckboxes();
-            checkAuth();
-            renderAll();
-        });
+        // Export to CSV Function
+        function exportToCSV() {
+            if (athletes.length === 0) {
+                showToast("Tiada data atlet untuk dieksport.", "error");
+                return;
+            }
 
-        // Pautan Aksesibiliti Global Window
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Nama Atlet,Jantina,Pasukan,No Bib,Tahun Persekolahan,Acara Disertai,Status Pendaftaran\n";
+
+            athletes.forEach(a => {
+                const errStatus = getAthleteErrorStatus(a);
+                const statusStr = errStatus.hasError ? `Ralat: ${errStatus.reason}` : "Sah";
+                const eventsStr = a.acara ? a.acara.join(" | ") : "";
+
+                const row = [
+                    `"${a.nama.replace(/"/g, '""')}"`,
+                    `"${a.jantina}"`,
+                    `"${a.pasukan}"`,
+                    `"${a.bib}"`,
+                    `"${a.tahun}"`,
+                    `"${eventsStr.replace(/"/g, '""')}"`,
+                    `"${statusStr.replace(/"/g, '""')}"`
+                ].join(",");
+
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Athletix_Hub_Atlet_${new Date().toISOString().slice(0, 10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            logActivity("Eksport CSV", "Pengguna memuat turun fail senarai pendaftaran atlet.");
+            showToast("Fail CSV berjaya dijana!");
+        }
+
+        // Window Event Bindings
         window.switchTab = switchTab;
-        window.switchAdminTab = switchAdminTab;
-        window.openAdminModal = openAdminModal;
-        window.closeAdminModal = closeAdminModal;
-        window.handleSaveClosingDate = handleSaveClosingDate;
-        window.handleDeleteClosingDate = handleDeleteClosingDate;
-        window.handleSaveEventEligibility = handleSaveEventEligibility;
-        window.resetEventEligibilityToDefault = resetEventEligibilityToDefault;
-        window.renderAdminLimitsTable = renderAdminLimitsTable;
-        window.handleSaveEventLimits = handleSaveEventLimits;
-        window.resetEventLimitsToDefault = resetEventLimitsToDefault;
-        window.openGenderSelectModal = openGenderSelectModal;
-        window.closeGenderSelectModal = closeGenderSelectModal;
-        window.selectGenderCategory = selectGenderCategory;
-        window.openEventParticipantsModal = openEventParticipantsModal;
-        window.closeEventParticipantsModal = closeEventParticipantsModal;
-        window.openDetailModal = openDetailModal;
-        window.closeDetailModal = closeDetailModal;
-        window.openErrorModal = openErrorModal;
-        window.closeErrorModal = closeErrorModal;
-        window.openLimitsInfoModal = openLimitsInfoModal;
-        window.closeLimitsInfoModal = closeLimitsInfoModal;
-        window.exportToCSV = exportToCSV;
-        window.handleFormSubmit = handleFormSubmit;
-        window.resetForm = resetForm;
-        window.editAthlete = editAthlete;
-        window.deleteAthlete = deleteAthlete;
         window.handleLogin = handleLogin;
         window.handleLogout = handleLogout;
+        window.handleFormSubmit = handleFormSubmit;
+        window.resetForm = resetForm;
+        window.openAdminModal = openAdminModal;
+        window.closeAdminModal = closeAdminModal;
+        window.switchAdminTab = switchAdminTab;
+        window.handleSaveClosingDate = handleSaveClosingDate;
+        window.handleDeleteClosingDate = handleDeleteClosingDate;
+        window.handleSaveEventLimits = handleSaveEventLimits;
+        window.resetEventLimitsToDefault = resetEventLimitsToDefault;
+        window.handleSaveEventEligibility = handleSaveEventEligibility;
+        window.resetEventEligibilityToDefault = resetEventEligibilityToDefault;
+        window.renderUsersTable = renderUsersTable;
         window.openAddUserModal = openAddUserModal;
         window.editUserModal = editUserModal;
         window.closeUserFormModal = closeUserFormModal;
@@ -3827,10 +3776,35 @@
         window.promptDeleteUser = promptDeleteUser;
         window.closeUserDeleteModal = closeUserDeleteModal;
         window.executeDeleteUser = executeDeleteUser;
-        window.renderAthletesTable = renderAthletesTable;
-        window.renderUsersTable = renderUsersTable;
         window.renderActivityLogs = renderActivityLogs;
         window.clearActivityLogs = clearActivityLogs;
+        window.renderAthletesTable = renderAthletesTable;
+        window.openDetailModal = openDetailModal;
+        window.closeDetailModal = closeDetailModal;
+        window.editAthlete = editAthlete;
+        window.deleteAthlete = deleteAthlete;
+        window.openErrorModal = openErrorModal;
+        window.closeErrorModal = closeErrorModal;
+        window.openLimitsInfoModal = openLimitsInfoModal;
+        window.closeLimitsInfoModal = closeLimitsInfoModal;
+        window.openGenderSelectModal = openGenderSelectModal;
+        window.closeGenderSelectModal = closeGenderSelectModal;
+        window.selectGenderCategory = selectGenderCategory;
+        window.closeEventParticipantsModal = closeEventParticipantsModal;
+        window.exportToCSV = exportToCSV;
+
+        // Application Initialization Entry Point
+        window.onload = function() {
+            initEventCheckboxes();
+            checkAuth();
+
+            // Firebase Mock/Fallback setup if CDN fails
+            if (typeof window.onFirebaseReady === 'function') {
+                window.onFirebaseReady();
+            } else {
+                renderAll();
+            }
+        };
     </script>
 </body>
 </html>
