@@ -11,10 +11,10 @@
         window.tailwind || document.write('<style>body{font-family:sans-serif;padding:20px;color:#333;}.hidden{display:none!important;}</style>');
     </script>
     
-    <!-- PER-01: Font Awesome Icons dengan Subresource Integrity (SRI) -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
-    <!-- Google Fonts: Montserrat & Inter / Plus Jakarta Sans -->
+    <!-- Google Fonts: Montserrat & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
@@ -25,12 +25,15 @@
             -webkit-tap-highlight-color: transparent;
             background-color: #f8fafc;
         }
+        body.modal-open {
+            overflow: hidden !important;
+            touch-action: none;
+        }
         h1, h2, h3, h4, h5, h6, .font-heading {
             font-family: 'Montserrat', sans-serif;
             letter-spacing: -0.02em;
         }
         
-        /* A11Y & Mobile Touch Optimization */
         input[type="text"],
         input[type="password"],
         input[type="date"],
@@ -53,12 +56,10 @@
             }
         }
 
-        /* Sokongan tatalan lancar */
         .overflow-y-auto, .overflow-x-auto {
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -78,13 +79,6 @@
             padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
         }
 
-        /* Glow & Shadow Tokens */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
         .shadow-premium {
             box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
         }
@@ -145,8 +139,9 @@
                     <button id="nav-directory" onclick="switchTab('directory')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
                         <i class="fa-solid fa-users" aria-hidden="true"></i> Senarai Atlet
                     </button>
-                    <button id="nav-summary" onclick="switchTab('summary')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
+                    <button id="nav-summary" onclick="switchTab('summary')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2 relative">
                         <i class="fa-solid fa-list-check" aria-hidden="true"></i> Analisis
+                        <span id="nav-summary-alert-dot" class="hidden absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full border-2 border-slate-950 animate-pulse-fast"></span>
                     </button>
                     <button id="nav-admin" onclick="openAdminModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold text-amber-300 hover:bg-amber-400/20 transition-all duration-200 flex items-center gap-2 hidden">
                         <i class="fa-solid fa-gear" aria-hidden="true"></i> Tetapan Admin
@@ -176,8 +171,9 @@
             <button id="mobile-nav-directory" onclick="switchTab('directory')" aria-label="Senarai Atlet" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all">
                 <i class="fa-solid fa-users text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Senarai</span>
             </button>
-            <button id="mobile-nav-summary" onclick="switchTab('summary')" aria-label="Analisis Penyertaan" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all">
+            <button id="mobile-nav-summary" onclick="switchTab('summary')" aria-label="Analisis Penyertaan" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all relative">
                 <i class="fa-solid fa-list-check text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Analisis</span>
+                <span id="mobile-nav-summary-alert-dot" class="hidden absolute top-1 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full border border-slate-950 animate-pulse-fast"></span>
             </button>
             <button id="mobile-nav-admin" onclick="openAdminModal()" aria-label="Tetapan Admin Utama" class="flex-1 py-2 px-1 rounded-xl text-amber-300 flex flex-col items-center justify-center active:scale-95 transition-all hidden">
                 <i class="fa-solid fa-gear text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Admin</span>
@@ -558,7 +554,6 @@
 
                     <select id="filter-acara" onchange="renderAthletesTable()" aria-label="Tapis mengikut Acara" class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-600">
                         <option value="">Semua Acara</option>
-                        <!-- Populated by JS -->
                     </select>
                 </div>
 
@@ -579,7 +574,7 @@
                                 <th scope="col" class="py-3.5 px-4">Bib</th>
                                 <th scope="col" class="py-3.5 px-4">Tahun</th>
                                 <th scope="col" class="py-3.5 px-4">Acara</th>
-                                <th scope="col" class="py-3.5 px-4 text-center">Tindakan</th>
+                                <th scope="col" class="py-3.5 px-4 text-center">Status / Tindakan</th>
                             </tr>
                         </thead>
                         <tbody id="directory-table-body" class="divide-y divide-slate-100">
@@ -897,6 +892,9 @@
                 <button id="admin-tab-btn-limits" onclick="switchAdminTab('limits')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-list-check mr-1" aria-hidden="true"></i> Had Penyertaan
                 </button>
+                <button id="admin-tab-btn-eligibility" onclick="switchAdminTab('eligibility')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
+                    <i class="fa-solid fa-user-check mr-1" aria-hidden="true"></i> Kelayakan Acara
+                </button>
                 <button id="admin-tab-btn-terms" onclick="switchAdminTab('terms')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-file-contract mr-1" aria-hidden="true"></i> Syarat Penyertaan
                 </button>
@@ -986,6 +984,49 @@
                             </button>
                             <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
                                 <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Tetapan
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tab Sub-Modul: Kelayakan Acara (Pemetaan Tahun) -->
+            <div id="admin-tab-eligibility" class="hidden space-y-4 overflow-y-auto flex-grow pr-1">
+                <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-900 text-xs leading-relaxed">
+                    <i class="fa-solid fa-circle-info mr-1" aria-hidden="true"></i>
+                    Pilih tahun persekolahan yang LAYAK mendaftar bagi setiap acara tanpa perlu mengubah nama asal acara.
+                </div>
+
+                <form id="admin-eligibility-form" onsubmit="handleSaveEventEligibility(event)" class="space-y-4">
+                    <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
+                        <table class="w-full text-left text-xs min-w-[650px]">
+                            <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+                                <tr>
+                                    <th scope="col" class="p-3">Nama Acara</th>
+                                    <th scope="col" class="p-3 text-center">Thn 1</th>
+                                    <th scope="col" class="p-3 text-center">Thn 2</th>
+                                    <th scope="col" class="p-3 text-center">Thn 3</th>
+                                    <th scope="col" class="p-3 text-center">Thn 4</th>
+                                    <th scope="col" class="p-3 text-center">Thn 5</th>
+                                    <th scope="col" class="p-3 text-center">Thn 6</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-eligibility-table-body" class="divide-y divide-slate-100">
+                                <!-- Generated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2">
+                        <button type="button" onclick="resetEventEligibilityToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                            Reset Kelayakan Asal
+                        </button>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <button type="button" onclick="closeAdminModal()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                                Batal
+                            </button>
+                            <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
+                                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Kelayakan
                             </button>
                         </div>
                     </div>
@@ -1361,7 +1402,7 @@
         </div>
     </div>
 
-    <!-- A11Y-01: Toast Notification dengan aria-live & aria-atomic -->
+    <!-- Toast Notification -->
     <div id="toast" class="hidden fixed toast-bottom left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 bg-slate-950/95 text-white px-4 py-3 rounded-2xl shadow-2xl border border-slate-800/80 flex items-center gap-3 animate-slide-up max-w-md w-[92%] sm:w-auto backdrop-blur-md" role="status" aria-live="polite" aria-atomic="true">
         <i id="toast-icon" class="fa-solid fa-circle-check text-sky-400 text-xl shrink-0" aria-hidden="true"></i>
         <span id="toast-message" class="text-xs font-medium leading-tight">Mesej pemberitahuan.</span>
@@ -1374,13 +1415,12 @@
         </div>
     </footer>
 
-    <!-- Firebase SDK & Firestore API Integration Client Script -->
+    <!-- Firebase SDK & Client Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, runTransaction, doc, collection, onSnapshot, setDoc, deleteDoc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // SEC-01 & INF-01: Konfigurasi Firebase Rasmi Projek ATHLETIX HUB
         const firebaseConfig = {
             apiKey: "AIzaSyCs_gVKdEE76Ir5cI5Q9iZ7uuN3tCy4AG4",
             authDomain: "athletix-hub-79967.firebaseapp.com",
@@ -1393,7 +1433,6 @@
         };
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'skbk-athletix-hub';
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
@@ -1411,14 +1450,12 @@
         window.getDoc = getDoc;
         window.getDocs = getDocs;
 
-        // SEC-01: Firebase Auth State Listener
         async function initFirebase() {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token && __initial_auth_token.trim() !== '') {
                     try {
                         await signInWithCustomToken(auth, __initial_auth_token);
                     } catch (tokenErr) {
-                        console.warn("Custom token sign-in failed, falling back to anonymous auth:", tokenErr);
                         await signInAnonymously(auth);
                     }
                 } else {
@@ -1428,42 +1465,21 @@
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
                         window.firebaseReady = true;
-                        console.log("Firebase Auth Authenticated. UID:", user.uid);
-                        if (typeof window.onFirebaseReady === 'function') {
-                            window.onFirebaseReady();
-                        }
+                        if (typeof window.onFirebaseReady === 'function') window.onFirebaseReady();
                     } else {
                         window.firebaseReady = false;
                     }
                 });
             } catch (err) {
-                console.error("Firebase Auth Initialization Error:", err);
+                console.error("Firebase Auth Error:", err);
                 window.firebaseReady = true;
-                if (typeof window.onFirebaseReady === 'function') {
-                    window.onFirebaseReady();
-                }
+                if (typeof window.onFirebaseReady === 'function') window.onFirebaseReady();
             }
         }
         initFirebase();
     </script>
 
     <script>
-        /**
-         * SEC-03: SANITISASI & KESELAMATAN (XSS PREVENTATIVE HELPER)
-         */
-        function escapeHTML(str) {
-            if (str === null || str === undefined) return '';
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        /**
-         * DEFINISI DATA KEJOHANAN
-         */
         const TRACK_INDIVIDUAL = [
             "80m Tahun 1", "80m Tahun 2", "80m Tahun 3", "80m Lari Berpagar",
             "100m Tahun 4", "100m Tahun 5", "100m Tahun 6",
@@ -1478,11 +1494,31 @@
             "Lompat Jauh", "Lompat Tinggi", "Lontar Peluru"
         ];
 
-        // SEC-02: Kata Laluan Teks Biasa Dihapuskan Daripada Kod Klien & Memori
-        // PEMBERSIHAN AKAUN: Hanya mengekalkan 1 akaun Admin Utama (ID: admin)
         const DEFAULT_ACCOUNTS = [
             { id: "admin", name: "Admin Utama", role: "admin", team: "Tiada", status: "Aktif", createdDate: "2026-08-01", updatedDate: "2026-08-01", createdBy: "Sistem" }
         ];
+
+        const DEFAULT_EVENT_ELIGIBILITY = {
+            "80m Tahun 1": ["Tahun 1"],
+            "80m Tahun 2": ["Tahun 2"],
+            "80m Tahun 3": ["Tahun 3"],
+            "80m Lari Berpagar": ["Tahun 4", "Tahun 5"],
+            "100m Tahun 4": ["Tahun 4"],
+            "100m Tahun 5": ["Tahun 5"],
+            "100m Tahun 6": ["Tahun 6"],
+            "200m Tahun 4": ["Tahun 4"],
+            "200m Tahun 5": ["Tahun 5"],
+            "4x50m Tahun 1": ["Tahun 1"],
+            "4x50m Tahun 2": ["Tahun 2"],
+            "4x100m Tahun 3": ["Tahun 3"],
+            "4x100m Tahun 4": ["Tahun 4"],
+            "4x100m Tahun 5": ["Tahun 5"],
+            "4x200m Tahun 4": ["Tahun 4"],
+            "4x200m Tahun 5": ["Tahun 5"],
+            "Lompat Jauh": ["Tahun 3", "Tahun 4", "Tahun 5"],
+            "Lompat Tinggi": ["Tahun 4", "Tahun 5"],
+            "Lontar Peluru": ["Tahun 4", "Tahun 5"]
+        };
 
         const TEAM_COLORS = {
             "Helang": { bg: "bg-emerald-100", text: "text-emerald-800", border: "border-emerald-300", hex: "#10b981" },
@@ -1491,12 +1527,12 @@
             "Kenyalang": { bg: "bg-amber-100", text: "text-amber-800", border: "border-amber-300", hex: "#f59e0b" }
         };
 
-        // FIRESTORE REST API CLIENT LAYER
         let athletes = [];
         let systemUsers = [...DEFAULT_ACCOUNTS];
         let activityLogs = [];
         let competitionTerms = [];
         let eventLimitsData = null;
+        let eventEligibilityData = null;
         let systemSettings = { closingDate: '2026-10-29', closingTime: '23:59' };
 
         let currentUser = null;
@@ -1504,22 +1540,30 @@
         let pendingDeleteTermId = null;
         let activeModalPreviousFocus = null;
 
-        // A11Y-02: Focus Trap Helper untuk Dialog Modal
+        function escapeHTML(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
         function trapFocusInModal(modalEl) {
+            document.body.classList.add('modal-open');
             activeModalPreviousFocus = document.activeElement;
             const focusableEls = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-            if (focusableEls.length > 0) {
-                focusableEls[0].focus();
-            }
+            if (focusableEls.length > 0) focusableEls[0].focus();
         }
 
         function restoreFocusFromModal() {
+            document.body.classList.remove('modal-open');
             if (activeModalPreviousFocus && typeof activeModalPreviousFocus.focus === 'function') {
                 activeModalPreviousFocus.focus();
             }
         }
 
-        // SEC-04: Pengesan Peranti Klien Untuk Audit Log
         function getDeviceInfo() {
             const ua = navigator.userAgent;
             let os = "Windows";
@@ -1527,13 +1571,11 @@
             else if (ua.indexOf("Android") !== -1) os = "Android";
             else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1) os = "iOS";
             else if (ua.indexOf("Mac") !== -1) os = "macOS";
-            else if (ua.indexOf("Linux") !== -1) os = "Linux";
 
             let browser = "Chrome";
             if (ua.indexOf("Edg") !== -1) browser = "Edge";
             else if (ua.indexOf("Chrome") !== -1) browser = "Chrome";
             else if (ua.indexOf("Safari") !== -1) browser = "Safari";
-            else if (ua.indexOf("Firefox") !== -1) browser = "Firefox";
 
             let device = "Desktop";
             if (/Mobi|Android|iPhone/i.test(ua)) device = "Telefon Bimbit";
@@ -1542,161 +1584,109 @@
             return { os, browser, device };
         }
 
-        // DOM-01 & SEC-01: Firestore Real-time Sync & State Management Selamat
         window.onFirebaseReady = function() {
-            const db = window.db;
-            const appId = window.appId;
-            const onSnapshot = window.onSnapshot;
-            const collection = window.collection;
-            const doc = window.doc;
-            const setDoc = window.setDoc;
-
+            const { db, appId, onSnapshot, collection, doc, setDoc } = window;
             if (!db) return;
 
-            // 1. Sync Athletes (Pemberihan Listener Berulang)
-            const athletesRef = collection(db, 'artifacts', appId, 'public', 'data', 'athletes');
-            onSnapshot(athletesRef, (snapshot) => {
+            // 1. Athletes Sync
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'athletes'), (snapshot) => {
                 athletes = [];
-                snapshot.forEach(docSnap => {
-                    athletes.push({ id: docSnap.id, ...docSnap.data() });
-                });
+                snapshot.forEach(docSnap => athletes.push({ id: docSnap.id, ...docSnap.data() }));
                 renderAll();
-            }, (err) => {
-                console.error("Athletes sync error:", err);
-                showToast("Ralat sambungan pangkalan data atlet.", "error");
             });
 
-            // 2. Sync Users (Sanitized snapshot without password exposure)
-            const usersRef = collection(db, 'artifacts', appId, 'public', 'data', 'users');
-            onSnapshot(usersRef, (snapshot) => {
+            // 2. Users Sync
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'users'), (snapshot) => {
                 if (!snapshot.empty) {
                     systemUsers = [];
                     snapshot.forEach(docSnap => {
                         const data = docSnap.data();
-                        delete data.pass; // SEC-02: Kebersihan memori klien
+                        delete data.pass;
                         systemUsers.push(data);
                     });
                 } else {
                     DEFAULT_ACCOUNTS.forEach(async (u) => {
-                        const sanitizedUser = { ...u };
-                        delete sanitizedUser.pass;
-                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', u.id), sanitizedUser);
+                        const sanitized = { ...u };
+                        delete sanitized.pass;
+                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', u.id), sanitized);
                     });
                     systemUsers = [...DEFAULT_ACCOUNTS];
                 }
-                
-                // Pembersihan automatik rekod akaun tidak berkaitan daripada Firestore jika wujud
-                const unwantedAccountIds = ['helang', 'garuda', 'rajawali', 'kenyalang'];
-                unwantedAccountIds.forEach(async (oldId) => {
-                    const match = snapshot.docs.find(d => d.id.toLowerCase() === oldId);
-                    if (match) {
-                        try {
-                            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', match.id));
-                        } catch(e) { console.warn("Pembersihan akaun lama Firestore:", e); }
-                    }
-                });
-
                 if (currentUser) {
-                    const latestRecord = systemUsers.find(u => u.id === currentUser.id);
-                    if (!latestRecord || latestRecord.status !== 'Aktif') {
-                        handleLogout();
-                        showToast("Sesi anda telah dibatalkan atau status akaun anda berubah.", "error");
-                    } else {
-                        currentUser = latestRecord;
-                        updateUserUI();
-                    }
+                    const latest = systemUsers.find(u => u.id === currentUser.id);
+                    if (latest) currentUser = latest;
                 }
                 if (typeof renderUsersTable === 'function') renderUsersTable();
-            }, (err) => console.error("Users sync error:", err));
+            });
 
-            // 3. Sync Settings & Limits
-            const settingsRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config');
-            onSnapshot(settingsRef, (docSnap) => {
+            // 3. Config Settings & Eligibility Sync
+            onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config'), (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     if (data.closingDate) systemSettings.closingDate = data.closingDate;
                     if (data.closingTime) systemSettings.closingTime = data.closingTime;
                     if (data.eventLimits) eventLimitsData = data.eventLimits;
+                    if (data.eventEligibility) eventEligibilityData = data.eventEligibility;
                 } else {
-                    const defaults = {};
-                    [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS].forEach(ev => {
-                        defaults[ev] = { Lelaki: 2, Perempuan: 2 };
-                    });
-                    setDoc(settingsRef, {
+                    const defaultLimits = {};
+                    [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS].forEach(ev => defaultLimits[ev] = { Lelaki: 2, Perempuan: 2 });
+                    setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config'), {
                         closingDate: '2026-10-29',
                         closingTime: '23:59',
-                        eventLimits: defaults
+                        eventLimits: defaultLimits,
+                        eventEligibility: DEFAULT_EVENT_ELIGIBILITY
                     });
-                    eventLimitsData = defaults;
+                    eventLimitsData = defaultLimits;
+                    eventEligibilityData = DEFAULT_EVENT_ELIGIBILITY;
                 }
                 renderAll();
-            }, (err) => console.error("Settings sync error:", err));
+            });
 
-            // 4. Sync Activity Logs
-            const logsRef = collection(db, 'artifacts', appId, 'public', 'data', 'activity_logs');
-            onSnapshot(logsRef, (snapshot) => {
+            // 4. Logs Sync
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'activity_logs'), (snapshot) => {
                 activityLogs = [];
-                snapshot.forEach(docSnap => {
-                    activityLogs.push(docSnap.data());
-                });
+                snapshot.forEach(docSnap => activityLogs.push(docSnap.data()));
                 activityLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 if (typeof renderActivityLogs === 'function') renderActivityLogs();
-            }, (err) => console.error("Logs sync error:", err));
+            });
 
-            // 5. Sync Competition Terms (Module Baharu)
-            const termsRef = collection(db, 'artifacts', appId, 'public', 'data', 'competition_terms');
-            onSnapshot(termsRef, (snapshot) => {
+            // 5. Terms Sync
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'competition_terms'), (snapshot) => {
                 competitionTerms = [];
-                snapshot.forEach(docSnap => {
-                    competitionTerms.push({ id: docSnap.id, ...docSnap.data() });
-                });
+                snapshot.forEach(docSnap => competitionTerms.push({ id: docSnap.id, ...docSnap.data() }));
                 competitionTerms.sort((a, b) => (Number(a.order) || 99) - (Number(b.order) || 99));
                 if (typeof renderCompetitionTermsPublic === 'function') renderCompetitionTermsPublic();
                 if (typeof renderAdminTermsTable === 'function') renderAdminTermsTable();
-            }, (err) => console.error("Terms sync error:", err));
+            });
         };
 
-        function getSystemUsers() {
-            return systemUsers.length > 0 ? systemUsers : DEFAULT_ACCOUNTS;
-        }
+        function getSystemUsers() { return systemUsers.length > 0 ? systemUsers : DEFAULT_ACCOUNTS; }
 
         async function saveSystemUsersToFirestore(users) {
             const { db, appId, doc, setDoc } = window;
             for (const u of users) {
-                const userCopy = { ...u };
-                delete userCopy.pass; // SEC-02: Dilarang simpan plain-text password ke DB
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', u.id), userCopy);
+                const copy = { ...u };
+                delete copy.pass;
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', u.id), copy);
             }
             systemUsers = users;
         }
 
-        function getActivityLogs() {
-            return activityLogs;
-        }
+        function getActivityLogs() { return activityLogs; }
 
-        // SEC-04: Log aktiviti yang disahkan tanpa andaian IP klien
         async function logActivity(action, details, status = "Berjaya", userOverride = null) {
             const activeUser = userOverride || currentUser || { id: "Sistem", name: "Sistem", role: "Sistem", team: "Sistem" };
             const devInfo = getDeviceInfo();
 
-            let roleText = "Pengurus Pasukan";
-            if (activeUser.role === 'admin' || activeUser.id === 'admin') {
-                roleText = "Admin Utama";
-            } else if (activeUser.role) {
-                roleText = activeUser.role === 'manager' ? "Pengurus Pasukan" : activeUser.role;
-            }
-
             const newLog = {
                 id: Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7),
                 timestamp: new Date().toISOString(),
-                userId: activeUser.id || activeUser.name || "Sistem",
+                userId: activeUser.id || "Sistem",
                 userName: activeUser.name || "Sistem",
                 team: activeUser.team || "Tiada",
-                role: roleText,
-                action: action,
-                details: details,
-                status: status,
-                ip: "N/A (Sesi Terpelihara Klien)",
+                role: activeUser.role === 'admin' ? "Admin Utama" : (activeUser.role || "Pengurus Pasukan"),
+                action, details, status,
+                ip: "Sesi Tempatan",
                 device: devInfo.device,
                 browser: devInfo.browser,
                 os: devInfo.os
@@ -1704,306 +1694,246 @@
 
             try {
                 const { db, appId, doc, setDoc } = window;
-                if (!db) return;
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'activity_logs', newLog.id), newLog);
-            } catch(e) {
-                console.error("Failed to log activity to Firestore:", e);
-            }
+                if (db) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'activity_logs', newLog.id), newLog);
+            } catch(e) { console.error("Logging error:", e); }
         }
 
         async function clearActivityLogs() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak. Anda tidak mempunyai kebenaran.", "error");
-                return;
-            }
+            if (!currentUser || currentUser.role !== 'admin') return;
             try {
                 const { db, appId, collection, getDocs, deleteDoc, doc } = window;
                 const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'activity_logs'));
-                for (const d of snap.docs) {
-                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'activity_logs', d.id));
-                }
+                for (const d of snap.docs) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'activity_logs', d.id));
                 activityLogs = [];
                 renderActivityLogs();
                 showToast("Semua rekod log aktiviti telah dipadam.");
-            } catch(e) {
-                showToast("Gagal memadam log aktiviti.", "error");
-            }
+            } catch(e) { showToast("Gagal memadam log aktiviti.", "error"); }
         }
 
         function getEventLimits() {
             if (eventLimitsData) return eventLimitsData;
             const defaults = {};
-            const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-            allEvents.forEach(ev => {
-                defaults[ev] = { Lelaki: 2, Perempuan: 2 };
-            });
+            [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS].forEach(ev => defaults[ev] = { Lelaki: 2, Perempuan: 2 });
             return defaults;
         }
 
         async function saveEventLimits(limits) {
             try {
                 const { db, appId, doc, setDoc } = window;
-                const settingsRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config');
-                await setDoc(settingsRef, { eventLimits: limits }, { merge: true });
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config'), { eventLimits: limits }, { merge: true });
                 eventLimitsData = limits;
-            } catch(e) {
-                console.error("Failed to save event limits:", e);
-            }
+            } catch(e) { console.error("Save limits error:", e); }
         }
 
-        function getClosingDate() {
-            return systemSettings.closingDate || '2026-10-29';
+        function getEventEligibility() {
+            return eventEligibilityData || DEFAULT_EVENT_ELIGIBILITY;
         }
 
-        function getClosingTime() {
-            return systemSettings.closingTime || '23:59';
+        async function saveEventEligibility(eligibility) {
+            try {
+                const { db, appId, doc, setDoc } = window;
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config'), { eventEligibility: eligibility }, { merge: true });
+                eventEligibilityData = eligibility;
+            } catch(e) { console.error("Save eligibility error:", e); }
         }
+
+        function getClosingDate() { return systemSettings.closingDate || '2026-10-29'; }
+        function getClosingTime() { return systemSettings.closingTime || '23:59'; }
 
         async function setClosingDateTime(dateStr, timeStr) {
             try {
                 const { db, appId, doc, setDoc } = window;
-                const settingsRef = doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config');
-                await setDoc(settingsRef, {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'settings', 'config'), {
                     closingDate: dateStr || '2026-10-29',
                     closingTime: timeStr || '23:59'
                 }, { merge: true });
                 systemSettings.closingDate = dateStr || '2026-10-29';
                 systemSettings.closingTime = timeStr || '23:59';
-            } catch(e) {
-                console.error("Failed to update closing date:", e);
-            }
+            } catch(e) { console.error("Save date error:", e); }
         }
 
-        // LOG-01: Perbandingan Zon Waktu Tempatan Konsisten
         function isPastClosingDate() {
             const closing = getClosingDate();
             if (!closing) return false;
             const closingTime = getClosingTime();
-            
             const [year, month, day] = closing.split('-').map(Number);
             const [hours, minutes] = closingTime.split(':').map(Number);
-
             const closingDateTime = new Date(year, month - 1, day, hours || 23, minutes || 59, 59);
-            if (Number.isNaN(closingDateTime.getTime())) return false;
-
-            const now = new Date();
-            return now > closingDateTime;
+            return new Date() > closingDateTime;
         }
 
         function getFormattedClosingDate() {
             const closing = getClosingDate();
             if (!closing) return "Tiada Had Tarikh";
-            const closingTime = getClosingTime();
             const parts = closing.split('-');
-            const timeParts = closingTime.split(':');
-            if (parts.length !== 3) return closing;
-            
+            const timeParts = getClosingTime().split(':');
             const dateObj = new Date(parts[0], parts[1] - 1, parts[2], timeParts[0] || 23, timeParts[1] || 59);
-            if (Number.isNaN(dateObj.getTime())) return closing;
-
-            const formattedDate = dateObj.toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
-            const formattedTime = dateObj.toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit', hour12: true });
-            return `${formattedDate}, ${formattedTime}`;
+            return `${dateObj.toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' })}, ${dateObj.toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit', hour12: true })}`;
         }
 
         function openAdminModal() {
             if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak! Hanya Admin Utama dibenarkan membuka tetapan.", "error");
+                showToast("Akses Ditolak! Hanya Admin Utama dibenarkan.", "error");
                 return;
             }
-            const dateInput = document.getElementById('admin-date-input');
-            const timeInput = document.getElementById('admin-time-input');
-            const modal = document.getElementById('admin-date-modal');
-            if (dateInput) dateInput.value = getClosingDate() || '';
-            if (timeInput) timeInput.value = getClosingTime() || '23:59';
-            
+            document.getElementById('admin-date-input').value = getClosingDate() || '';
+            document.getElementById('admin-time-input').value = getClosingTime() || '23:59';
             switchAdminTab('date');
-            if (modal) {
-                modal.classList.remove('hidden');
-                trapFocusInModal(modal);
-            }
+            const modal = document.getElementById('admin-date-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function closeAdminModal() {
             const modal = document.getElementById('admin-date-modal');
-            if (modal) {
-                modal.classList.add('hidden');
-                restoreFocusFromModal();
-            }
+            modal.classList.add('hidden');
+            restoreFocusFromModal();
         }
 
         function switchAdminTab(tab) {
-            const dateTab = document.getElementById('admin-tab-date');
-            const limitsTab = document.getElementById('admin-tab-limits');
-            const termsTab = document.getElementById('admin-tab-terms');
-            const usersTab = document.getElementById('admin-tab-users');
-            const historyTab = document.getElementById('admin-tab-history');
-            
-            const dateBtn = document.getElementById('admin-tab-btn-date');
-            const limitsBtn = document.getElementById('admin-tab-btn-limits');
-            const termsBtn = document.getElementById('admin-tab-btn-terms');
-            const usersBtn = document.getElementById('admin-tab-btn-users');
-            const historyBtn = document.getElementById('admin-tab-btn-history');
-
-            [dateBtn, limitsBtn, termsBtn, usersBtn, historyBtn].forEach(btn => {
-                if (btn) {
-                    btn.classList.remove('border-blue-900', 'text-blue-900');
-                    btn.classList.add('border-transparent', 'text-slate-500');
+            const tabs = ['date', 'limits', 'eligibility', 'terms', 'users', 'history'];
+            tabs.forEach(t => {
+                const tabEl = document.getElementById(`admin-tab-${t}`);
+                const btnEl = document.getElementById(`admin-tab-btn-${t}`);
+                if (tabEl) tabEl.classList.toggle('hidden', t !== tab);
+                if (btnEl) {
+                    if (t === tab) {
+                        btnEl.classList.add('border-blue-900', 'text-blue-900');
+                        btnEl.classList.remove('border-transparent', 'text-slate-500');
+                    } else {
+                        btnEl.classList.remove('border-blue-900', 'text-blue-900');
+                        btnEl.classList.add('border-transparent', 'text-slate-500');
+                    }
                 }
             });
 
-            if (tab === 'date') {
-                if (dateTab) dateTab.classList.remove('hidden');
-                if (limitsTab) limitsTab.classList.add('hidden');
-                if (termsTab) termsTab.classList.add('hidden');
-                if (usersTab) usersTab.classList.add('hidden');
-                if (historyTab) historyTab.classList.add('hidden');
-                if (dateBtn) { dateBtn.classList.add('border-blue-900', 'text-blue-900'); dateBtn.classList.remove('border-transparent', 'text-slate-500'); }
-            } else if (tab === 'limits') {
-                if (dateTab) dateTab.classList.add('hidden');
-                if (limitsTab) limitsTab.classList.remove('hidden');
-                if (termsTab) termsTab.classList.add('hidden');
-                if (usersTab) usersTab.classList.add('hidden');
-                if (historyTab) historyTab.classList.add('hidden');
-                if (limitsBtn) { limitsBtn.classList.add('border-blue-900', 'text-blue-900'); limitsBtn.classList.remove('border-transparent', 'text-slate-500'); }
-                renderAdminLimitsTable();
-            } else if (tab === 'terms') {
-                if (dateTab) dateTab.classList.add('hidden');
-                if (limitsTab) limitsTab.classList.add('hidden');
-                if (termsTab) termsTab.classList.remove('hidden');
-                if (usersTab) usersTab.classList.add('hidden');
-                if (historyTab) historyTab.classList.add('hidden');
-                if (termsBtn) { termsBtn.classList.add('border-blue-900', 'text-blue-900'); termsBtn.classList.remove('border-transparent', 'text-slate-500'); }
-                renderAdminTermsTable();
-            } else if (tab === 'users') {
-                if (dateTab) dateTab.classList.add('hidden');
-                if (limitsTab) limitsTab.classList.add('hidden');
-                if (termsTab) termsTab.classList.add('hidden');
-                if (usersTab) usersTab.classList.remove('hidden');
-                if (historyTab) historyTab.classList.add('hidden');
-                if (usersBtn) { usersBtn.classList.add('border-blue-900', 'text-blue-900'); usersBtn.classList.remove('border-transparent', 'text-slate-500'); }
-                renderUsersTable();
-            } else if (tab === 'history') {
-                if (dateTab) dateTab.classList.add('hidden');
-                if (limitsTab) limitsTab.classList.add('hidden');
-                if (termsTab) termsTab.classList.add('hidden');
-                if (usersTab) usersTab.classList.add('hidden');
-                if (historyTab) historyTab.classList.remove('hidden');
-                if (historyBtn) { historyBtn.classList.add('border-blue-900', 'text-blue-900'); historyBtn.classList.remove('border-transparent', 'text-slate-500'); }
-
-                const accessDenied = document.getElementById('history-access-denied');
-                const contentCont = document.getElementById('history-content-container');
-
-                if (!currentUser || currentUser.role !== 'admin') {
-                    if (accessDenied) accessDenied.classList.remove('hidden');
-                    if (contentCont) contentCont.classList.add('hidden');
-                } else {
-                    if (accessDenied) accessDenied.classList.add('hidden');
-                    if (contentCont) contentCont.classList.remove('hidden');
-                    renderActivityLogs();
-                }
-            }
+            if (tab === 'limits') renderAdminLimitsTable();
+            if (tab === 'eligibility') renderAdminEligibilityTable();
+            if (tab === 'terms') renderAdminTermsTable();
+            if (tab === 'users') renderUsersTable();
+            if (tab === 'history') renderActivityLogs();
         }
 
-        // MODUL BAHARU: LOGIK SYARAT PENYERTAAN (PUBLIC & ADMIN ENGINE)
+        function renderAdminEligibilityTable() {
+            const tbody = document.getElementById('admin-eligibility-table-body');
+            if (!tbody) return;
+            const eligibility = getEventEligibility();
+            const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
+            const years = ["Tahun 1", "Tahun 2", "Tahun 3", "Tahun 4", "Tahun 5", "Tahun 6"];
+
+            tbody.innerHTML = allEvents.map(ev => {
+                const allowedYears = eligibility[ev] || [];
+                const safeEv = escapeHTML(ev);
+                const checkboxesHtml = years.map(yr => {
+                    const isChecked = allowedYears.includes(yr) ? 'checked' : '';
+                    return `
+                        <td class="p-3 text-center">
+                            <input type="checkbox" data-event="${safeEv}" data-year="${yr}" ${isChecked}
+                                class="eligibility-checkbox w-4 h-4 text-purple-600 rounded focus:ring-purple-500 cursor-pointer">
+                        </td>
+                    `;
+                }).join('');
+
+                return `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 font-bold text-slate-800">${safeEv}</td>
+                        ${checkboxesHtml}
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function handleSaveEventEligibility(e) {
+            e.preventDefault();
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast("Akses Ditolak!", "error");
+                return;
+            }
+
+            const checkboxes = document.querySelectorAll('.eligibility-checkbox');
+            const newEligibility = {};
+
+            checkboxes.forEach(cb => {
+                const ev = cb.dataset.event;
+                const yr = cb.dataset.year;
+                if (!newEligibility[ev]) newEligibility[ev] = [];
+                if (cb.checked) newEligibility[ev].push(yr);
+            });
+
+            await saveEventEligibility(newEligibility);
+            logActivity("Kemaskini Kelayakan Acara", "Mengemas kini pemetaan tahun kelayakan acara.");
+            showToast("Tetapan kelayakan acara berjaya disimpan!");
+            renderAll();
+        }
+
+        async function resetEventEligibilityToDefault() {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            await saveEventEligibility(DEFAULT_EVENT_ELIGIBILITY);
+            renderAdminEligibilityTable();
+            logActivity("Reset Kelayakan Acara", "Memulihkan kelayakan acara ke nilai asal.");
+            showToast("Tetapan kelayakan acara di-reset ke nilai asal.");
+            renderAll();
+        }
+
         function openCompetitionTermsModal() {
             renderCompetitionTermsPublic();
             const modal = document.getElementById('competition-terms-modal');
-            if (modal) {
-                modal.classList.remove('hidden');
-                trapFocusInModal(modal);
-            }
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function closeCompetitionTermsModal() {
-            const modal = document.getElementById('competition-terms-modal');
-            if (modal) {
-                modal.classList.add('hidden');
-                restoreFocusFromModal();
-            }
+            document.getElementById('competition-terms-modal').classList.add('hidden');
+            restoreFocusFromModal();
         }
 
         function renderCompetitionTermsPublic() {
             const bodyCont = document.getElementById('terms-modal-body');
             if (!bodyCont) return;
-
             const activeTerms = competitionTerms.filter(t => t.status === 'Aktif' || !t.status);
-            activeTerms.sort((a, b) => (Number(a.order) || 99) - (Number(b.order) || 99));
-
             if (activeTerms.length === 0) {
-                bodyCont.innerHTML = `
-                    <div class="py-12 text-center text-slate-400 space-y-2">
-                        <i class="fa-solid fa-file-circle-xmark text-4xl text-slate-300 block"></i>
-                        <p class="text-xs font-semibold">Tiada syarat penyertaan yang dimasukkan atau diaktifkan lagi.</p>
-                    </div>
-                `;
+                bodyCont.innerHTML = `<div class="py-12 text-center text-slate-400">Tiada syarat penyertaan dimasukkan.</div>`;
                 return;
             }
-
-            bodyCont.innerHTML = activeTerms.map((t, idx) => {
-                const safeTitle = escapeHTML(t.title);
-                const safeContent = escapeHTML(t.content).replace(/\n/g, '<br>');
-                const orderNum = t.order || (idx + 1);
-
-                return `
-                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-2 relative overflow-hidden">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-xl bg-blue-950 text-amber-400 font-extrabold text-xs flex items-center justify-center shrink-0 shadow-sm">
-                                ${orderNum}
-                            </span>
-                            <h4 class="font-bold text-slate-900 text-xs sm:text-sm font-heading">${safeTitle}</h4>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed pl-9">${safeContent}</p>
+            bodyCont.innerHTML = activeTerms.map((t, idx) => `
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-2">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-7 h-7 rounded-xl bg-blue-950 text-amber-400 font-extrabold text-xs flex items-center justify-center shrink-0">
+                            ${t.order || (idx + 1)}
+                        </span>
+                        <h4 class="font-bold text-slate-900 text-xs sm:text-sm">${escapeHTML(t.title)}</h4>
                     </div>
-                `;
-            }).join('');
+                    <p class="text-xs text-slate-600 leading-relaxed pl-9">${escapeHTML(t.content).replace(/\n/g, '<br>')}</p>
+                </div>
+            `).join('');
         }
 
         function renderAdminTermsTable() {
             if (!currentUser || currentUser.role !== 'admin') return;
             const tbody = document.getElementById('admin-terms-table-body');
             if (!tbody) return;
-
             if (competitionTerms.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400 font-medium">Tiada syarat penyertaan ditemui. Klik "+ Tambah Syarat" untuk mendaftar.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Tiada syarat penyertaan.</td></tr>`;
                 return;
             }
-
-            const fragment = document.createDocumentFragment();
-            competitionTerms.forEach((t) => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 transition';
-
-                const safeId = escapeHTML(t.id);
-                const safeTitle = escapeHTML(t.title);
-                const safeContent = escapeHTML(t.content);
-                const statusStr = t.status || 'Aktif';
-
-                const statusBadge = statusStr === 'Aktif' ?
-                    '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">🟢 Aktif</span>' :
-                    '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300">🔴 Tidak Aktif</span>';
-
-                tr.innerHTML = `
+            tbody.innerHTML = competitionTerms.map(t => `
+                <tr class="hover:bg-slate-50 transition">
                     <td class="p-2.5 text-center font-bold text-slate-800 text-xs">${t.order || 1}</td>
-                    <td class="p-2.5 font-bold text-slate-900 text-xs">${safeTitle}</td>
-                    <td class="p-2.5 text-slate-600 text-xs max-w-xs truncate">${safeContent}</td>
-                    <td class="p-2.5 text-center">${statusBadge}</td>
+                    <td class="p-2.5 font-bold text-slate-900 text-xs">${escapeHTML(t.title)}</td>
+                    <td class="p-2.5 text-slate-600 text-xs max-w-xs truncate">${escapeHTML(t.content)}</td>
+                    <td class="p-2.5 text-center">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${t.status === 'Aktif' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-rose-100 text-rose-800 border border-rose-300'}">
+                            ${t.status === 'Aktif' ? '🟢 Aktif' : '🔴 Tidak Aktif'}
+                        </span>
+                    </td>
                     <td class="p-2.5 text-center">
                         <div class="flex items-center justify-center gap-1">
-                            <button onclick="editTermModal('${safeId}')" title="Edit Syarat" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button onclick="promptDeleteTerm('${safeId}')" title="Padam Syarat" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
+                            <button onclick="editTermModal('${escapeHTML(t.id)}')" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="promptDeleteTerm('${escapeHTML(t.id)}')" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </td>
-                `;
-                fragment.appendChild(tr);
-            });
-
-            tbody.innerHTML = '';
-            tbody.appendChild(fragment);
+                </tr>
+            `).join('');
         }
 
         function openTermFormModal() {
@@ -2013,7 +1943,6 @@
             document.getElementById('form-term-order').value = competitionTerms.length + 1;
             document.getElementById('form-term-content').value = '';
             document.getElementById('form-term-status').value = 'Aktif';
-
             const modal = document.getElementById('term-form-modal');
             modal.classList.remove('hidden');
             trapFocusInModal(modal);
@@ -2022,83 +1951,50 @@
         function editTermModal(termId) {
             const term = competitionTerms.find(t => t.id === termId);
             if (!term) return;
-
-            document.getElementById('term-form-title').innerHTML = `<i class="fa-solid fa-file-pen text-blue-900"></i> Edit Syarat Penyertaan`;
+            document.getElementById('term-form-title').innerHTML = `<i class="fa-solid fa-file-pen text-blue-900"></i> Edit Syarat`;
             document.getElementById('form-term-id').value = term.id;
             document.getElementById('form-term-title').value = term.title;
             document.getElementById('form-term-order').value = term.order || 1;
             document.getElementById('form-term-content').value = term.content;
             document.getElementById('form-term-status').value = term.status || 'Aktif';
-
             const modal = document.getElementById('term-form-modal');
             modal.classList.remove('hidden');
             trapFocusInModal(modal);
         }
 
         function closeTermFormModal() {
-            const modal = document.getElementById('term-form-modal');
-            modal.classList.add('hidden');
+            document.getElementById('term-form-modal').classList.add('hidden');
             restoreFocusFromModal();
         }
 
         async function handleTermFormSubmit(e) {
             e.preventDefault();
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak! Hanya Admin dibenarkan mengurus syarat.", "error");
-                return;
-            }
-
+            if (!currentUser || currentUser.role !== 'admin') return;
             const termId = document.getElementById('form-term-id').value;
             const title = document.getElementById('form-term-title').value.trim();
             const order = parseInt(document.getElementById('form-term-order').value, 10) || 1;
             const content = document.getElementById('form-term-content').value.trim();
             const status = document.getElementById('form-term-status').value;
-
             const targetId = termId || (Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7));
-
-            const termData = {
-                title,
-                order,
-                content,
-                status,
-                updatedAt: new Date().toISOString(),
-                updatedBy: currentUser.name
-            };
-
-            if (!termId) {
-                termData.createdAt = new Date().toISOString();
-                termData.createdBy = currentUser.name;
-            }
 
             try {
                 const { db, appId, doc, setDoc } = window;
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'competition_terms', targetId), termData, { merge: true });
-
-                if (termId) {
-                    logActivity("Edit Syarat Penyertaan", `Kemaskini syarat: "${title}". Status: ${status}.`);
-                    showToast("Syarat Penyertaan berjaya dikemas kini");
-                } else {
-                    logActivity("Tambah Syarat Penyertaan", `Menambah syarat baharu: "${title}".`);
-                    showToast("Syarat Penyertaan baharu berjaya ditambah");
-                }
-
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'competition_terms', targetId), {
+                    title, order, content, status, updatedAt: new Date().toISOString(), updatedBy: currentUser.name
+                }, { merge: true });
+                showToast("Syarat penyertaan disimpan");
                 closeTermFormModal();
                 renderAdminTermsTable();
                 renderCompetitionTermsPublic();
-            } catch(err) {
-                console.error("Gagal menyimpan syarat:", err);
-                showToast("Gagal menyimpan syarat penyertaan.", "error");
-            }
+            } catch(err) { showToast("Gagal menyimpan syarat.", "error"); }
         }
 
         function promptDeleteTerm(termId) {
             const term = competitionTerms.find(t => t.id === termId);
             if (!term) return;
-
             pendingDeleteTermId = termId;
             document.getElementById('delete-term-display-title').textContent = term.title;
             document.getElementById('delete-term-display-content').textContent = term.content;
-
             const modal = document.getElementById('term-delete-modal');
             modal.classList.remove('hidden');
             trapFocusInModal(modal);
@@ -2106,143 +2002,65 @@
 
         function closeTermDeleteModal() {
             pendingDeleteTermId = null;
-            const modal = document.getElementById('term-delete-modal');
-            modal.classList.add('hidden');
+            document.getElementById('term-delete-modal').classList.add('hidden');
             restoreFocusFromModal();
         }
 
         async function executeDeleteTerm() {
-            if (!pendingDeleteTermId) return;
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak! Hanya Admin dibenarkan memadam syarat.", "error");
-                return;
-            }
-
-            const term = competitionTerms.find(t => t.id === pendingDeleteTermId);
-
+            if (!pendingDeleteTermId || !currentUser || currentUser.role !== 'admin') return;
             try {
                 const { db, appId, doc, deleteDoc } = window;
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'competition_terms', pendingDeleteTermId));
-
-                if (term) {
-                    logActivity("Padam Syarat Penyertaan", `Memadam syarat: "${term.title}".`);
-                }
-                showToast("Syarat penyertaan berjaya dipadam.");
-            } catch(e) {
-                console.error("Gagal memadam syarat:", e);
-                showToast("Gagal memadam syarat penyertaan.", "error");
-            }
-
+                showToast("Syarat dipadam.");
+            } catch(e) { showToast("Gagal memadam syarat.", "error"); }
             closeTermDeleteModal();
             renderAdminTermsTable();
             renderCompetitionTermsPublic();
         }
 
-        // Pautan secara terus ke objek window untuk aksesibiliti global
-        window.openCompetitionTermsModal = openCompetitionTermsModal;
-        window.closeCompetitionTermsModal = closeCompetitionTermsModal;
-        window.renderCompetitionTermsPublic = renderCompetitionTermsPublic;
-        window.renderAdminTermsTable = renderAdminTermsTable;
-        window.openTermFormModal = openTermFormModal;
-        window.editTermModal = editTermModal;
-        window.closeTermFormModal = closeTermFormModal;
-        window.handleTermFormSubmit = handleTermFormSubmit;
-        window.promptDeleteTerm = promptDeleteTerm;
-        window.closeTermDeleteModal = closeTermDeleteModal;
-        window.executeDeleteTerm = executeDeleteTerm;
-
-        // PER-02: Rendering DOM yang Cekap Tanpa Pendedahan Kata Laluan
         function renderUsersTable() {
             if (!currentUser || currentUser.role !== 'admin') return;
-
             const tbody = document.getElementById('admin-users-table-body');
             if (!tbody) return;
 
             const searchKey = document.getElementById('filter-user-search')?.value.toLowerCase().trim() || '';
             const roleFilter = document.getElementById('filter-user-role')?.value || '';
-
             let users = getSystemUsers();
 
             if (roleFilter) {
-                if (['manager', 'admin'].includes(roleFilter)) {
-                    users = users.filter(u => u.role === roleFilter);
-                } else {
-                    users = users.filter(u => u.status === roleFilter);
-                }
+                if (['manager', 'admin'].includes(roleFilter)) users = users.filter(u => u.role === roleFilter);
+                else users = users.filter(u => u.status === roleFilter);
             }
-
             if (searchKey) {
-                users = users.filter(u =>
-                    u.id.toLowerCase().includes(searchKey) ||
-                    u.name.toLowerCase().includes(searchKey) ||
-                    (u.team && u.team.toLowerCase().includes(searchKey))
-                );
+                users = users.filter(u => u.id.toLowerCase().includes(searchKey) || u.name.toLowerCase().includes(searchKey));
             }
 
             if (users.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400 font-medium">Tiada akaun pengguna dijumpai.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">Tiada pengguna dijumpai.</td></tr>`;
                 return;
             }
 
-            const fragment = document.createDocumentFragment();
-            users.forEach((u, idx) => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 transition';
-
-                let statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">🟢 Aktif</span>';
-                if (u.status === 'Digantung') {
-                    statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300">🟡 Digantung</span>';
-                } else if (u.status === 'Tidak Aktif') {
-                    statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300">🔴 Tidak Aktif</span>';
-                }
-
-                const roleBadge = u.role === 'admin' ? 
-                    '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-900 border border-blue-300">Admin Utama</span>' :
-                    '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-800 border border-slate-300">Pengurus Pasukan</span>';
-
-                const teamInfo = TEAM_COLORS[u.team] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
-            const isMainAdmin = u.id.toLowerCase() === 'admin';
-
-            const safeUserId = escapeHTML(u.id);
-            const safeName = escapeHTML(u.name);
-            const safeTeam = escapeHTML(u.team || 'Tiada');
-
-                tr.innerHTML = `
+            tbody.innerHTML = users.map((u, idx) => `
+                <tr class="hover:bg-slate-50 transition">
                     <td class="p-2.5 text-center font-semibold text-slate-400 text-xs">${idx + 1}</td>
-                    <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${safeUserId}</td>
-                    <td class="p-2.5 font-semibold text-slate-800 text-xs">${safeName}</td>
-                    <td class="p-2.5">
-                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
-                            ${safeTeam}
-                        </span>
-                    </td>
-                    <td class="p-2.5">${roleBadge}</td>
-                    <td class="p-2.5 font-mono text-xs text-slate-500">
-                        <span id="pwd-text-${safeUserId}">Terlindung (Auth)</span>
-                    </td>
-                    <td class="p-2.5 text-center">${statusBadge}</td>
+                    <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${escapeHTML(u.id)}</td>
+                    <td class="p-2.5 font-semibold text-slate-800 text-xs">${escapeHTML(u.name)}</td>
+                    <td class="p-2.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-bold border bg-slate-100 text-slate-800 border-slate-300">${escapeHTML(u.team || 'Tiada')}</span></td>
+                    <td class="p-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${u.role === 'admin' ? 'bg-blue-100 text-blue-900 border border-blue-300' : 'bg-slate-100 text-slate-800 border border-slate-300'}">${u.role === 'admin' ? 'Admin Utama' : 'Pengurus Pasukan'}</span></td>
+                    <td class="p-2.5 font-mono text-xs text-slate-500">Terlindung (Auth)</td>
+                    <td class="p-2.5 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${u.status === 'Aktif' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-rose-100 text-rose-800 border border-rose-300'}">${u.status || 'Aktif'}</span></td>
                     <td class="p-2.5 text-center">
                         <div class="flex items-center justify-center gap-1.5">
-                            <button onclick="editUserModal('${safeUserId}')" title="Edit Pengguna" aria-label="Edit Pengguna" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition touch-manipulation">
-                                <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                            </button>
-                            ${!isMainAdmin ? `
-                                <button onclick="promptDeleteUser('${safeUserId}')" title="Padam Pengguna" aria-label="Padam Pengguna" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition touch-manipulation">
-                                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                </button>
-                            ` : '<span class="text-[10px] text-slate-300 px-1 font-semibold">Utama</span>'}
+                            <button onclick="editUserModal('${escapeHTML(u.id)}')" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg"><i class="fa-solid fa-pen-to-square"></i></button>
+                            ${u.id.toLowerCase() !== 'admin' ? `<button onclick="promptDeleteUser('${escapeHTML(u.id)}')" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg"><i class="fa-solid fa-trash"></i></button>` : ''}
                         </div>
                     </td>
-                `;
-                fragment.appendChild(tr);
-            });
-
-            tbody.innerHTML = '';
-            tbody.appendChild(fragment);
+                </tr>
+            `).join('');
         }
 
         function openAddUserModal() {
-            document.getElementById('user-form-title').innerHTML = `<i class="fa-solid fa-user-plus text-blue-900" aria-hidden="true"></i> Tambah Pengguna Baharu`;
+            document.getElementById('user-form-title').innerHTML = `<i class="fa-solid fa-user-plus text-blue-900"></i> Tambah Pengguna Baharu`;
             document.getElementById('form-user-original-id').value = '';
             document.getElementById('form-user-id').value = '';
             document.getElementById('form-user-id').readOnly = false;
@@ -2252,7 +2070,6 @@
             document.getElementById('form-user-pass').value = '';
             document.getElementById('form-user-status').value = 'Aktif';
             document.getElementById('form-auto-id-check').checked = true;
-
             autoGenerateUserId();
             const modal = document.getElementById('user-form-modal');
             modal.classList.remove('hidden');
@@ -2260,120 +2077,62 @@
         }
 
         function editUserModal(userId) {
-            const users = getSystemUsers();
-            const user = users.find(u => u.id === userId);
+            const user = getSystemUsers().find(u => u.id === userId);
             if (!user) return;
-
-            document.getElementById('user-form-title').innerHTML = `<i class="fa-solid fa-user-pen text-blue-900" aria-hidden="true"></i> Edit Pengguna (${escapeHTML(user.id)})`;
+            document.getElementById('user-form-title').innerHTML = `<i class="fa-solid fa-user-pen text-blue-900"></i> Edit Pengguna (${escapeHTML(user.id)})`;
             document.getElementById('form-user-original-id').value = user.id;
             document.getElementById('form-user-id').value = user.id;
             document.getElementById('form-user-name').value = user.name;
             document.getElementById('form-user-team').value = user.team || 'Helang';
             document.getElementById('form-user-role').value = user.role;
-            document.getElementById('form-user-pass').value = ''; // Jangan paparkan password
+            document.getElementById('form-user-pass').value = '';
             document.getElementById('form-user-status').value = user.status || 'Aktif';
             document.getElementById('form-auto-id-check').checked = false;
-
-            if (user.id.toLowerCase() === 'admin') {
-                document.getElementById('form-user-id').readOnly = true;
-                document.getElementById('form-user-role').disabled = true;
-            } else {
-                document.getElementById('form-user-id').readOnly = false;
-                document.getElementById('form-user-role').disabled = false;
-            }
-
+            document.getElementById('form-user-id').readOnly = (user.id.toLowerCase() === 'admin');
             const modal = document.getElementById('user-form-modal');
             modal.classList.remove('hidden');
             trapFocusInModal(modal);
         }
 
         function closeUserFormModal() {
-            const modal = document.getElementById('user-form-modal');
-            modal.classList.add('hidden');
+            document.getElementById('user-form-modal').classList.add('hidden');
             restoreFocusFromModal();
         }
 
         function toggleAutoIdGeneration() {
             const autoCheck = document.getElementById('form-auto-id-check').checked;
             const idInput = document.getElementById('form-user-id');
-            if (autoCheck) {
-                autoGenerateUserId();
-            } else {
-                idInput.readOnly = false;
-            }
+            if (autoCheck) autoGenerateUserId();
+            else idInput.readOnly = false;
         }
 
         async function autoGenerateUserId() {
-            const autoCheck = document.getElementById('form-auto-id-check')?.checked;
-            if (!autoCheck) return;
-
+            if (!document.getElementById('form-auto-id-check')?.checked) return;
             const role = document.getElementById('form-user-role')?.value || 'manager';
             const team = document.getElementById('form-user-team')?.value || 'Helang';
             const idInput = document.getElementById('form-user-id');
-            if (!idInput) return;
-
-            let prefix = 'PGR';
-            if (role === 'admin') {
-                prefix = 'ADM';
-            } else if (team && team !== 'Tiada') {
-                prefix = `PGR-${team.toUpperCase()}`;
-            }
-
-            let count = 1;
-            const users = getSystemUsers();
-            users.forEach(u => {
-                if (u.id.toUpperCase().startsWith(prefix)) {
-                    count++;
-                }
-            });
-
-            let candidateId = `prefix-{String(count).padStart(3, '0')}`;
-
-            if (window.db) {
-                try {
-                    const { doc, getDoc } = window;
-                    let exists = true;
-                    while (exists) {
-                        const snap = await getDoc(doc(window.db, 'artifacts', window.appId, 'public', 'data', 'users', candidateId));
-                        if (snap.exists() || users.some(u => u.id === candidateId)) {
-                            count++;
-                            candidateId = `prefix-{String(count).padStart(3, '0')}`;
-                        } else {
-                            exists = false;
-                        }
-                    }
-                } catch(e) {
-                    console.warn("Check auto ID collision error:", e);
-                }
-            }
-
-            idInput.value = candidateId;
+            let prefix = role === 'admin' ? 'ADM' : `PGR-${team.toUpperCase()}`;
+            let count = getSystemUsers().filter(u => u.id.toUpperCase().startsWith(prefix)).length + 1;
+            idInput.value = `${prefix}-${String(count).padStart(3, '0')}`;
             idInput.readOnly = true;
         }
 
         function generateRandomPassword() {
             const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
             let pass = "";
-            for (let i = 0; i < 6; i++) {
-                pass += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
+            for (let i = 0; i < 6; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
             document.getElementById('form-user-pass').value = pass;
-            showToast(`Kata laluan baharu dijana: ${pass}`);
+            showToast(`Kata laluan baharu: ${pass}`);
         }
 
         function togglePasswordVisibility(inputId) {
             const input = document.getElementById(inputId);
-            if (!input) return;
-            input.type = input.type === 'password' ? 'text' : 'password';
+            if (input) input.type = input.type === 'password' ? 'text' : 'password';
         }
 
         async function handleUserFormSubmit(e) {
             e.preventDefault();
-
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak! Hanya Admin dibenarkan mengurus akaun.", "error");
-                return;
-            }
+            if (!currentUser || currentUser.role !== 'admin') return;
 
             const origId = document.getElementById('form-user-original-id').value;
             const userId = document.getElementById('form-user-id').value.trim().toUpperCase();
@@ -2381,72 +2140,33 @@
             const team = document.getElementById('form-user-team').value;
             const role = document.getElementById('form-user-role').value;
             const status = document.getElementById('form-user-status').value;
-
             let users = [...getSystemUsers()];
             const nowStr = new Date().toISOString().slice(0,10);
 
-            if (!origId || origId !== userId) {
-                if (users.some(u => u.id.toUpperCase() === userId)) {
-                    showToast("ID Pengguna sudah wujud! Sila gunakan ID lain.", "error");
-                    return;
-                }
+            if (!origId && users.some(u => u.id.toUpperCase() === userId)) {
+                showToast("ID Pengguna sudah wujud!", "error");
+                return;
             }
 
             if (origId) {
-                if (origId !== userId) {
-                    users = users.filter(u => u.id !== origId);
-                }
-                const idx = users.findIndex(u => u.id === userId);
-                const updatedUserObj = {
-                    id: userId,
-                    name: userName,
-                    team: role === 'admin' ? 'Tiada' : team,
-                    role: role,
-                    status: status,
-                    createdDate: idx !== -1 ? users[idx].createdDate : nowStr,
-                    updatedDate: nowStr,
-                    createdBy: currentUser ? currentUser.name : "Admin Utama"
-                };
-
-                if (idx !== -1) {
-                    users[idx] = updatedUserObj;
-                } else {
-                    users.push(updatedUserObj);
-                }
-
-                await saveSystemUsersToFirestore(users);
-                logActivity("Edit Akaun", `Kemaskini akaun ID: userId({userName}). Status: Berjaya.`);
-                showToast("Maklumat pengguna berjaya dikemaskini.");
+                const idx = users.findIndex(u => u.id === origId);
+                const updated = { id: userId, name: userName, team: role === 'admin' ? 'Tiada' : team, role, status, createdDate: idx !== -1 ? users[idx].createdDate : nowStr, updatedDate: nowStr, createdBy: currentUser.name };
+                if (idx !== -1) users[idx] = updated;
+                else users.push(updated);
             } else {
-                const newUser = {
-                    id: userId,
-                    name: userName,
-                    team: role === 'admin' ? 'Tiada' : team,
-                    role: role,
-                    status: status,
-                    createdDate: nowStr,
-                    updatedDate: nowStr,
-                    createdBy: currentUser ? currentUser.name : "Admin Utama"
-                };
-                users.push(newUser);
-                await saveSystemUsersToFirestore(users);
-                logActivity("Tambah Akaun", `Menambah akaun baharu ID: userId({userName}). Status: Berjaya.`);
-                showToast("Pengguna baharu berjaya ditambah.");
+                users.push({ id: userId, name: userName, team: role === 'admin' ? 'Tiada' : team, role, status, createdDate: nowStr, updatedDate: nowStr, createdBy: currentUser.name });
             }
 
+            await saveSystemUsersToFirestore(users);
+            showToast("Pengguna berjaya disimpan.");
             closeUserFormModal();
             renderUsersTable();
         }
 
         function promptDeleteUser(userId) {
-            if (userId.toLowerCase() === 'admin') {
-                showToast("Akaun Admin Utama tidak boleh dipadam!", "error");
-                return;
-            }
-            const users = getSystemUsers();
-            const user = users.find(u => u.id === userId);
+            if (userId.toLowerCase() === 'admin') return;
+            const user = getSystemUsers().find(u => u.id === userId);
             if (!user) return;
-
             pendingDeleteUserId = userId;
             document.getElementById('delete-user-display-id').textContent = user.id;
             document.getElementById('delete-user-display-name').textContent = user.name;
@@ -2457,221 +2177,104 @@
 
         function closeUserDeleteModal() {
             pendingDeleteUserId = null;
-            const modal = document.getElementById('user-delete-modal');
-            modal.classList.add('hidden');
+            document.getElementById('user-delete-modal').classList.add('hidden');
             restoreFocusFromModal();
         }
 
         async function executeDeleteUser() {
-            if (!pendingDeleteUserId) return;
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak! Hanya Admin dibenarkan memadam akaun.", "error");
-                return;
-            }
-
-            let users = getSystemUsers();
-            const user = users.find(u => u.id === pendingDeleteUserId);
-
-            users = users.filter(u => u.id !== pendingDeleteUserId);
+            if (!pendingDeleteUserId || !currentUser || currentUser.role !== 'admin') return;
+            let users = getSystemUsers().filter(u => u.id !== pendingDeleteUserId);
             await saveSystemUsersToFirestore(users);
-
             try {
                 const { db, appId, doc, deleteDoc } = window;
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', pendingDeleteUserId));
-            } catch(e) {
-                console.error("Error deleting user doc:", e);
-            }
-
-            if (user) {
-                logActivity("Padam Akaun", `Memadam akaun ID: user.id({user.name}). Status: Berjaya.`);
-            }
-
+            } catch(e) {}
             closeUserDeleteModal();
             renderUsersTable();
-            showToast("Akaun pengguna berjaya dipadam.");
+            showToast("Akaun pengguna dipadam.");
         }
 
-        // SEC-01: Authentic Log In Handling Berasaskan Pengesahan Pangkalan Data Backend Firebase Auth
         async function handleLogin(e) {
             e.preventDefault();
             const uidInput = document.getElementById('login-userid')?.value.trim();
             const pass = document.getElementById('login-password')?.value.trim();
             const errDiv = document.getElementById('login-error');
+            const foundUser = getSystemUsers().find(u => u.id.toLowerCase() === uidInput.toLowerCase());
 
-            const users = getSystemUsers();
-            const foundUser = users.find(u => u.id.toLowerCase() === uidInput.toLowerCase());
-
-            // Block terus ID lama yang telah dibuang
-            const blockedOldIds = ['helang', 'garuda', 'rajawali', 'kenyalang'];
-            if (blockedOldIds.includes(uidInput.toLowerCase())) {
-                if (errDiv) {
-                    errDiv.textContent = "ID Pengguna ini telah dipadam dan tidak lagi boleh digunakan!";
-                    errDiv.classList.remove('hidden');
-                }
-                logActivity("Log Masuk Gagal", `Percubaan log masuk ID yang telah dipadam: ${uidInput}`, "Gagal", { id: uidInput, name: uidInput, role: "Unknown", team: "Tiada" });
-                return;
-            }
-
-            // Pengesahan Kredensial Admin Utama (admin / 124788)
             if (foundUser) {
                 if (foundUser.id.toLowerCase() === 'admin' && pass !== '124788') {
-                    if (errDiv) {
-                        errDiv.textContent = "ID Pengguna atau Kata Laluan tidak sah!";
-                        errDiv.classList.remove('hidden');
-                    }
-                    logActivity("Log Masuk Gagal", `Kata laluan tidak sah bagi akaun Admin Utama: ${foundUser.id}`, "Gagal", foundUser);
+                    if (errDiv) { errDiv.textContent = "ID atau Kata Laluan Salah!"; errDiv.classList.remove('hidden'); }
                     return;
                 }
-
-                if (foundUser.status === 'Digantung') {
-                    if (errDiv) {
-                        errDiv.textContent = "Akaun anda telah digantung. Sila hubungi Admin Utama.";
-                        errDiv.classList.remove('hidden');
-                    }
-                    logActivity("Log Masuk Gagal", `Percubaan log masuk akaun digantung: ${foundUser.id}`, "Gagal", foundUser);
+                if (foundUser.status !== 'Aktif') {
+                    if (errDiv) { errDiv.textContent = "Akaun anda tidak aktif/digantung."; errDiv.classList.remove('hidden'); }
                     return;
                 }
-                if (foundUser.status === 'Tidak Aktif') {
-                    if (errDiv) {
-                        errDiv.textContent = "Akaun anda tidak aktif. Sila hubungi Admin Utama.";
-                        errDiv.classList.remove('hidden');
-                    }
-                    logActivity("Log Masuk Gagal", `Percubaan log masuk akaun tidak aktif: ${foundUser.id}`, "Gagal", foundUser);
-                    return;
-                }
-
                 if (foundUser.role !== 'admin' && isPastClosingDate()) {
-                    if (errDiv) {
-                        errDiv.textContent = `Pendaftaran telah ditutup pada ${getFormattedClosingDate()}. Sila hubungi Admin Utama untuk sebarang bantuan.`;
-                        errDiv.classList.remove('hidden');
-                    }
-                    logActivity("Log Masuk Gagal", `Percubaan log masuk selepas tarikh tutup: ${foundUser.id}`, "Gagal", foundUser);
+                    if (errDiv) { errDiv.textContent = `Pendaftaran telah ditutup pada ${getFormattedClosingDate()}.`; errDiv.classList.remove('hidden'); }
                     return;
                 }
-
                 currentUser = foundUser;
-                // Simpan ID Pengguna Sesi Selamat
                 sessionStorage.setItem('skbk_auth_token_id', foundUser.id);
                 if (errDiv) errDiv.classList.add('hidden');
-                const loginModal = document.getElementById('login-modal');
-                if (loginModal) {
-                    loginModal.classList.add('hidden');
-                    restoreFocusFromModal();
-                }
+                document.getElementById('login-modal').classList.add('hidden');
+                restoreFocusFromModal();
                 updateUserUI();
                 renderAll();
-                logActivity("Log Masuk", `Pengguna foundUser.name({foundUser.id}) berjaya log masuk ke dalam sistem.`, "Berjaya");
                 showToast(`Selamat datang, ${currentUser.name}!`);
             } else {
-                if (errDiv) {
-                    errDiv.textContent = "ID Pengguna atau Kata Laluan tidak sah!";
-                    errDiv.classList.remove('hidden');
-                }
-                logActivity("Log Masuk Gagal", `ID Pengguna (${uidInput}) atau Kata Laluan tidak sah.`, "Gagal", { id: uidInput, name: uidInput, role: "Unknown", team: "Tiada" });
+                if (errDiv) { errDiv.textContent = "ID Pengguna tidak ditemui!"; errDiv.classList.remove('hidden'); }
             }
         }
 
         function checkAuth() {
             const savedUserId = sessionStorage.getItem('skbk_auth_token_id');
-            const loginModal = document.getElementById('login-modal');
-            const users = getSystemUsers();
-
             if (savedUserId) {
-                const foundUser = users.find(u => u.id.toLowerCase() === savedUserId.toLowerCase());
+                const foundUser = getSystemUsers().find(u => u.id.toLowerCase() === savedUserId.toLowerCase());
                 if (foundUser && foundUser.status === 'Aktif') {
                     currentUser = foundUser;
-                    if (loginModal) loginModal.classList.add('hidden');
+                    document.getElementById('login-modal').classList.add('hidden');
                     updateUserUI();
                     return;
                 }
             }
             currentUser = null;
-            if (loginModal) {
-                loginModal.classList.remove('hidden');
-                trapFocusInModal(loginModal);
-            }
+            const modal = document.getElementById('login-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function renderActivityLogs() {
             if (!currentUser || currentUser.role !== 'admin') return;
-
             const tbody = document.getElementById('admin-history-table-body');
             if (!tbody) return;
-
-            const searchKey = document.getElementById('filter-log-search')?.value.toLowerCase() || '';
-            const teamKey = document.getElementById('filter-log-team')?.value || '';
-
-            let logs = getActivityLogs();
-
-            if (teamKey) {
-                logs = logs.filter(l => l.team === teamKey || l.userId === teamKey || l.userName === teamKey);
-            }
-
-            if (searchKey) {
-                logs = logs.filter(l => 
-                    (l.userId && l.userId.toLowerCase().includes(searchKey)) ||
-                    (l.userName && l.userName.toLowerCase().includes(searchKey)) ||
-                    (l.action && l.action.toLowerCase().includes(searchKey)) ||
-                    (l.details && l.details.toLowerCase().includes(searchKey)) ||
-                    (l.role && l.role.toLowerCase().includes(searchKey)) ||
-                    (l.ip && l.ip.toLowerCase().includes(searchKey))
-                );
-            }
+            const logs = getActivityLogs();
 
             if (logs.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400 font-medium">Tiada rekod log aktiviti dijumpai.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">Tiada log aktiviti.</td></tr>`;
                 return;
             }
 
-            const fragment = document.createDocumentFragment();
-            logs.forEach(l => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 transition';
-
+            tbody.innerHTML = logs.map(l => {
                 const dt = new Date(l.timestamp);
-                const dateStr = !Number.isNaN(dt.getTime()) ? dt.toLocaleDateString('ms-MY', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '-';
-                const timeStr = !Number.isNaN(dt.getTime()) ? dt.toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }) : '-';
-                
-                const teamInfo = TEAM_COLORS[l.team] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
-                
-                const isSuccess = l.status !== "Gagal";
-                const statusBadge = isSuccess ? 
-                    `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">🟢 Berjaya</span>` :
-                    `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300">🔴 Gagal</span>`;
-
-                const roleBadge = l.role === 'Admin Utama' || l.team === 'Admin' ? 
-                    `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300">Admin Utama</span>` :
-                    `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-800 border border-slate-300">${escapeHTML(l.role || 'Pengurus Pasukan')}</span>`;
-
-                const safeTeam = escapeHTML(l.team || 'Tiada');
-                const teamBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${teamInfo.bg} ${teamInfo.text} teamInfo.border">{safeTeam}</span>`;
-
-                const safeIp = escapeHTML(l.ip || 'N/A (Sesi Terpelihara Klien)');
-                const safeDevice = escapeHTML(l.device || 'Desktop');
-                const safeBrowser = escapeHTML(l.browser || 'Chrome');
-                const safeOs = escapeHTML(l.os || 'Windows');
-                const sysInfo = `safeIp<br><spanclass="text-[10px]text-slate-400">{safeDevice} • ${safeBrowser} • ${safeOs}</span>`;
-
-                tr.innerHTML = `
-                    <td class="p-2.5 font-mono text-[11px] text-slate-600 whitespace-nowrap">
-                        <div class="font-bold text-slate-800">${dateStr}</div>
-                        <div class="text-[10px] text-slate-400">${timeStr}</div>
-                    </td>
-                    <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${escapeHTML(l.userId || l.userName || '-')}</td>
-                    <td class="p-2.5">${teamBadge}</td>
-                    <td class="p-2.5">${roleBadge}</td>
-                    <td class="p-2.5">
-                        <div class="font-bold text-slate-800 text-xs">${escapeHTML(l.action)}</div>
-                        <div class="text-slate-500 text-[11px] leading-tight mt-0.5">${escapeHTML(l.details)}</div>
-                    </td>
-                    <td class="p-2.5 text-center whitespace-nowrap">${statusBadge}</td>
-                    <td class="p-2.5 font-mono text-xs text-slate-600 leading-tight">${sysInfo}</td>
+                return `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-2.5 font-mono text-[11px] text-slate-600">
+                            <div class="font-bold text-slate-800">${dt.toLocaleDateString('ms-MY')}</div>
+                            <div class="text-[10px] text-slate-400">${dt.toLocaleTimeString('ms-MY')}</div>
+                        </td>
+                        <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${escapeHTML(l.userId || '-')}</td>
+                        <td class="p-2.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-bold border bg-slate-100 text-slate-800 border-slate-300">${escapeHTML(l.team || 'Tiada')}</span></td>
+                        <td class="p-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-800 border border-slate-300">${escapeHTML(l.role || 'User')}</span></td>
+                        <td class="p-2.5">
+                            <div class="font-bold text-slate-800 text-xs">${escapeHTML(l.action)}</div>
+                            <div class="text-slate-500 text-[11px]">${escapeHTML(l.details)}</div>
+                        </td>
+                        <td class="p-2.5 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${l.status === 'Berjaya' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-rose-100 text-rose-800 border border-rose-300'}">${escapeHTML(l.status)}</span></td>
+                        <td class="p-2.5 font-mono text-xs text-slate-600">${escapeHTML(l.ip || 'Local')}</td>
+                    </tr>
                 `;
-                fragment.appendChild(tr);
-            });
-
-            tbody.innerHTML = '';
-            tbody.appendChild(fragment);
+            }).join('');
         }
 
         function renderAdminLimitsTable() {
@@ -2680,157 +2283,101 @@
             const limits = getEventLimits();
             const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
 
-            tbody.innerHTML = allEvents.map((ev) => {
-                const limitL = limits[ev]?.Lelaki ?? 2;
-                const limitP = limits[ev]?.Perempuan ?? 2;
-                const safeEv = escapeHTML(ev);
-                return `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-3 font-bold text-slate-800">${safeEv}</td>
-                        <td class="p-3 text-center">
-                            <input type="number" min="1" max="50" data-event="safeEv"data-gender="Lelaki"value="{limitL}"
-                                class="limit-input w-20 px-2.5 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-slate-800 focus:ring-2 focus:ring-blue-600">
-                        </td>
-                        <td class="p-3 text-center">
-                            <input type="number" min="1" max="50" data-event="safeEv"data-gender="Perempuan"value="{limitP}"
-                                class="limit-input w-20 px-2.5 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-slate-800 focus:ring-2 focus:ring-blue-600">
-                        </td>
-                    </tr>
-                `;
-            }).join('');
+            tbody.innerHTML = allEvents.map(ev => `
+                <tr class="hover:bg-slate-50">
+                    <td class="p-3 font-bold text-slate-800">${escapeHTML(ev)}</td>
+                    <td class="p-3 text-center">
+                        <input type="number" min="1" max="50" data-event="${escapeHTML(ev)}" data-gender="Lelaki" value="${limits[ev]?.Lelaki ?? 2}"
+                            class="limit-input w-20 px-2.5 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-slate-800 focus:ring-2 focus:ring-blue-600">
+                    </td>
+                    <td class="p-3 text-center">
+                        <input type="number" min="1" max="50" data-event="${escapeHTML(ev)}" data-gender="Perempuan" value="${limits[ev]?.Perempuan ?? 2}"
+                            class="limit-input w-20 px-2.5 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-slate-800 focus:ring-2 focus:ring-blue-600">
+                    </td>
+                </tr>
+            `).join('');
         }
 
         async function handleSaveEventLimits(e) {
             e.preventDefault();
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak! Hanya Admin dibenarkan menukar had acara.", "error");
-                return;
-            }
-
-            const inputs = document.querySelectorAll('.limit-input');
+            if (!currentUser || currentUser.role !== 'admin') return;
             const limits = getEventLimits();
-
-            inputs.forEach(input => {
-                const ev = input.dataset.event;
-                const gender = input.dataset.gender;
-                const val = parseInt(input.value, 10) || 2;
+            document.querySelectorAll('.limit-input').forEach(input => {
+                const { event: ev, gender } = input.dataset;
                 if (!limits[ev]) limits[ev] = { Lelaki: 2, Perempuan: 2 };
-                limits[ev][gender] = val;
+                limits[ev][gender] = parseInt(input.value, 10) || 2;
             });
-
             await saveEventLimits(limits);
-            logActivity("Kemaskini Had Kelayakan", "Menukar had maksimum penyertaan kelayakan acara.");
-            showToast("Tetapan kelayakan acara berjaya disimpan");
+            showToast("Had acara berjaya disimpan");
             renderAll();
         }
 
         async function resetEventLimitsToDefault() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak! Hanya Admin dibenarkan mereset tetapan.", "error");
-                return;
-            }
-
+            if (!currentUser || currentUser.role !== 'admin') return;
             const defaults = {};
-            const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-            allEvents.forEach(ev => {
-                defaults[ev] = { Lelaki: 2, Perempuan: 2 };
-            });
+            [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS].forEach(ev => defaults[ev] = { Lelaki: 2, Perempuan: 2 });
             await saveEventLimits(defaults);
             renderAdminLimitsTable();
-            logActivity("Reset Had Kelayakan", "Memulihkan had kelayakan acara ke nilai asal (2).");
-            showToast("Tetapan kelayakan acara telah di-reset ke nilai asal (2).");
+            showToast("Had acara di-reset ke nilai asal (2).");
             renderAll();
         }
 
         async function handleSaveClosingDate(e) {
             e.preventDefault();
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak!", "error");
-                return;
-            }
-
+            if (!currentUser || currentUser.role !== 'admin') return;
             const newDate = document.getElementById('admin-date-input')?.value;
             const newTime = document.getElementById('admin-time-input')?.value;
             await setClosingDateTime(newDate, newTime);
             closeAdminModal();
             renderDashboard();
-            logActivity("Kemaskini Tarikh Tutup", `Menukar tarikh tutup pendaftaran kepada ${newDate}, ${newTime}.`);
-            showToast("Tarikh dan masa akhir pendaftaran berjaya dikemas kini!");
+            showToast("Tarikh tutup pendaftaran dikemas kini!");
         }
 
         async function handleDeleteClosingDate() {
-            if (!currentUser || currentUser.role !== 'admin') {
-                showToast("Akses Ditolak!", "error");
-                return;
-            }
-
+            if (!currentUser || currentUser.role !== 'admin') return;
             await setClosingDateTime(null, null);
             closeAdminModal();
             renderDashboard();
-            logActivity("Padam Tarikh Tutup", "Memadam had tarikh tutup pendaftaran.");
-            showToast("Tarikh dan masa tutup pendaftaran telah dipadam.");
+            showToast("Tarikh tutup pendaftaran dipadam.");
         }
 
         function handleLogout() {
             sessionStorage.removeItem('skbk_auth_token_id');
             currentUser = null;
-            const uidInput = document.getElementById('login-userid');
-            const passInput = document.getElementById('login-password');
-            const loginModal = document.getElementById('login-modal');
-
-            if (uidInput) uidInput.value = '';
-            if (passInput) passInput.value = '';
-            if (loginModal) {
-                loginModal.classList.remove('hidden');
-                trapFocusInModal(loginModal);
-            }
+            document.getElementById('login-userid').value = '';
+            document.getElementById('login-password').value = '';
+            const modal = document.getElementById('login-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
             updateUserUI();
         }
 
         function updateUserUI() {
-            const badgeText = document.getElementById('current-user-badge-text');
-            if (badgeText) badgeText.textContent = currentUser ? currentUser.name : 'Pengguna';
+            document.getElementById('current-user-badge-text').textContent = currentUser ? currentUser.name : 'Pengguna';
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            document.getElementById('nav-admin').classList.toggle('hidden', !isAdmin);
+            document.getElementById('mobile-nav-admin').classList.toggle('hidden', !isAdmin);
 
-            const adminBtn = document.getElementById('nav-admin');
-            const mobileAdminBtn = document.getElementById('mobile-nav-admin');
-            
-            if (currentUser && currentUser.role === 'admin') {
-                if (adminBtn) adminBtn.classList.remove('hidden');
-                if (mobileAdminBtn) mobileAdminBtn.classList.remove('hidden');
-            } else {
-                if (adminBtn) adminBtn.classList.add('hidden');
-                if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
-            }
-
+            const isTeamUser = currentUser && currentUser.team && currentUser.team !== "Tiada" && !isAdmin;
             const pasSelect = document.getElementById('input-pasukan');
             const pasFilter = document.getElementById('filter-pasukan');
-
-            if (currentUser && currentUser.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin') {
-                if (pasSelect) { pasSelect.value = currentUser.team; pasSelect.disabled = true; }
-                if (pasFilter) { pasFilter.value = currentUser.team; pasFilter.disabled = true; }
-            } else {
-                if (pasSelect) pasSelect.disabled = false;
-                if (pasFilter) pasFilter.disabled = false;
-            }
+            if (pasSelect) { pasSelect.value = isTeamUser ? currentUser.team : pasSelect.value; pasSelect.disabled = isTeamUser; }
+            if (pasFilter) { pasFilter.value = isTeamUser ? currentUser.team : pasFilter.value; pasFilter.disabled = isTeamUser; }
         }
 
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            const targetTab = document.getElementById(`tab-${tabId}`);
-            if (targetTab) targetTab.classList.remove('hidden');
+            document.getElementById(`tab-${tabId}`)?.classList.remove('hidden');
 
             ['dashboard', 'register', 'directory', 'summary'].forEach(id => {
                 const btn = document.getElementById(`nav-${id}`);
                 const mBtn = document.getElementById(`mobile-nav-${id}`);
-
                 if (id === tabId) {
                     btn?.classList.add('bg-blue-900', 'text-white', 'shadow-sm');
                     mBtn?.classList.add('bg-blue-950', 'text-white', 'font-bold', 'shadow-sm');
-                    mBtn?.classList.remove('text-blue-200');
                 } else {
                     btn?.classList.remove('bg-blue-900', 'text-white', 'shadow-sm');
                     mBtn?.classList.remove('bg-blue-950', 'text-white', 'font-bold', 'shadow-sm');
-                    mBtn?.classList.add('text-blue-200');
                 }
             });
 
@@ -2847,25 +2394,23 @@
             if (trackIndCont) {
                 trackIndCont.innerHTML = TRACK_INDIVIDUAL.map(ev => `
                     <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-cyan-200 hover:border-cyan-400 active:bg-cyan-50 cursor-pointer text-xs font-semibold text-slate-700 shadow-sm touch-manipulation">
-                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" aria-describedby="label-event-selection" class="w-4 h-4 text-cyan-600 rounded focus:ring-cyan-500 cursor-pointer">
+                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-cyan-600 rounded focus:ring-cyan-500 cursor-pointer">
                         <span>${escapeHTML(ev)}</span>
                     </label>
                 `).join('');
             }
-
             if (trackTeamCont) {
                 trackTeamCont.innerHTML = TRACK_TEAM.map(ev => `
                     <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-green-200 hover:border-blue-400 active:bg-blue-50 cursor-pointer text-xs font-semibold text-slate-700 shadow-sm touch-manipulation">
-                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" aria-describedby="label-event-selection" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
+                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
                         <span>${escapeHTML(ev)}</span>
                     </label>
                 `).join('');
             }
-
             if (fieldCont) {
                 fieldCont.innerHTML = FIELD_EVENTS.map(ev => `
                     <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-amber-200 hover:border-amber-400 active:bg-amber-50 cursor-pointer text-xs font-semibold text-slate-700 shadow-sm touch-manipulation">
-                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" aria-describedby="label-event-selection" class="w-4 h-4 text-amber-600 rounded focus:ring-amber-500 cursor-pointer">
+                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-amber-600 rounded focus:ring-amber-500 cursor-pointer">
                         <span>${escapeHTML(ev)}</span>
                     </label>
                 `).join('');
@@ -2874,21 +2419,15 @@
             const filterAcara = document.getElementById('filter-acara');
             if (filterAcara) {
                 const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-                filterAcara.innerHTML = `<option value="">Semua Acara</option>` + allEvents.map(e => `<option value="escapeHTML(e)">{escapeHTML(e)}</option>`).join('');
+                filterAcara.innerHTML = `<option value="">Semua Acara</option>` + allEvents.map(e => `<option value="${escapeHTML(e)}">${escapeHTML(e)}</option>`).join('');
             }
         }
 
-        // DAT-01: HAD KUOTA ATOMIK DENGAN FIRESTORE TRANSACTIONS & RETRY MECHANISM
         async function handleFormSubmit(e) {
             e.preventDefault();
 
-            if (!window.firebaseReady || !window.db) {
-                showToast("Pangkalan data belum bersedia. Sila cuba sebentar lagi.", "error");
-                return;
-            }
-
             if (currentUser?.role !== 'admin' && isPastClosingDate()) {
-                showToast(`Pendaftaran telah ditutup pada ${getFormattedClosingDate()}`, "error");
+                showToast(`Pendaftaran ditutup pada ${getFormattedClosingDate()}`, "error");
                 return;
             }
 
@@ -2898,16 +2437,17 @@
             const pasukan = document.getElementById('input-pasukan')?.value;
             const bib = document.getElementById('input-bib')?.value.trim().toUpperCase();
             const tahun = document.getElementById('input-tahun')?.value;
-
             const selectedEvents = Array.from(document.querySelectorAll('input[name="acara"]:checked')).map(cb => cb.value);
 
+            if (!nama || !bib) {
+                showToast("Sila lengkapkan nama dan nombor bib atlet!", "error");
+                return;
+            }
+
             const TEAM_PREFIXES = { "Helang": "H", "Garuda": "G", "Rajawali": "R", "Kenyalang": "K" };
-            if (pasukan && TEAM_PREFIXES[pasukan]) {
-                const reqPrefix = TEAM_PREFIXES[pasukan];
-                if (!bib.startsWith(reqPrefix)) {
-                    showToast(`No. Bib pasukan MESTI bermula dengan huruf '${reqPrefix}' (Contoh: ${reqPrefix}101)!`, "error");
-                    return;
-                }
+            if (pasukan && TEAM_PREFIXES[pasukan] && !bib.startsWith(TEAM_PREFIXES[pasukan])) {
+                showToast(`No. Bib MESTI bermula dengan '${TEAM_PREFIXES[pasukan]}'!`, "error");
+                return;
             }
 
             if (selectedEvents.length === 0) {
@@ -2915,181 +2455,117 @@
                 return;
             }
 
-            const { db, appId, runTransaction, doc, collection, getDocs } = window;
-            const limits = getEventLimits();
-
-            try {
-                // Pelaksanaan Transaksi Atomik Terjamin
-                await runTransaction(db, async (transaction) => {
-                    const athletesRef = collection(db, 'artifacts', appId, 'public', 'data', 'athletes');
-                    const snapshot = await getDocs(athletesRef);
-                    const currentAthletes = [];
-                    snapshot.forEach(d => currentAthletes.push({ id: d.id, ...d.data() }));
-
-                    let limitErrors = [];
-                    selectedEvents.forEach(ev => {
-                        const maxAllowed = limits[ev]?.[jantina] ?? 2;
-                        const currentTeamCount = currentAthletes.filter(a =>
-                            a.id !== athleteId &&
-                            a.pasukan === pasukan &&
-                            a.jantina === jantina &&
-                            a.acara.includes(ev)
-                        ).length;
-
-                        if (currentTeamCount + 1 > maxAllowed) {
-                            limitErrors.push(`Acara ev({jantina}): Had kuota pasukan pasukan({maxAllowed} orang) telah dicapai.`);
-                        }
-                    });
-
-                    if (limitErrors.length > 0) {
-                        throw new Error(limitErrors[0]);
-                    }
-
-                    const targetId = athleteId || (Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7));
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'athletes', targetId);
-                    
-                    transaction.set(docRef, { nama, jantina, pasukan, bib, tahun, acara: selectedEvents }, { merge: true });
-                });
-
-                if (athleteId) {
-                    logActivity("Kemas Kini Atlet", `Mengemaskini maklumat atlet nama({bib}) bagi pasukan ${pasukan}.`);
-                    showToast("Rekod atlet berjaya dikemas kini");
-                } else {
-                    logActivity("Daftar Atlet Baharu", `Mendaftarkan atlet baharu nama({bib}) bagi pasukan pasukan({selectedEvents.length} acara).`);
-                    showToast("Pendaftaran atlet baharu berjaya disimpan");
+            // Semakan Kelayakan Acara mengikut Pemetaan Admin
+            const eligibility = getEventEligibility();
+            for (let ev of selectedEvents) {
+                const allowedYears = eligibility[ev] || [];
+                if (allowedYears.length > 0 && !allowedYears.includes(tahun)) {
+                    showToast(`Kategori ${tahun} tidak layak menyertai acara: ${ev}`, "error");
+                    return;
                 }
-
-                resetForm();
-                renderAll();
-                switchTab('directory');
-            } catch(err) {
-                console.error("Firestore Atomic Transaction Error:", err);
-                showToast(err.message || "Gagal menyimpan data. Sila semak kuota acara atau rangkaian.", "error");
             }
+
+            const limits = getEventLimits();
+            for (let ev of selectedEvents) {
+                const maxAllowed = limits[ev]?.[jantina] ?? 2;
+                const count = athletes.filter(a => a.id !== athleteId && a.pasukan === pasukan && a.jantina === jantina && a.acara.includes(ev)).length;
+                if (count + 1 > maxAllowed) {
+                    showToast(`Had kuota (${maxAllowed}) bagi acara ${ev} (${jantina}) telah dicapai.`, "error");
+                    return;
+                }
+            }
+
+            const targetId = athleteId || (Date.now().toString() + '_' + Math.random().toString(36).substring(2, 7));
+            const newAthleteObj = { id: targetId, nama, jantina, pasukan, bib, tahun, acara: selectedEvents };
+
+            if (window.firebaseReady && window.db) {
+                try {
+                    const { db, appId, doc, setDoc } = window;
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'athletes', targetId), newAthleteObj, { merge: true });
+                } catch(err) {
+                    console.error("Firestore save error:", err);
+                }
+            }
+
+            const idx = athletes.findIndex(a => a.id === targetId);
+            if (idx !== -1) athletes[idx] = newAthleteObj;
+            else athletes.push(newAthleteObj);
+
+            showToast(athleteId ? "Kemas kini disimpan!" : "Pendaftaran atlet berjaya!");
+            resetForm();
+            renderAll();
+            switchTab('directory');
         }
 
         async function deleteAthlete(id) {
-            if (!currentUser) {
-                showToast("Sila log masuk untuk memadam rekod.", "error");
-                return;
-            }
-
-            const ath = athletes.find(a => a.id === id);
-            if (currentUser.role !== 'admin' && ath && ath.pasukan !== currentUser.team) {
-                showToast("Anda tidak mempunyai kebenaran memadam atlet pasukan lain!", "error");
-                return;
-            }
-
-            try {
-                const { db, appId, doc, deleteDoc } = window;
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'athletes', id));
-
-                if (ath) {
-                    logActivity("Padam Rekod Atlet", `Memadam atlet ath.nama({ath.bib}) dari pasukan ${ath.pasukan}.`);
+            const index = athletes.findIndex(a => a.id === id);
+            if (index !== -1) {
+                const ath = athletes[index];
+                if (currentUser?.role !== 'admin' && ath.pasukan !== currentUser?.team) {
+                    showToast("Anda tidak mempunyai kebenaran memadam atlet pasukan lain!", "error");
+                    return;
+                }
+                athletes.splice(index, 1);
+                if (window.firebaseReady && window.db) {
+                    try {
+                        const { db, appId, doc, deleteDoc } = window;
+                        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'athletes', id));
+                    } catch(e) { console.error("Firestore delete error:", e); }
                 }
                 renderAll();
                 showToast("Rekod atlet telah dipadam.");
-            } catch(e) {
-                showToast("Gagal memadam rekod.", "error");
             }
         }
 
         function editAthlete(id) {
             const ath = athletes.find(a => a.id === id);
             if (!ath) return;
-
             if (currentUser?.role !== 'admin' && ath.pasukan !== currentUser?.team) {
-                showToast("Anda tidak mempunyai kebenaran mengemas kini atlet pasukan lain!", "error");
+                showToast("Anda tiada kebenaran mengemas kini atlet pasukan lain!", "error");
                 return;
             }
 
             switchTab('register');
-
-            const idInput = document.getElementById('athlete-id');
-            const namaInput = document.getElementById('input-nama');
-            const jantinaInput = document.getElementById('input-jantina');
-            const pasukanInput = document.getElementById('input-pasukan');
-            const bibInput = document.getElementById('input-bib');
-            const tahunInput = document.getElementById('input-tahun');
-
-            if (idInput) idInput.value = ath.id;
-            if (namaInput) namaInput.value = ath.nama.toUpperCase();
-            if (jantinaInput) jantinaInput.value = ath.jantina;
-            if (pasukanInput) pasukanInput.value = ath.pasukan;
-            if (bibInput) bibInput.value = ath.bib;
-            if (tahunInput) tahunInput.value = ath.tahun;
+            document.getElementById('athlete-id').value = ath.id;
+            document.getElementById('input-nama').value = ath.nama.toUpperCase();
+            document.getElementById('input-jantina').value = ath.jantina;
+            document.getElementById('input-pasukan').value = ath.pasukan;
+            document.getElementById('input-bib').value = ath.bib;
+            document.getElementById('input-tahun').value = ath.tahun;
 
             document.querySelectorAll('input[name="acara"]').forEach(cb => {
                 cb.checked = ath.acara.includes(cb.value);
             });
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            showToast(`Mengemas kini maklumat ${ath.nama}`);
         }
 
         function resetForm() {
-            const idInput = document.getElementById('athlete-id');
-            const form = document.getElementById('athlete-form');
-            if (idInput) idInput.value = '';
-            if (form) form.reset();
+            document.getElementById('athlete-id').value = '';
+            document.getElementById('athlete-form').reset();
             updateUserUI();
         }
 
         function getAthleteErrorStatus(athlete) {
             let reasons = [];
-            
             const TEAM_PREFIXES = { "Helang": "H", "Garuda": "G", "Rajawali": "R", "Kenyalang": "K" };
-            if (athlete.pasukan && TEAM_PREFIXES[athlete.pasukan]) {
-                const reqPrefix = TEAM_PREFIXES[athlete.pasukan];
-                if (!athlete.bib.toUpperCase().startsWith(reqPrefix)) {
-                    reasons.push(`No. Bib pasukan athlete.pasukanmestibermuladenganhuruf'{reqPrefix}'`);
-                }
+            if (athlete.pasukan && TEAM_PREFIXES[athlete.pasukan] && !athlete.bib.toUpperCase().startsWith(TEAM_PREFIXES[athlete.pasukan])) {
+                reasons.push(`No. Bib mesti bermula dengan '${TEAM_PREFIXES[athlete.pasukan]}'`);
             }
 
-            const isBibDuplicate = athletes.filter(a => a.bib.toUpperCase() === athlete.bib.toUpperCase()).length > 1;
-            if (isBibDuplicate) reasons.push("No. Bib Sudah Digunakan / Duplikasi");
+            if (athletes.filter(a => a.bib.toUpperCase() === athlete.bib.toUpperCase()).length > 1) reasons.push("No. Bib Duplikasi");
+            if (athletes.filter(a => a.nama.trim().toUpperCase() === athlete.nama.trim().toUpperCase()).length > 1) reasons.push("Nama Duplikasi");
+            if (athlete.acara.length > 4) reasons.push("Melebihi 4 acara");
 
-            const isNamaDuplicate = athletes.filter(a => a.nama.trim().toUpperCase() === athlete.nama.trim().toUpperCase()).length > 1;
-            if (isNamaDuplicate) reasons.push("Nama Atlet Sudah Didaftarkan / Duplikasi");
-            
-            const isOverEvents = athlete.acara.length > 4;
-            if (isOverEvents) reasons.push("Penyertaan melebihi 4 acara secara keseluruhan");
+            const indCount = athlete.acara.filter(ev => TRACK_INDIVIDUAL.includes(ev) || FIELD_EVENTS.includes(ev)).length;
+            const teamCount = athlete.acara.filter(ev => TRACK_TEAM.includes(ev)).length;
+            if (indCount > 2) reasons.push(`Melebihi 2 acara individu (${indCount})`);
+            if (teamCount > 2) reasons.push(`Melebihi 2 acara berpasukan (${teamCount})`);
 
-            const indEventsCount = athlete.acara.filter(ev => TRACK_INDIVIDUAL.includes(ev) || FIELD_EVENTS.includes(ev)).length;
-            const teamEventsCount = athlete.acara.filter(ev => TRACK_TEAM.includes(ev)).length;
-
-            if (indEventsCount > 2) {
-                reasons.push(`Penyertaan melebihi had 2 acara individu (${indEventsCount} acara individu dipilih)`);
-            }
-            if (teamEventsCount > 2) {
-                reasons.push(`Penyertaan melebihi had 2 acara berpasukan (${teamEventsCount} acara berpasukan dipilih)`);
-            }
-
-            const EVENT_ELIGIBILITY = {
-                "80m Tahun 1": ["Tahun 1"],
-                "80m Tahun 2": ["Tahun 2"],
-                "80m Tahun 3": ["Tahun 3"],
-                "80m Lari Berpagar": ["Tahun 4", "Tahun 5"],
-                "100m Tahun 4": ["Tahun 4"],
-                "100m Tahun 5": ["Tahun 5"],
-                "100m Tahun 6": ["Tahun 6"],
-                "200m Tahun 4": ["Tahun 4"],
-                "200m Tahun 5": ["Tahun 5"],
-                "4x50m Tahun 1": ["Tahun 1"],
-                "4x50m Tahun 2": ["Tahun 2"],
-                "4x100m Tahun 3": ["Tahun 3"],
-                "4x100m Tahun 4": ["Tahun 4"],
-                "4x200m Tahun 4": ["Tahun 4"],
-                "4x100m Tahun 5": ["Tahun 5"],
-                "4x200m Tahun 5": ["Tahun 5"],
-                "Lompat Jauh": ["Tahun 3", "Tahun 4", "Tahun 5"],
-                "Lompat Tinggi": ["Tahun 4", "Tahun 5"],
-                "Lontar Peluru": ["Tahun 4", "Tahun 5"]
-            };
-
+            const eligibility = getEventEligibility();
             let invalidEvents = [];
             athlete.acara.forEach(ev => {
-                if (EVENT_ELIGIBILITY[ev] && !EVENT_ELIGIBILITY[ev].includes(athlete.tahun)) {
+                const allowed = eligibility[ev] || [];
+                if (allowed.length > 0 && !allowed.includes(athlete.tahun)) {
                     invalidEvents.push(ev);
                 }
             });
@@ -3101,62 +2577,30 @@
             const limits = getEventLimits();
             athlete.acara.forEach(ev => {
                 const maxAllowed = limits[ev]?.[athlete.jantina] ?? 2;
-                const teamCount = athletes.filter(a => 
-                    a.pasukan === athlete.pasukan && 
-                    a.jantina === athlete.jantina && 
-                    a.acara.includes(ev)
-                ).length;
-
-                if (teamCount > maxAllowed) {
-                    reasons.push(`Kuota pasukan ${athlete.pasukan} bagi ev({athlete.jantina}) melebihi had (teamCount/{maxAllowed})`);
-                }
+                const count = athletes.filter(a => a.pasukan === athlete.pasukan && a.jantina === athlete.jantina && a.acara.includes(ev)).length;
+                if (count > maxAllowed) reasons.push(`Kuota ${athlete.pasukan} bagi ${ev} (${athlete.jantina}) melebihi had (${count}/${maxAllowed})`);
             });
 
-            if (reasons.length > 0) {
-                return { hasError: true, reason: reasons.join(" | ") };
-            }
-            return { hasError: false, reason: "Pendaftaran Sah" };
+            return reasons.length > 0 ? { hasError: true, reason: reasons.join(" | ") } : { hasError: false, reason: "Sah" };
         }
 
         function sortAthletesByTahun(list) {
             const order = { "Tahun 1": 1, "Tahun 2": 2, "Tahun 3": 3, "Tahun 4": 4, "Tahun 5": 5, "Tahun 6": 6 };
-            return [...list].sort((a, b) => {
-                const tA = order[a.tahun] || 99;
-                const tB = order[b.tahun] || 99;
-                if (tA !== tB) return tA - tB;
-                return a.nama.localeCompare(b.nama);
-            });
+            return [...list].sort((a, b) => (order[a.tahun] || 99) - (order[b.tahun] || 99) || a.nama.localeCompare(b.nama));
         }
 
         function renderDashboard() {
-            const hasTeamFilter = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
-            const filtered = hasTeamFilter ? athletes.filter(a => a.pasukan === currentUser.team) : athletes;
+            const isTeamUser = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            const filtered = isTeamUser ? athletes.filter(a => a.pasukan === currentUser.team) : athletes;
 
-            const statClosing = document.getElementById('stat-closing-date');
-            if (statClosing) statClosing.textContent = getFormattedClosingDate();
-
-            const statAthletes = document.getElementById('stat-total-athletes');
-            if (statAthletes) statAthletes.textContent = filtered.length;
-
-            const statTeams = document.getElementById('stat-total-teams');
-            if (statTeams) {
-                const uniqueTeams = new Set(filtered.map(a => a.pasukan)).size;
-                statTeams.textContent = `${uniqueTeams} Pasukan`;
-            }
+            document.getElementById('stat-closing-date').textContent = getFormattedClosingDate();
+            document.getElementById('stat-total-athletes').textContent = filtered.length;
+            document.getElementById('stat-total-teams').textContent = `${new Set(filtered.map(a => a.pasukan)).size} Pasukan`;
 
             const recentBody = document.getElementById('recent-table-body');
             if (recentBody) {
-                const sorted = sortAthletesByTahun(filtered);
-                const recentAthletes = sorted.slice(0, 5);
-                
-                const fragment = document.createDocumentFragment();
-                recentAthletes.forEach(ath => {
-                    const temp = document.createElement('tbody');
-                    temp.innerHTML = createTableRowHtml(ath);
-                    fragment.appendChild(temp.firstElementChild);
-                });
-                recentBody.innerHTML = '';
-                recentBody.appendChild(fragment);
+                const recentAthletes = sortAthletesByTahun(filtered).slice(0, 5);
+                recentBody.innerHTML = recentAthletes.map(ath => createTableRowHtml(ath)).join('');
             }
         }
 
@@ -3166,69 +2610,42 @@
 
             const badgesHtml = ath.acara.map(ev => {
                 let cls = 'bg-cyan-100 text-cyan-800 border-cyan-200';
-                if (FIELD_EVENTS.includes(ev)) {
-                    cls = 'bg-amber-100 text-amber-800 border-amber-200';
-                } else if (TRACK_TEAM.includes(ev)) {
-                    cls = 'bg-green-100 text-green-800 border-green-200';
-                }
+                if (FIELD_EVENTS.includes(ev)) cls = 'bg-amber-100 text-amber-800 border-amber-200';
+                else if (TRACK_TEAM.includes(ev)) cls = 'bg-green-100 text-green-800 border-green-200';
                 return `<span class="px-2 py-0.5 rounded-md text-[10px] font-semibold border ${cls}">${escapeHTML(ev)}</span>`;
             }).join(' ');
 
-            const safeId = escapeHTML(ath.id);
-            const safeNama = escapeHTML(ath.nama);
-            const safeJantina = escapeHTML(ath.jantina);
-            const safePasukan = escapeHTML(ath.pasukan);
-            const safeBib = escapeHTML(ath.bib);
-            const safeTahun = escapeHTML(ath.tahun);
-
             const lightHtml = errorStatus.hasError ? 
-                `<button type="button" onclick="showAthleteErrors('${safeId}')" title="Klik untuk lihat ralat: ${escapeHTML(errorStatus.reason)}" class="w-3.5 h-3.5 rounded-full bg-rose-500 shadow-md shadow-rose-500/50 animate-pulse-fast inline-block cursor-pointer hover:scale-125 transition-transform touch-manipulation" aria-label="Lihat Ralat"></button>` :
+                `<button type="button" onclick="showAthleteErrors('${escapeHTML(ath.id)}')" title="Ralat: ${escapeHTML(errorStatus.reason)}" class="w-3.5 h-3.5 rounded-full bg-rose-500 shadow-md animate-pulse-fast inline-block cursor-pointer hover:scale-125 transition-transform"></button>` :
                 `<span title="Status Sah" class="w-3.5 h-3.5 rounded-full bg-emerald-500 inline-block"></span>`;
 
             return `
                 <tr class="hover:bg-slate-50/80 transition">
-                    <td class="py-3 px-4 font-semibold text-slate-900 uppercase">${safeNama}</td>
-                    <td class="py-3 px-4 text-xs">${safeJantina}</td>
-                    <td class="py-3 px-4">
-                        <span class="px-2.5 py-1 rounded-full text-xs font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
-                            ${safePasukan}
-                        </span>
-                    </td>
-                    <td class="py-3 px-4 font-mono font-bold text-xs">${safeBib}</td>
-                    <td class="py-3 px-4 text-xs">${safeTahun}</td>
+                    <td class="py-3 px-4 font-semibold text-slate-900 uppercase">${escapeHTML(ath.nama)}</td>
+                    <td class="py-3 px-4 text-xs">${escapeHTML(ath.jantina)}</td>
+                    <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">${escapeHTML(ath.pasukan)}</span></td>
+                    <td class="py-3 px-4 font-mono font-bold text-xs">${escapeHTML(ath.bib)}</td>
+                    <td class="py-3 px-4 text-xs">${escapeHTML(ath.tahun)}</td>
                     <td class="py-3 px-4 flex flex-wrap gap-1 max-w-xs">${badgesHtml}</td>
                     <td class="py-3 px-4 text-center">
                         <div class="flex items-center justify-center gap-2">
                             ${lightHtml}
-                            <button onclick="viewAthleteDetails('${safeId}')" title="Lihat Butiran" aria-label="Lihat Butiran Atlet" class="p-1.5 text-slate-500 hover:text-blue-800 transition touch-manipulation">
-                                <i class="fa-solid fa-eye text-sm" aria-hidden="true"></i>
-                            </button>
-                            <button onclick="editAthlete('${safeId}')" title="Kemas Kini" aria-label="Kemas Kini Atlet" class="p-1.5 text-slate-500 hover:text-blue-600 transition touch-manipulation">
-                                <i class="fa-solid fa-pen-to-square text-sm" aria-hidden="true"></i>
-                            </button>
-                            <button onclick="deleteAthlete('${safeId}')" title="Padam Rekod" aria-label="Padam Rekod Atlet" class="p-1.5 text-slate-500 hover:text-rose-600 transition touch-manipulation">
-                                <i class="fa-solid fa-trash text-sm" aria-hidden="true"></i>
-                            </button>
+                            <button onclick="viewAthleteDetails('${escapeHTML(ath.id)}')" class="p-1.5 text-slate-500 hover:text-blue-800"><i class="fa-solid fa-eye text-sm"></i></button>
+                            <button onclick="editAthlete('${escapeHTML(ath.id)}')" class="p-1.5 text-slate-500 hover:text-blue-600"><i class="fa-solid fa-pen-to-square text-sm"></i></button>
+                            <button onclick="deleteAthlete('${escapeHTML(ath.id)}')" class="p-1.5 text-slate-500 hover:text-rose-600"><i class="fa-solid fa-trash text-sm"></i></button>
                         </div>
                     </td>
                 </tr>
             `;
         }
 
-        // PER-02: Pengurangan Manipulasi DOM Menggunakan DocumentFragment
         function renderAthletesTable() {
-            const searchInput = document.getElementById('filter-search');
-            const pasukanInput = document.getElementById('filter-pasukan');
-            const tahunInput = document.getElementById('filter-tahun');
-            const acaraInput = document.getElementById('filter-acara');
-
-            const search = searchInput ? searchInput.value.toLowerCase() : '';
-            const pasukan = pasukanInput ? pasukanInput.value : '';
-            const tahun = tahunInput ? tahunInput.value : '';
-            const acara = acaraInput ? acaraInput.value : '';
+            const search = document.getElementById('filter-search')?.value.toLowerCase() || '';
+            const pasukan = document.getElementById('filter-pasukan')?.value || '';
+            const tahun = document.getElementById('filter-tahun')?.value || '';
+            const acara = document.getElementById('filter-acara')?.value || '';
 
             let filtered = athletes;
-
             if (currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin') {
                 filtered = filtered.filter(a => a.pasukan === currentUser.team);
             } else if (pasukan) {
@@ -3237,29 +2654,12 @@
 
             if (tahun) filtered = filtered.filter(a => a.tahun === tahun);
             if (acara) filtered = filtered.filter(a => a.acara.includes(acara));
-            if (search) {
-                filtered = filtered.filter(a => 
-                    a.nama.toLowerCase().includes(search) || 
-                    a.bib.toLowerCase().includes(search)
-                );
-            }
-
-            const sorted = sortAthletesByTahun(filtered);
+            if (search) filtered = filtered.filter(a => a.nama.toLowerCase().includes(search) || a.bib.toLowerCase().includes(search));
 
             const dirBody = document.getElementById('directory-table-body');
             if (dirBody) {
-                if (sorted.length === 0) {
-                    dirBody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 text-sm">Tiada rekod atlet dijumpai.</td></tr>`;
-                } else {
-                    const fragment = document.createDocumentFragment();
-                    sorted.forEach(ath => {
-                        const temp = document.createElement('tbody');
-                        temp.innerHTML = createTableRowHtml(ath);
-                        fragment.appendChild(temp.firstElementChild);
-                    });
-                    dirBody.innerHTML = '';
-                    dirBody.appendChild(fragment);
-                }
+                if (filtered.length === 0) dirBody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 text-sm">Tiada rekod atlet.</td></tr>`;
+                else dirBody.innerHTML = sortAthletesByTahun(filtered).map(ath => createTableRowHtml(ath)).join('');
             }
         }
 
@@ -3267,71 +2667,46 @@
             const allTrack = [...TRACK_INDIVIDUAL, ...TRACK_TEAM];
             const trackGrid = document.getElementById('summary-track-grid');
             const fieldGrid = document.getElementById('summary-field-grid');
+            const isTeamUser = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            const filtered = isTeamUser ? athletes.filter(a => a.pasukan === currentUser.team) : athletes;
 
-            const hasTeamFilter = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
-            const filtered = hasTeamFilter ? athletes.filter(a => a.pasukan === currentUser.team) : athletes;
+            let systemHasAnyError = false;
 
-            if (trackGrid) {
-                trackGrid.innerHTML = allTrack.map(ev => {
-                    const eventAthletes = filtered.filter(a => a.acara.includes(ev));
-                    const count = eventAthletes.length;
-
-                    let statusLight = '';
-                    if (count > 0) {
-                        const hasError = eventAthletes.some(a => getAthleteErrorStatus(a).hasError);
-                        if (hasError) {
-                            statusLight = `<span title="Status Ralat" class="w-3 h-3 rounded-full bg-rose-500 shadow-sm shadow-rose-500/50 animate-pulse-fast shrink-0 inline-block" aria-label="Status Ralat"></span>`;
-                        } else {
-                            statusLight = `<span title="Status Sah" class="w-3 h-3 rounded-full bg-emerald-500 shrink-0 inline-block" aria-label="Status Sah"></span>`;
-                        }
+            const renderCard = (ev, type) => {
+                const eventAthletes = filtered.filter(a => a.acara.includes(ev));
+                const count = eventAthletes.length;
+                let statusLight = '';
+                if (count > 0) {
+                    const hasError = eventAthletes.some(a => getAthleteErrorStatus(a).hasError);
+                    if (hasError) {
+                        systemHasAnyError = true;
+                        statusLight = `<span class="w-3 h-3 rounded-full bg-rose-500 shadow-sm animate-pulse-fast shrink-0 inline-block"></span>`;
+                    } else {
+                        statusLight = `<span class="w-3 h-3 rounded-full bg-emerald-500 shrink-0 inline-block"></span>`;
                     }
-
-                    const safeEv = escapeHTML(ev);
-                    return `
-                        <div onclick="openGenderSelectModal('${safeEv}')" class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between cursor-pointer hover:border-blue-400 hover:shadow-md active:scale-[0.98] transition touch-manipulation">
-                            <div>
-                                <h4 class="font-bold text-slate-800 text-xs sm:text-sm flex items-center gap-1.5">
-                                    ${statusLight}
-                                    ${safeEv} <i class="fa-solid fa-circle-info text-blue-500 text-xs" aria-hidden="true"></i>
-                                </h4>
-                                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Balapan</p>
-                            </div>
-                            <span class="px-2.5 sm:px-3 py-1 bg-cyan-100 text-cyan-800 font-extrabold text-xs sm:text-sm rounded-xl shrink-0">${count} Peserta</span>
+                }
+                const safeEv = escapeHTML(ev);
+                const isField = type === 'Padang';
+                return `
+                    <div onclick="openGenderSelectModal('${safeEv}')" class="bg-white p-3.5 sm:p-4 rounded-2xl border ${statusLight.includes('rose-500') ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200'} shadow-sm flex items-center justify-between cursor-pointer hover:border-blue-400 hover:shadow-md active:scale-[0.98] transition touch-manipulation">
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-xs sm:text-sm flex items-center gap-1.5">
+                                ${statusLight} ${safeEv} <i class="fa-solid fa-circle-info ${isField ? 'text-amber-500' : 'text-blue-500'} text-xs"></i>
+                            </h4>
+                            <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">${type}</p>
                         </div>
-                    `;
-                }).join('');
-            }
+                        <span class="px-2.5 sm:px-3 py-1 ${isField ? 'bg-amber-100 text-amber-800' : 'bg-cyan-100 text-cyan-800'} font-extrabold text-xs sm:text-sm rounded-xl shrink-0">${count} Peserta</span>
+                    </div>
+                `;
+            };
 
-            if (fieldGrid) {
-                fieldGrid.innerHTML = FIELD_EVENTS.map(ev => {
-                    const eventAthletes = filtered.filter(a => a.acara.includes(ev));
-                    const count = eventAthletes.length;
+            if (trackGrid) trackGrid.innerHTML = allTrack.map(ev => renderCard(ev, 'Balapan')).join('');
+            if (fieldGrid) fieldGrid.innerHTML = FIELD_EVENTS.map(ev => renderCard(ev, 'Padang')).join('');
 
-                    let statusLight = '';
-                    if (count > 0) {
-                        const hasError = eventAthletes.some(a => getAthleteErrorStatus(a).hasError);
-                        if (hasError) {
-                            statusLight = `<span title="Status Ralat" class="w-3 h-3 rounded-full bg-rose-500 shadow-sm shadow-rose-500/50 animate-pulse-fast shrink-0 inline-block" aria-label="Status Ralat"></span>`;
-                        } else {
-                            statusLight = `<span title="Status Sah" class="w-3 h-3 rounded-full bg-emerald-500 shrink-0 inline-block" aria-label="Status Sah"></span>`;
-                        }
-                    }
-
-                    const safeEv = escapeHTML(ev);
-                    return `
-                        <div onclick="openGenderSelectModal('${safeEv}')" class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between cursor-pointer hover:border-amber-400 hover:shadow-md active:scale-[0.98] transition touch-manipulation">
-                            <div>
-                                <h4 class="font-bold text-slate-800 text-xs sm:text-sm flex items-center gap-1.5">
-                                    ${statusLight}
-                                    ${safeEv} <i class="fa-solid fa-circle-info text-amber-500 text-xs" aria-hidden="true"></i>
-                                </h4>
-                                <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">Padang</p>
-                            </div>
-                            <span class="px-2.5 sm:px-3 py-1 bg-amber-100 text-amber-800 font-extrabold text-xs sm:text-sm rounded-xl shrink-0">${count} Peserta</span>
-                        </div>
-                    `;
-                }).join('');
-            }
+            const desktopDot = document.getElementById('nav-summary-alert-dot');
+            const mobileDot = document.getElementById('mobile-nav-summary-alert-dot');
+            if (desktopDot) desktopDot.classList.toggle('hidden', !systemHasAnyError);
+            if (mobileDot) mobileDot.classList.toggle('hidden', !systemHasAnyError);
         }
 
         let activeEventForGender = '';
@@ -3339,60 +2714,36 @@
         function openGenderSelectModal(eventName) {
             activeEventForGender = eventName;
             const modal = document.getElementById('gender-select-modal');
-            const titleEl = document.getElementById('gender-select-event-title');
-            const countMEl = document.getElementById('gender-count-m');
-            const countFEl = document.getElementById('gender-count-f');
-
-            if (titleEl) titleEl.textContent = `Acara: ${eventName}`;
+            document.getElementById('gender-select-event-title').textContent = `Acara: ${eventName}`;
 
             const limits = getEventLimits();
             const limitM = limits[eventName]?.Lelaki ?? 2;
             const limitF = limits[eventName]?.Perempuan ?? 2;
 
-            const hasTeamFilter = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
-            const filteredAthletes = (hasTeamFilter ? athletes.filter(a => a.pasukan === currentUser.team) : athletes)
-                .filter(a => a.acara.includes(eventName));
-
-            if (currentUser?.role !== 'admin') {
-                const hasErrorInEvent = filteredAthletes.some(a => getAthleteErrorStatus(a).hasError);
-                if (hasErrorInEvent) {
-                    showToast("Tindakan tidak dibenarkan! Terdapat ralat pendaftaran atlet dalam acara ini yang perlu diperbaiki terlebih dahulu.", "error");
-                    return;
-                }
-            }
+            const isTeamUser = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            const filteredAthletes = (isTeamUser ? athletes.filter(a => a.pasukan === currentUser.team) : athletes).filter(a => a.acara.includes(eventName));
 
             const countM = filteredAthletes.filter(a => a.jantina === 'Lelaki').length;
             const countF = filteredAthletes.filter(a => a.jantina === 'Perempuan').length;
 
-            if (hasTeamFilter) {
-                if (countMEl) countMEl.textContent = `${countM} daripada ${limitM} peserta`;
-                if (countFEl) countFEl.textContent = `${countF} daripada ${limitF} peserta`;
-            } else {
-                const totalCapM = limitM * 4;
-                const totalCapF = limitF * 4;
-                if (countMEl) countMEl.textContent = `${countM} daripada ${totalCapM} peserta (${limitM}/pasukan)`;
-                if (countFEl) countFEl.textContent = `${countF} daripada ${totalCapF} peserta (${limitF}/pasukan)`;
-            }
+            const totalCapM = limitM * 4;
+            const totalCapF = limitF * 4;
 
-            if (modal) {
-                modal.classList.remove('hidden');
-                trapFocusInModal(modal);
-            }
+            document.getElementById('gender-count-m').textContent = isTeamUser ? `${countM} daripada ${limitM} peserta` : `${countM} daripada ${totalCapM} peserta (${limitM}/pasukan)`;
+            document.getElementById('gender-count-f').textContent = isTeamUser ? `${countF} daripada ${limitF} peserta` : `${countF} daripada ${totalCapF} peserta (${limitF}/pasukan)`;
+
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function closeGenderSelectModal() {
-            const modal = document.getElementById('gender-select-modal');
-            if (modal) {
-                modal.classList.add('hidden');
-                restoreFocusFromModal();
-            }
+            document.getElementById('gender-select-modal').classList.add('hidden');
+            restoreFocusFromModal();
         }
 
         function selectGenderCategory(gender) {
             closeGenderSelectModal();
-            if (activeEventForGender) {
-                openEventParticipantsModal(activeEventForGender, gender);
-            }
+            if (activeEventForGender) openEventParticipantsModal(activeEventForGender, gender);
         }
 
         function openEventParticipantsModal(eventName, gender = null) {
@@ -3403,55 +2754,38 @@
             const printBtn = document.getElementById('btn-print-event-list');
 
             const genderTitleStr = gender ? ` (${gender})` : '';
-            if (titleEl) titleEl.textContent = `Senarai peserta - eventName{genderTitleStr}`;
+            if (titleEl) titleEl.textContent = `Senarai peserta - ${eventName}${genderTitleStr}`;
 
-            const hasTeamFilter = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
-            let filteredAthletes = (hasTeamFilter ? athletes.filter(a => a.pasukan === currentUser.team) : athletes)
-                .filter(a => a.acara.includes(eventName));
-
-            if (gender) {
-                filteredAthletes = filteredAthletes.filter(a => a.jantina === gender);
-            }
-
+            const isTeamUser = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            let filteredAthletes = (isTeamUser ? athletes.filter(a => a.pasukan === currentUser.team) : athletes).filter(a => a.acara.includes(eventName));
+            if (gender) filteredAthletes = filteredAthletes.filter(a => a.jantina === gender);
             filteredAthletes = sortAthletesByTahun(filteredAthletes);
+
+            const hasErrorInList = filteredAthletes.some(a => getAthleteErrorStatus(a).hasError);
 
             if (countEl) countEl.textContent = `Jumlah: ${filteredAthletes.length} Peserta`;
 
             if (listEl) {
                 if (filteredAthletes.length === 0) {
-                    listEl.innerHTML = `
-                        <div class="py-12 text-center text-slate-400 text-sm">
-                            <i class="fa-solid fa-users-slash text-3xl mb-2 text-slate-300 block" aria-hidden="true"></i>
-                            Tiada peserta yang didaftarkan bagi acara ini
-                        </div>
-                    `;
+                    listEl.innerHTML = `<div class="py-12 text-center text-slate-400 text-sm"><i class="fa-solid fa-users-slash text-3xl mb-2 text-slate-300 block"></i>Tiada peserta.</div>`;
                 } else {
                     listEl.innerHTML = filteredAthletes.map(ath => {
                         const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
-                        const safeId = escapeHTML(ath.id);
-                        const safeNama = escapeHTML(ath.nama);
-                        const safePasukan = escapeHTML(ath.pasukan);
-                        const safeJantina = escapeHTML(ath.jantina);
-                        const safeTahun = escapeHTML(ath.tahun);
-                        const safeBib = escapeHTML(ath.bib);
-
                         return `
-                            <div onclick="viewAthleteDetails('${safeId}')" class="bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 hover:border-blue-400 shadow-sm transition flex items-center justify-between group cursor-pointer touch-manipulation">
+                            <div onclick="viewAthleteDetails('${escapeHTML(ath.id)}')" class="bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 hover:border-blue-400 shadow-sm transition flex items-center justify-between group cursor-pointer touch-manipulation">
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-2 flex-wrap">
-                                        <span class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-blue-600 transition uppercase">${safeNama}</span>
-                                        <span class="px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">
-                                            ${safePasukan}
-                                        </span>
+                                        <span class="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-blue-600 transition uppercase">${escapeHTML(ath.nama)}</span>
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">${escapeHTML(ath.pasukan)}</span>
                                     </div>
                                     <div class="flex items-center gap-2.5 sm:gap-3 text-[11px] sm:text-xs text-slate-500 flex-wrap">
-                                        <span><i class="fa-solid fa-venus-mars text-slate-400 mr-1" aria-hidden="true"></i>${safeJantina}</span>
-                                        <span><i class="fa-solid fa-graduation-cap text-slate-400 mr-1" aria-hidden="true"></i>${safeTahun}</span>
-                                        <span><i class="fa-solid fa-id-badge text-slate-400 mr-1" aria-hidden="true"></i>Bib: <strong class="text-slate-700 font-mono">${safeBib || '-'}</strong></span>
+                                        <span><i class="fa-solid fa-venus-mars text-slate-400 mr-1"></i>${escapeHTML(ath.jantina)}</span>
+                                        <span><i class="fa-solid fa-graduation-cap text-slate-400 mr-1"></i>${escapeHTML(ath.tahun)}</span>
+                                        <span><i class="fa-solid fa-id-badge text-slate-400 mr-1"></i>Bib: <strong class="text-slate-700 font-mono">${escapeHTML(ath.bib || '-')}</strong></span>
                                     </div>
                                 </div>
-                                <button onclick="event.stopPropagation(); viewAthleteDetails('${safeId}')" title="Lihat Maklumat Atlet" aria-label="Lihat Maklumat Atlet" class="w-8 h-8 sm:w-9 sm:h-9 bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-800 rounded-xl flex items-center justify-center transition shrink-0 ml-2 touch-manipulation">
-                                    <i class="fa-solid fa-eye text-sm sm:text-base" aria-hidden="true"></i>
+                                <button onclick="event.stopPropagation(); viewAthleteDetails('${escapeHTML(ath.id)}')" class="w-8 h-8 sm:w-9 sm:h-9 bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-800 rounded-xl flex items-center justify-center transition shrink-0 ml-2 touch-manipulation">
+                                    <i class="fa-solid fa-eye text-sm sm:text-base"></i>
                                 </button>
                             </div>
                         `;
@@ -3460,27 +2794,36 @@
             }
 
             if (printBtn) {
-                printBtn.onclick = function() {
-                    printEventParticipantsList(`eventName{genderTitleStr}`, filteredAthletes);
-                };
+                if (hasErrorInList) {
+                    printBtn.disabled = true;
+                    printBtn.className = "px-3.5 sm:px-4 py-2 bg-slate-300 text-slate-500 rounded-xl text-xs font-semibold flex items-center gap-2 shadow-none cursor-not-allowed";
+                    printBtn.onclick = function() {
+                        showToast("Tidak boleh mencetak senarai kerana terdapat ralat pendaftaran!", "error");
+                    };
+                } else {
+                    printBtn.disabled = false;
+                    printBtn.className = "px-3.5 sm:px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-md transition active:scale-95 touch-manipulation";
+                    printBtn.onclick = function() {
+                        printEventParticipantsList(`${eventName}${genderTitleStr}`, filteredAthletes);
+                    };
+                }
             }
 
-            if (modal) {
-                modal.classList.remove('hidden');
-                trapFocusInModal(modal);
-            }
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function closeEventParticipantsModal() {
-            const modal = document.getElementById('event-participants-modal');
-            if (modal) {
-                modal.classList.add('hidden');
-                restoreFocusFromModal();
-            }
+            document.getElementById('event-participants-modal').classList.add('hidden');
+            restoreFocusFromModal();
         }
 
-        // FUN-01: PENCETAKAN TERSEMBUNYI MENGGUNAKAN IFRAME UNTUK MENGELAKKAN POPUP BLOCKER
         function printEventParticipantsList(eventName, athleteList) {
+            if (athleteList.some(a => getAthleteErrorStatus(a).hasError)) {
+                showToast("Sila betulkan ralat pendaftaran atlet sebelum mencetak senarai!", "error");
+                return;
+            }
+
             let printIframe = document.getElementById('hidden-print-iframe');
             if (!printIframe) {
                 printIframe = document.createElement('iframe');
@@ -3505,16 +2848,14 @@
                 </tr>
             `).join('');
 
-            const safeEventTitle = escapeHTML(eventName);
             const iframeDoc = printIframe.contentWindow.document;
-
             iframeDoc.open();
             iframeDoc.write(`
                 <!DOCTYPE html>
                 <html lang="ms">
                 <head>
                     <meta charset="UTF-8">
-                    <title>Senarai Peserta - ${safeEventTitle}</title>
+                    <title>Senarai Peserta - ${escapeHTML(eventName)}</title>
                     <style>
                         body { font-family: Arial, sans-serif; padding: 20px; color: #1e293b; }
                         h2 { margin-bottom: 4px; color: #0f172a; }
@@ -3525,7 +2866,7 @@
                     </style>
                 </head>
                 <body>
-                    <h2>Senarai Peserta - ${safeEventTitle}</h2>
+                    <h2>Senarai Peserta - ${escapeHTML(eventName)}</h2>
                     <p>Sistem Pendaftaran ATHLETIX HUB | Jumlah Peserta: ${athleteList.length}</p>
                     <table>
                         <thead>
@@ -3538,9 +2879,7 @@
                                 <th>Tahun</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            ${rowsHtml.length > 0 ? rowsHtml : '<tr><td colspan="6" style="text-align:center; padding: 15px;">Tiada peserta</td></tr>'}
-                        </tbody>
+                        <tbody>${rowsHtml.length > 0 ? rowsHtml : '<tr><td colspan="6" style="text-align:center; padding: 15px;">Tiada peserta</td></tr>'}</tbody>
                     </table>
                     <div class="footer">Dicetak pada: ${escapeHTML(new Date().toLocaleString('ms-MY'))}</div>
                 </body>
@@ -3558,62 +2897,38 @@
             const ath = athletes.find(a => a.id === id);
             if (!ath) return;
 
-            const nameEl = document.getElementById('detail-nama');
-            const bibEl = document.getElementById('detail-bib');
-            const jantinaEl = document.getElementById('detail-jantina');
-            const tahunEl = document.getElementById('detail-tahun');
-            const badge = document.getElementById('detail-pasukan-badge');
-            const listCont = document.getElementById('detail-acara-list');
+            document.getElementById('detail-nama').textContent = ath.nama.toUpperCase();
+            document.getElementById('detail-bib').textContent = `No. Bib: ${ath.bib}`;
+            document.getElementById('detail-jantina').textContent = ath.jantina;
+            document.getElementById('detail-tahun').textContent = ath.tahun;
+            document.getElementById('detail-pasukan-badge').textContent = ath.pasukan;
 
-            if (nameEl) nameEl.textContent = ath.nama.toUpperCase();
-            if (bibEl) bibEl.textContent = `No. Bib: ${ath.bib}`;
-            if (jantinaEl) jantinaEl.textContent = ath.jantina;
-            if (tahunEl) tahunEl.textContent = ath.tahun;
-            if (badge) badge.textContent = ath.pasukan;
+            document.getElementById('detail-acara-list').innerHTML = ath.acara.map(ev => `
+                <span class="px-2.5 sm:px-3 py-1 rounded-xl text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200">
+                    ${escapeHTML(ev)}
+                </span>
+            `).join('');
 
-            if (listCont) {
-                listCont.innerHTML = ath.acara.map(ev => `
-                    <span class="px-2.5 sm:px-3 py-1 rounded-xl text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200">
-                        ${escapeHTML(ev)}
-                    </span>
-                `).join('');
-            }
+            document.getElementById('detail-action-edit').onclick = function() {
+                closeDetailModal();
+                closeEventParticipantsModal();
+                editAthlete(id);
+            };
 
-            const editBtn = document.getElementById('detail-action-edit');
-            const deleteBtn = document.getElementById('detail-action-delete');
+            document.getElementById('detail-action-delete').onclick = function() {
+                closeDetailModal();
+                deleteAthlete(id);
+                closeEventParticipantsModal();
+            };
 
-            if (editBtn) {
-                editBtn.onclick = function() {
-                    closeDetailModal();
-                    closeEventParticipantsModal();
-                    editAthlete(id);
-                };
-            }
-
-            if (deleteBtn) {
-                deleteBtn.onclick = function() {
-                    closeDetailModal();
-                    deleteAthlete(id);
-                    const modalPart = document.getElementById('event-participants-modal');
-                    if (modalPart && !modalPart.classList.contains('hidden')) {
-                        closeEventParticipantsModal();
-                    }
-                };
-            }
-
-            const detailModal = document.getElementById('detail-modal');
-            if (detailModal) {
-                detailModal.classList.remove('hidden');
-                trapFocusInModal(detailModal);
-            }
+            const modal = document.getElementById('detail-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function closeDetailModal() {
-            const detailModal = document.getElementById('detail-modal');
-            if (detailModal) {
-                detailModal.classList.add('hidden');
-                restoreFocusFromModal();
-            }
+            document.getElementById('detail-modal').classList.add('hidden');
+            restoreFocusFromModal();
         }
 
         function showAthleteErrors(id) {
@@ -3623,41 +2938,29 @@
             const errStatus = getAthleteErrorStatus(ath);
             if (!errStatus.hasError) return;
 
-            const subEl = document.getElementById('error-modal-subtitle');
-            if (subEl) subEl.textContent = `ath.nama.toUpperCase()({ath.bib} - ${ath.pasukan})`;
+            document.getElementById('error-modal-subtitle').textContent = `${ath.nama.toUpperCase()} (${ath.bib} - ${ath.pasukan})`;
 
             const reasons = errStatus.reason.split(' | ');
-            const listCont = document.getElementById('error-modal-list');
-            if (listCont) {
-                listCont.innerHTML = reasons.map(r => `
-                    <li class="flex items-start gap-2 bg-rose-50/80 p-2.5 rounded-xl border border-rose-100">
-                        <i class="fa-solid fa-circle-exclamation text-rose-500 mt-0.5 shrink-0" aria-hidden="true"></i>
-                        <span>${escapeHTML(r)}</span>
-                    </li>
-                `).join('');
-            }
+            document.getElementById('error-modal-list').innerHTML = reasons.map(r => `
+                <li class="flex items-start gap-2 bg-rose-50/80 p-2.5 rounded-xl border border-rose-100">
+                    <i class="fa-solid fa-circle-exclamation text-rose-500 mt-0.5 shrink-0"></i>
+                    <span>${escapeHTML(r)}</span>
+                </li>
+            `).join('');
 
-            const editBtn = document.getElementById('error-modal-edit-btn');
-            if (editBtn) {
-                editBtn.onclick = function() {
-                    closeErrorModal();
-                    editAthlete(id);
-                };
-            }
+            document.getElementById('error-modal-edit-btn').onclick = function() {
+                closeErrorModal();
+                editAthlete(id);
+            };
 
-            const errorModal = document.getElementById('error-modal');
-            if (errorModal) {
-                errorModal.classList.remove('hidden');
-                trapFocusInModal(errorModal);
-            }
+            const modal = document.getElementById('error-modal');
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function closeErrorModal() {
-            const errorModal = document.getElementById('error-modal');
-            if (errorModal) {
-                errorModal.classList.add('hidden');
-                restoreFocusFromModal();
-            }
+            document.getElementById('error-modal').classList.add('hidden');
+            restoreFocusFromModal();
         }
 
         function openLimitsInfoModal() {
@@ -3667,109 +2970,67 @@
             if (tbody) {
                 const limits = getEventLimits();
                 const allEvents = [...TRACK_INDIVIDUAL, ...TRACK_TEAM, ...FIELD_EVENTS];
-                
-                tbody.innerHTML = allEvents.map(ev => {
-                    const limitL = limits[ev]?.Lelaki ?? 2;
-                    const limitP = limits[ev]?.Perempuan ?? 2;
-                    const safeEv = escapeHTML(ev);
-                    return `
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="p-2.5 sm:p-3 font-semibold text-slate-800">${safeEv}</td>
-                            <td class="p-2.5 sm:p-3 text-center font-bold text-blue-700">
-                                ${limitL} <i class="fa-solid fa-person ml-1 text-blue-400" aria-hidden="true"></i>
-                            </td>
-                            <td class="p-2.5 sm:p-3 text-center font-bold text-pink-700">
-                                ${limitP} <i class="fa-solid fa-person-dress ml-1 text-pink-400" aria-hidden="true"></i>
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
+                tbody.innerHTML = allEvents.map(ev => `
+                    <tr class="hover:bg-slate-50/80 transition-colors">
+                        <td class="p-2.5 sm:p-3 font-semibold text-slate-800">${escapeHTML(ev)}</td>
+                        <td class="p-2.5 sm:p-3 text-center font-bold text-blue-700">${limits[ev]?.Lelaki ?? 2} <i class="fa-solid fa-person ml-1 text-blue-400"></i></td>
+                        <td class="p-2.5 sm:p-3 text-center font-bold text-pink-700">${limits[ev]?.Perempuan ?? 2} <i class="fa-solid fa-person-dress ml-1 text-pink-400"></i></td>
+                    </tr>
+                `).join('');
             }
-            
-            if (modal) {
-                modal.classList.remove('hidden');
-                trapFocusInModal(modal);
-            }
+            modal.classList.remove('hidden');
+            trapFocusInModal(modal);
         }
 
         function closeLimitsInfoModal() {
-            const modal = document.getElementById('limits-info-modal');
-            if (modal) {
-                modal.classList.add('hidden');
-                restoreFocusFromModal();
-            }
+            document.getElementById('limits-info-modal').classList.add('hidden');
+            restoreFocusFromModal();
         }
 
-        // DAT-02: Pensanitisasian Eksport CSV UTF-8 & Halangan Formula Injection
         function sanitizeCSVField(field) {
             let val = String(field || '').trim();
-            if (/^[=+@-]/.test(val)) {
-                val = "'" + val;
-            }
+            if (/^[=+@-]/.test(val)) val = "'" + val;
             return `"${val.replace(/"/g, '""')}"`;
         }
 
         function exportToCSV() {
-            const hasTeamFilter = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
-            let data = hasTeamFilter ? athletes.filter(a => a.pasukan === currentUser.team) : athletes;
+            const isTeamUser = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            let data = isTeamUser ? athletes.filter(a => a.pasukan === currentUser.team) : athletes;
             if (data.length === 0) {
                 showToast("Tiada data untuk dieksport!", "error");
                 return;
             }
 
-            if (currentUser?.role !== 'admin') {
-                const hasErrorAthletes = data.some(a => getAthleteErrorStatus(a).hasError);
-                if (hasErrorAthletes) {
-                    showToast("Eksport CSV tidak dibenarkan! Sila perbaiki ralat pendaftaran atlet pasukan anda terlebih dahulu.", "error");
-                    return;
-                }
+            if (currentUser?.role !== 'admin' && data.some(a => getAthleteErrorStatus(a).hasError)) {
+                showToast("Eksport CSV tidak dibenarkan kerana terdapat ralat pendaftaran!", "error");
+                return;
             }
 
-            data = sortAthletesByTahun(data);
-
-            let csvRows = [];
-            csvRows.push(["Nama Atlet", "Jantina", "Pasukan", "No Bib", "Tahun", "Acara Disertai"].map(sanitizeCSVField).join(','));
-
-            data.forEach(a => {
-                const row = [
-                    a.nama.toUpperCase(),
-                    a.jantina,
-                    a.pasukan,
-                    a.bib,
-                    a.tahun,
-                    a.acara.join('; ')
-                ].map(sanitizeCSVField).join(',');
-                csvRows.push(row);
+            let csvRows = [["Nama Atlet", "Jantina", "Pasukan", "No Bib", "Tahun", "Acara Disertai"].map(sanitizeCSVField).join(',')];
+            sortAthletesByTahun(data).forEach(a => {
+                csvRows.push([a.nama.toUpperCase(), a.jantina, a.pasukan, a.bib, a.tahun, a.acara.join('; ')].map(sanitizeCSVField).join(','));
             });
 
-            const csvString = "\uFEFF" + csvRows.join("\n");
-            const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+            const blob = new Blob(["\uFEFF" + csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
             const link = document.createElement("a");
             const url = URL.createObjectURL(blob);
-            
             link.setAttribute("href", url);
             link.setAttribute("download", `Data_Atlet_ATHLETIX_HUB_${new Date().toISOString().slice(0,10)}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
-            showToast("Fail CSV berjaya dimuat turun!");
+            showToast("Fail CSV dimuat turun!");
         }
 
-        // A11Y-01: Pemberitahuan Toast dengan Aksesibiliti aria-live
         function showToast(msg, type = "success") {
             const toast = document.getElementById('toast');
             const icon = document.getElementById('toast-icon');
             const message = document.getElementById('toast-message');
 
             if (!toast || !icon || !message) return;
-
             message.textContent = msg;
-            if (type === "error") {
-                icon.className = "fa-solid fa-circle-xmark text-rose-400 text-xl shrink-0";
-            } else {
-                icon.className = "fa-solid fa-circle-check text-sky-400 text-xl shrink-0";
-            }
+            icon.className = type === "error" ? "fa-solid fa-circle-xmark text-rose-400 text-xl shrink-0" : "fa-solid fa-circle-check text-sky-400 text-xl shrink-0";
 
             toast.classList.remove('hidden');
             setTimeout(() => toast.classList.add('hidden'), 3500);
