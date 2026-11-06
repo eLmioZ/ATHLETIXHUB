@@ -475,7 +475,7 @@
 
                         <div>
                             <label for="input-tahun" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Tahun Persekolahan *</label>
-                            <select id="input-tahun" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs font-medium transition-all">
+                            <select id="input-tahun" onchange="initEventCheckboxes()" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs font-medium transition-all">
                                 <option value="Tahun 1">Tahun 1</option>
                                 <option value="Tahun 2">Tahun 2</option>
                                 <option value="Tahun 3">Tahun 3</option>
@@ -3051,6 +3051,9 @@
 
             const eligibility = getEventEligibility();
 
+            // Simpan acara yang telah di-check (jika dalam mode edit / sedang memilih)
+            const currentlyChecked = Array.from(document.querySelectorAll('input[name="acara"]:checked')).map(cb => cb.value);
+
             if (trackIndCont) {
                 trackIndCont.innerHTML = TRACK_INDIVIDUAL.map(ev => createEventCheckboxHtml(ev, tahunVal, eligibility)).join('');
             }
@@ -3059,6 +3062,15 @@
             }
             if (fieldCont) {
                 fieldCont.innerHTML = FIELD_EVENTS.map(ev => createEventCheckboxHtml(ev, tahunVal, eligibility)).join('');
+            }
+
+            // Re-apply checked status jika acara tersebut masih layak untuk tahun yang dipilih
+            if (currentlyChecked.length > 0) {
+                document.querySelectorAll('input[name="acara"]').forEach(cb => {
+                    if (currentlyChecked.includes(cb.value) && !cb.disabled) {
+                        cb.checked = true;
+                    }
+                });
             }
 
             const filterAcaraSelect = document.getElementById('filter-acara');
