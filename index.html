@@ -23,7 +23,8 @@
         body {
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            background-color: #f8fafc;
+            background-color: #F4F6F9;
+            color: #14263D;
         }
         body.modal-open {
             overflow: hidden !important;
@@ -80,10 +81,10 @@
         }
 
         .shadow-premium {
-            box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            box-shadow: 0 10px 30px -5px rgba(7, 27, 51, 0.08), 0 4px 12px -2px rgba(7, 27, 51, 0.04);
         }
         .shadow-glow-amber {
-            box-shadow: 0 8px 25px -4px rgba(245, 158, 11, 0.35);
+            box-shadow: 0 8px 25px -4px rgba(212, 175, 55, 0.45);
         }
 
         @keyframes pulse-fast {
@@ -113,44 +114,44 @@
         }
     </style>
 </head>
-<body class="min-h-full flex flex-col bg-slate-50/70 text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
+<body class="min-h-full flex flex-col bg-[#F4F6F9] text-[#14263D] antialiased selection:bg-[#C69A32] selection:text-[#071B33]">
 
-    <header class="bg-gradient-to-r from-slate-950 via-blue-950 to-slate-950 text-white shadow-xl sticky top-0 z-40 border-b border-blue-900/40 backdrop-blur-md bg-opacity-95">
+    <header class="bg-gradient-to-r from-[#071B33] via-[#0B2545] to-[#071B33] text-white shadow-xl sticky top-0 z-40 border-b border-[#123A63] backdrop-blur-md bg-opacity-95">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-tr from-amber-500 to-amber-300 rounded-2xl flex items-center justify-center text-blue-950 font-black text-xl shadow-glow-amber">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-[#D4AF37] to-[#E8CC7A] rounded-2xl flex items-center justify-center text-[#071B33] font-black text-xl shadow-glow-amber">
                         <i class="fa-solid fa-trophy" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <h1 class="text-base sm:text-lg font-black font-heading tracking-tight leading-tight bg-gradient-to-r from-white via-slate-100 to-amber-300 bg-clip-text text-transparent">ATHLETIX HUB</h1>
-                        <p class="text-[10px] text-blue-300/80 font-medium tracking-wide">Sistem Pendaftaran Pasukan</p>
+                        <h1 class="text-base sm:text-lg font-black font-heading tracking-tight leading-tight bg-gradient-to-r from-white via-[#F8F1DF] to-[#E8CC7A] bg-clip-text text-transparent">ATHLETIX HUB</h1>
+                        <p class="text-[10px] text-[#E8CC7A]/90 font-medium tracking-wide">Sistem Pendaftaran Pasukan</p>
                     </div>
                 </div>
 
                 <!-- Desktop Nav -->
-                <nav class="hidden md:flex items-center gap-1.5 bg-blue-900/30 p-1 rounded-2xl border border-blue-800/40" aria-label="Navigasi Utama Desktop">
-                    <button id="nav-dashboard" onclick="switchTab('dashboard')" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 transition-all duration-200 flex items-center gap-2">
+                <nav class="hidden md:flex items-center gap-1.5 bg-[#071B33]/60 p-1 rounded-2xl border border-[#123A63]" aria-label="Navigasi Utama Desktop">
+                    <button id="nav-dashboard" onclick="switchTab('dashboard')" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-[#C69A32] text-[#071B33] shadow-md shadow-[#C69A32]/30 transition-all duration-200 flex items-center gap-2">
                         <i class="fa-solid fa-chart-line" aria-hidden="true"></i> Utama
                     </button>
-                    <button id="nav-register" onclick="switchTab('register')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
+                    <button id="nav-register" onclick="switchTab('register')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-[#EAF0F7] hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
                         <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Daftar Atlet
                     </button>
-                    <button id="nav-directory" onclick="switchTab('directory')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
+                    <button id="nav-directory" onclick="switchTab('directory')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-[#EAF0F7] hover:bg-white/10 transition-all duration-200 flex items-center gap-2">
                         <i class="fa-solid fa-users" aria-hidden="true"></i> Senarai Atlet
                     </button>
-                    <button id="nav-summary" onclick="switchTab('summary')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-blue-100 hover:bg-white/10 transition-all duration-200 flex items-center gap-2 relative">
+                    <button id="nav-summary" onclick="switchTab('summary')" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-[#EAF0F7] hover:bg-white/10 transition-all duration-200 flex items-center gap-2 relative">
                         <i class="fa-solid fa-list-check" aria-hidden="true"></i> Analisis
-                        <span id="nav-summary-alert-dot" class="hidden absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full border-2 border-slate-950 animate-pulse-fast"></span>
+                        <span id="nav-summary-alert-dot" class="hidden absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full border-2 border-[#071B33] animate-pulse-fast"></span>
                     </button>
-                    <button id="nav-admin" onclick="openAdminModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold text-amber-300 hover:bg-amber-400/20 transition-all duration-200 flex items-center gap-2 hidden">
+                    <button id="nav-admin" onclick="openAdminModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold text-[#E8CC7A] hover:bg-[#D4AF37]/20 transition-all duration-200 flex items-center gap-2 hidden">
                         <i class="fa-solid fa-gear" aria-hidden="true"></i> Tetapan Admin
                     </button>
                 </nav>
 
                 <!-- User Profile / Logout -->
                 <div class="flex items-center gap-2 sm:gap-3">
-                    <span id="current-user-badge" class="px-3 py-1.5 bg-white/10 border border-white/10 rounded-xl text-[11px] sm:text-xs font-bold text-amber-300 flex items-center gap-1.5 truncate max-w-[130px] sm:max-w-none backdrop-blur-sm">
+                    <span id="current-user-badge" class="px-3 py-1.5 bg-white/10 border border-white/10 rounded-xl text-[11px] sm:text-xs font-bold text-[#E8CC7A] flex items-center gap-1.5 truncate max-w-[130px] sm:max-w-none backdrop-blur-sm">
                         <i class="fa-solid fa-user-shield text-[10px] shrink-0" aria-hidden="true"></i> <span id="current-user-badge-text" class="truncate">Pengguna</span>
                     </span>
                     <button onclick="handleLogout()" title="Log Keluar" aria-label="Log Keluar dari Sistem" class="p-2.5 bg-white/10 hover:bg-rose-600 text-white rounded-xl text-xs font-semibold transition-all duration-200 active:scale-95 touch-manipulation border border-white/10">
@@ -161,21 +162,21 @@
         </div>
 
         <!-- Mobile Navigation Bar -->
-        <nav class="md:hidden bg-slate-950/95 backdrop-blur-md border-t border-blue-900/40 px-1 py-1 flex justify-around text-xs safe-area-bottom" aria-label="Navigasi Utama Mudah Alih">
-            <button id="mobile-nav-dashboard" onclick="switchTab('dashboard')" aria-label="Utama" class="flex-1 py-2 px-1 rounded-xl text-white font-bold bg-blue-600 shadow-md flex flex-col items-center justify-center active:scale-95 transition-all">
+        <nav class="md:hidden bg-[#071B33]/95 backdrop-blur-md border-t border-[#123A63] px-1 py-1 flex justify-around text-xs safe-area-bottom" aria-label="Navigasi Utama Mudah Alih">
+            <button id="mobile-nav-dashboard" onclick="switchTab('dashboard')" aria-label="Utama" class="flex-1 py-2 px-1 rounded-xl text-[#071B33] font-bold bg-[#C69A32] shadow-md flex flex-col items-center justify-center active:scale-95 transition-all">
                 <i class="fa-solid fa-chart-line text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Utama</span>
             </button>
-            <button id="mobile-nav-register" onclick="switchTab('register')" aria-label="Daftar Atlet" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all">
+            <button id="mobile-nav-register" onclick="switchTab('register')" aria-label="Daftar Atlet" class="flex-1 py-2 px-1 rounded-xl text-[#EAF0F7] flex flex-col items-center justify-center active:scale-95 transition-all">
                 <i class="fa-solid fa-user-plus text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Daftar</span>
             </button>
-            <button id="mobile-nav-directory" onclick="switchTab('directory')" aria-label="Senarai Atlet" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all">
+            <button id="mobile-nav-directory" onclick="switchTab('directory')" aria-label="Senarai Atlet" class="flex-1 py-2 px-1 rounded-xl text-[#EAF0F7] flex flex-col items-center justify-center active:scale-95 transition-all">
                 <i class="fa-solid fa-users text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Senarai</span>
             </button>
-            <button id="mobile-nav-summary" onclick="switchTab('summary')" aria-label="Analisis Penyertaan" class="flex-1 py-2 px-1 rounded-xl text-blue-200 flex flex-col items-center justify-center active:scale-95 transition-all relative">
+            <button id="mobile-nav-summary" onclick="switchTab('summary')" aria-label="Analisis Penyertaan" class="flex-1 py-2 px-1 rounded-xl text-[#EAF0F7] flex flex-col items-center justify-center active:scale-95 transition-all relative">
                 <i class="fa-solid fa-list-check text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Analisis</span>
-                <span id="mobile-nav-summary-alert-dot" class="hidden absolute top-1 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full border border-slate-950 animate-pulse-fast"></span>
+                <span id="mobile-nav-summary-alert-dot" class="hidden absolute top-1 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full border border-[#071B33] animate-pulse-fast"></span>
             </button>
-            <button id="mobile-nav-admin" onclick="openAdminModal()" aria-label="Tetapan Admin Utama" class="flex-1 py-2 px-1 rounded-xl text-amber-300 flex flex-col items-center justify-center active:scale-95 transition-all hidden">
+            <button id="mobile-nav-admin" onclick="openAdminModal()" aria-label="Tetapan Admin Utama" class="flex-1 py-2 px-1 rounded-xl text-[#E8CC7A] flex flex-col items-center justify-center active:scale-95 transition-all hidden">
                 <i class="fa-solid fa-gear text-sm mb-0.5" aria-hidden="true"></i> <span class="text-[10px]">Admin</span>
             </button>
         </nav>
@@ -185,17 +186,17 @@
 
         <!-- TAB 1: DASHBOARD -->
         <section id="tab-dashboard" class="tab-content space-y-5 sm:space-y-6">
-            <div class="bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 rounded-2xl sm:rounded-3xl p-6 sm:p-7 text-white shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-5 border border-blue-900/30 relative overflow-hidden">
-                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="bg-gradient-to-r from-[#071B33] via-[#0B2545] to-[#123A63] rounded-2xl sm:rounded-3xl p-6 sm:p-7 text-white shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-5 border border-[#123A63] relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="relative z-10">
                     <h2 class="text-xl sm:text-2xl font-black font-heading tracking-tight">Sistem Pendaftaran Pasukan</h2>
-                    <p class="text-xs text-blue-200/90 mt-1.5 leading-relaxed max-w-2xl">Pengurusan pendaftaran dan status kelayakan pasukan secara sistematik.</p>
+                    <p class="text-xs text-[#EAF0F7]/90 mt-1.5 leading-relaxed max-w-2xl">Pengurusan pendaftaran dan status kelayakan pasukan secara sistematik.</p>
                 </div>
                 <div class="flex flex-col sm:flex-row items-center gap-3 relative z-10 shrink-0">
-                    <button onclick="openCompetitionTermsModal()" class="w-full sm:w-auto px-4 py-3 bg-blue-900/80 hover:bg-blue-800 text-amber-300 font-bold rounded-xl text-xs border border-blue-700/60 transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
+                    <button onclick="openCompetitionTermsModal()" class="w-full sm:w-auto px-4 py-3 bg-[#123A63]/80 hover:bg-[#1E4976] text-[#E8CC7A] font-bold rounded-xl text-xs border border-[#C69A32]/40 transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-file-contract text-sm" aria-hidden="true"></i> Syarat Penyertaan
                     </button>
-                    <button onclick="switchTab('register')" class="w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-blue-950 font-black rounded-xl text-xs shadow-glow-amber transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
+                    <button onclick="switchTab('register')" class="w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-[#D4AF37] to-[#E8CC7A] hover:from-[#C69A32] hover:to-[#D4AF37] text-[#071B33] font-black rounded-xl text-xs shadow-glow-amber transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-plus" aria-hidden="true"></i> Daftar Atlet
                     </button>
                 </div>
@@ -203,42 +204,42 @@
 
             <!-- Stats Overview -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-                <div class="p-5 rounded-2xl border border-amber-200/60 border-l-[6px] border-l-amber-500 shadow-premium bg-gradient-to-br from-amber-50/90 via-amber-50/40 to-white backdrop-blur-sm flex items-center justify-between hover:-translate-y-1 transition-all duration-300 cursor-default">
+                <div class="p-5 rounded-2xl border border-[#D4AF37]/30 border-l-[6px] border-l-[#C69A32] shadow-premium bg-white backdrop-blur-sm flex items-center justify-between hover:-translate-y-1 transition-all duration-300 cursor-default">
                     <div>
-                        <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-amber-900/70">Tarikh Tutup Pendaftaran</p>
-                        <h3 id="stat-closing-date" class="text-base sm:text-lg font-black text-slate-900 mt-1 leading-snug">-</h3>
+                        <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#A87916]">Tarikh Tutup Pendaftaran</p>
+                        <h3 id="stat-closing-date" class="text-base sm:text-lg font-black text-[#14263D] mt-1 leading-snug">-</h3>
                     </div>
-                    <div class="w-12 h-12 bg-amber-500/15 text-amber-600 rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-sm ml-2 border border-amber-200/50">
+                    <div class="w-12 h-12 bg-[#F8F1DF] text-[#A87916] rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-sm ml-2 border border-[#E8CC7A]/50">
                         <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
                     </div>
                 </div>
 
-                <div class="p-5 rounded-2xl border border-blue-200/60 border-l-[6px] border-l-blue-600 shadow-premium bg-gradient-to-br from-blue-50/90 via-blue-50/40 to-white backdrop-blur-sm flex items-center justify-between hover:-translate-y-1 transition-all duration-300 cursor-default">
+                <div class="p-5 rounded-2xl border border-[#123A63]/20 border-l-[6px] border-l-[#0B2545] shadow-premium bg-white backdrop-blur-sm flex items-center justify-between hover:-translate-y-1 transition-all duration-300 cursor-default">
                     <div>
-                        <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-blue-900/70">Atlet Berdaftar</p>
-                        <h3 id="stat-total-athletes" class="text-xl sm:text-2xl font-black text-slate-900 mt-0.5 leading-none">0</h3>
+                        <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#123A63]">Atlet Berdaftar</p>
+                        <h3 id="stat-total-athletes" class="text-xl sm:text-2xl font-black text-[#14263D] mt-0.5 leading-none">0</h3>
                     </div>
-                    <div class="w-12 h-12 bg-blue-600/15 text-blue-600 rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-sm ml-2 border border-blue-200/50">
+                    <div class="w-12 h-12 bg-[#EAF0F7] text-[#0B2545] rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-sm ml-2 border border-[#123A63]/20">
                         <i class="fa-solid fa-user-ninja" aria-hidden="true"></i>
                     </div>
                 </div>
 
-                <div class="p-5 rounded-2xl border border-emerald-200/60 border-l-[6px] border-l-emerald-500 shadow-premium bg-gradient-to-br from-emerald-50/90 via-emerald-50/40 to-white backdrop-blur-sm flex items-center justify-between hover:-translate-y-1 transition-all duration-300 cursor-default">
+                <div class="p-5 rounded-2xl border border-emerald-200/60 border-l-[6px] border-l-emerald-500 shadow-premium bg-white backdrop-blur-sm flex items-center justify-between hover:-translate-y-1 transition-all duration-300 cursor-default">
                     <div>
                         <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-emerald-900/70">Penyertaan Pasukan</p>
-                        <h3 id="stat-total-teams" class="text-xl sm:text-2xl font-black text-slate-900 mt-0.5 leading-none">0</h3>
+                        <h3 id="stat-total-teams" class="text-xl sm:text-2xl font-black text-[#14263D] mt-0.5 leading-none">0</h3>
                     </div>
                     <div class="w-12 h-12 bg-emerald-600/15 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-sm ml-2 border border-emerald-200/50">
                         <i class="fa-solid fa-people-group" aria-hidden="true"></i>
                     </div>
                 </div>
 
-                <div onclick="openLimitsInfoModal()" class="p-5 rounded-2xl border border-fuchsia-200/60 border-l-[6px] border-l-fuchsia-500 shadow-premium bg-gradient-to-br from-fuchsia-50/90 via-fuchsia-50/40 to-white backdrop-blur-sm flex items-center justify-between hover:-translate-y-1 transition-all duration-300 cursor-pointer touch-manipulation group active:scale-[0.98]">
+                <div onclick="openLimitsInfoModal()" class="p-5 rounded-2xl border border-[#D4AF37]/30 border-l-[6px] border-l-[#D4AF37] shadow-premium bg-white backdrop-blur-sm flex items-center justify-between hover:-translate-y-1 transition-all duration-300 cursor-pointer touch-manipulation group active:scale-[0.98]">
                     <div>
-                        <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-fuchsia-900/70">Had Penyertaan</p>
-                        <h3 class="text-sm sm:text-base font-black text-slate-900 mt-1 leading-snug group-hover:text-fuchsia-700 transition-colors">Lihat Kuota <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs text-fuchsia-500" aria-hidden="true"></i></h3>
+                        <p class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#A87916]">Had Penyertaan</p>
+                        <h3 class="text-sm sm:text-base font-black text-[#14263D] mt-1 leading-snug group-hover:text-[#A87916] transition-colors">Lihat Kuota <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs text-[#C69A32]" aria-hidden="true"></i></h3>
                     </div>
-                    <div class="w-12 h-12 bg-fuchsia-600/15 text-fuchsia-600 rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-sm ml-2 border border-fuchsia-200/50 group-hover:scale-110 transition-transform">
+                    <div class="w-12 h-12 bg-[#F8F1DF] text-[#C69A32] rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-sm ml-2 border border-[#E8CC7A]/50 group-hover:scale-110 transition-transform">
                         <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
                     </div>
                 </div>
@@ -247,73 +248,73 @@
             <!-- Seksyen: Acara Yang Dipertandingkan -->
             <div class="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200/80 shadow-premium space-y-5">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
-                    <h3 class="font-bold text-slate-900 text-xs sm:text-sm font-heading flex items-center gap-2">
+                    <h3 class="font-bold text-[#14263D] text-xs sm:text-sm font-heading flex items-center gap-2">
                         <span class="text-base sm:text-lg">🏅</span> Acara Yang Dipertandingkan
                     </h3>
-                    <span class="text-[10px] sm:text-[11px] font-bold text-blue-900 bg-blue-50 px-3 py-1 rounded-full border border-blue-200/80 shrink-0">
+                    <span class="text-[10px] sm:text-[11px] font-bold text-[#0B2545] bg-[#EAF0F7] px-3 py-1 rounded-full border border-[#123A63]/30 shrink-0">
                         19 Acara Keseluruhan
                     </span>
                 </div>
 
                 <!-- Acara Balapan Individu -->
                 <div>
-                    <p class="text-[11px] font-bold uppercase tracking-wider text-cyan-700 mb-2 flex items-center gap-1.5">
+                    <p class="text-[11px] font-bold uppercase tracking-wider text-[#123A63] mb-2 flex items-center gap-1.5">
                         <i class="fa-solid fa-person-running" aria-hidden="true"></i> Acara Balapan Individu
                     </p>
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-2.5">
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-cyan-50/60 border border-slate-200/80 hover:border-cyan-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#EAF0F7] border border-slate-200 hover:border-[#123A63]/40 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#EAF0F7] text-[#0B2545] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-bolt" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">80m Tahun 1</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">80m Tahun 1</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-cyan-50/60 border border-slate-200/80 hover:border-cyan-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#EAF0F7] border border-slate-200 hover:border-[#123A63]/40 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#EAF0F7] text-[#0B2545] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-bolt" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">80m Tahun 2</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">80m Tahun 2</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-cyan-50/60 border border-slate-200/80 hover:border-cyan-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#EAF0F7] border border-slate-200 hover:border-[#123A63]/40 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#EAF0F7] text-[#0B2545] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-bolt" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">80m Tahun 3</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">80m Tahun 3</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-cyan-50/60 border border-slate-200/80 hover:border-cyan-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#EAF0F7] border border-slate-200 hover:border-[#123A63]/40 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#EAF0F7] text-[#0B2545] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-person-running" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">80m Lari Berpagar</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">80m Lari Berpagar</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-cyan-50/60 border border-slate-200/80 hover:border-cyan-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#EAF0F7] border border-slate-200 hover:border-[#123A63]/40 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#EAF0F7] text-[#0B2545] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">100m Tahun 4</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">100m Tahun 4</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-cyan-50/60 border border-slate-200/80 hover:border-cyan-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#EAF0F7] border border-slate-200 hover:border-[#123A63]/40 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#EAF0F7] text-[#0B2545] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">100m Tahun 5</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">100m Tahun 5</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-cyan-50/60 border border-slate-200/80 hover:border-cyan-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#EAF0F7] border border-slate-200 hover:border-[#123A63]/40 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#EAF0F7] text-[#0B2545] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">100m Tahun 6</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">100m Tahun 6</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-cyan-50/60 border border-slate-200/80 hover:border-cyan-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#EAF0F7] border border-slate-200 hover:border-[#123A63]/40 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#EAF0F7] text-[#0B2545] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-person-running" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">200m Tahun 4</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">200m Tahun 4</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-cyan-50/60 border border-slate-200/80 hover:border-cyan-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#EAF0F7] border border-slate-200 hover:border-[#123A63]/40 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#EAF0F7] text-[#0B2545] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-person-running" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">200m Tahun 5</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">200m Tahun 5</span>
                         </div>
                     </div>
                 </div>
@@ -324,74 +325,74 @@
                         <i class="fa-solid fa-users-line" aria-hidden="true"></i> Acara Relay Berpasukan
                     </p>
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-2.5">
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-emerald-50/60 border border-slate-200 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
                             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-flag-checkered" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">4x50m Tahun 1</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">4x50m Tahun 1</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-emerald-50/60 border border-slate-200 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
                             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-flag-checkered" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">4x50m Tahun 2</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">4x50m Tahun 2</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-emerald-50/60 border border-slate-200 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
                             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-flag-checkered" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">4x100m Tahun 3</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">4x100m Tahun 3</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-emerald-50/60 border border-slate-200 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
                             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-flag-checkered" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">4x100m Tahun 4</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">4x100m Tahun 4</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-emerald-50/60 border border-slate-200 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
                             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-flag-checkered" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">4x100m Tahun 5</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">4x100m Tahun 5</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-emerald-50/60 border border-slate-200 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
                             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-stopwatch-20" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">4x200m Tahun 4</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">4x200m Tahun 4</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-emerald-50/60 border border-slate-200 hover:border-emerald-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
                             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-stopwatch-20" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">4x200m Tahun 5</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">4x200m Tahun 5</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Acara Padang -->
                 <div>
-                    <p class="text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-2 flex items-center gap-1.5">
+                    <p class="text-[11px] font-bold uppercase tracking-wider text-[#A87916] mb-2 flex items-center gap-1.5">
                         <i class="fa-solid fa-child-reaching" aria-hidden="true"></i> Acara Padang
                     </p>
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-2.5">
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-amber-50/60 border border-slate-200/80 hover:border-amber-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#F8F1DF]/70 border border-slate-200 hover:border-[#C69A32] rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#F8F1DF] text-[#A87916] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-arrows-left-right-to-line" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">Lompat Jauh</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">Lompat Jauh</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-amber-50/60 border border-slate-200/80 hover:border-amber-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#F8F1DF]/70 border border-slate-200 hover:border-[#C69A32] rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#F8F1DF] text-[#A87916] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-arrows-up-to-line" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">Lompat Tinggi</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">Lompat Tinggi</span>
                         </div>
-                        <div class="p-2.5 sm:p-3 bg-slate-50 hover:bg-amber-50/60 border border-slate-200/80 hover:border-amber-300 rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
+                        <div class="p-2.5 sm:p-3 bg-[#FAFBFD] hover:bg-[#F8F1DF]/70 border border-slate-200 hover:border-[#C69A32] rounded-[16px] sm:rounded-[18px] transition duration-200 shadow-sm hover:shadow active:scale-95 flex items-center gap-2.5 group cursor-pointer touch-manipulation" onclick="switchTab('register')">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#F8F1DF] text-[#A87916] flex items-center justify-center shrink-0 text-xs font-bold group-hover:scale-110 transition">
                                 <i class="fa-solid fa-circle-dot" aria-hidden="true"></i>
                             </div>
-                            <span class="text-[11px] sm:text-xs font-bold text-slate-800 leading-tight">Lontar Peluru</span>
+                            <span class="text-[11px] sm:text-xs font-bold text-[#14263D] leading-tight">Lontar Peluru</span>
                         </div>
                     </div>
                 </div>
@@ -399,17 +400,17 @@
 
             <!-- Recent Registration Table -->
             <div class="bg-white rounded-3xl border border-slate-200/80 shadow-premium overflow-hidden">
-                <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                    <h3 class="font-bold text-slate-900 text-xs sm:text-sm font-heading flex items-center gap-2">
-                        <i class="fa-solid fa-clock-rotate-left text-blue-600" aria-hidden="true"></i> Pendaftaran Terbaharu
+                <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-[#F4F6F9]/60">
+                    <h3 class="font-bold text-[#14263D] text-xs sm:text-sm font-heading flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-[#0B2545]" aria-hidden="true"></i> Pendaftaran Terbaharu
                     </h3>
-                    <button onclick="switchTab('directory')" class="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline touch-manipulation">
+                    <button onclick="switchTab('directory')" class="text-xs font-bold text-[#0B2545] hover:text-[#123A63] hover:underline touch-manipulation">
                         Lihat Semua <i class="fa-solid fa-arrow-right text-[10px] ml-1" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div class="overflow-x-auto w-full">
                     <table class="w-full text-left text-xs min-w-[650px]">
-                        <thead class="bg-slate-100/70 text-slate-600 uppercase tracking-wider font-bold border-b border-slate-200/80">
+                        <thead class="bg-[#EAF0F7] text-[#0B2545] uppercase tracking-wider font-bold border-b border-slate-200">
                             <tr>
                                 <th scope="col" class="py-3.5 px-4">Nama Atlet</th>
                                 <th scope="col" class="py-3.5 px-4">Jantina</th>
@@ -431,8 +432,8 @@
         <!-- TAB 2: REGISTER ATHLETE -->
         <section id="tab-register" class="tab-content hidden space-y-6">
             <div class="bg-white p-5 sm:p-7 rounded-3xl border border-slate-200/80 shadow-premium">
-                <h2 class="text-lg sm:text-xl font-bold font-heading text-slate-900 mb-1">Borang Pendaftaran Atlet</h2>
-                <p class="text-xs text-slate-500 mb-6">Sila isi maklumat atlet dan pilih acara yang ingin disertai.</p>
+                <h2 class="text-lg sm:text-xl font-bold font-heading text-[#14263D] mb-1">Borang Pendaftaran Atlet</h2>
+                <p class="text-xs text-[#64748B] mb-6">Sila isi maklumat atlet dan pilih acara yang ingin disertai.</p>
 
                 <form id="athlete-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
                     <input type="hidden" id="athlete-id">
@@ -440,22 +441,22 @@
                     <!-- Basic Information -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         <div>
-                            <label for="input-nama" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Nama Penuh Atlet *</label>
+                            <label for="input-nama" class="block text-xs font-bold uppercase tracking-wider text-[#14263D] mb-1.5">Nama Penuh Atlet *</label>
                             <input type="text" id="input-nama" required placeholder="CONTOH: MUHAMMAD ADAM"
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs font-medium uppercase transition-all">
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] focus:border-[#0B2545] text-xs font-medium uppercase transition-all bg-white">
                         </div>
 
                         <div>
-                            <label for="input-jantina" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Jantina *</label>
-                            <select id="input-jantina" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs font-medium transition-all">
+                            <label for="input-jantina" class="block text-xs font-bold uppercase tracking-wider text-[#14263D] mb-1.5">Jantina *</label>
+                            <select id="input-jantina" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] focus:border-[#0B2545] text-xs font-medium transition-all bg-white">
                                 <option value="Lelaki">Lelaki</option>
                                 <option value="Perempuan">Perempuan</option>
                             </select>
                         </div>
 
                         <div>
-                            <label for="input-pasukan" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Pasukan / Rumah Sukan *</label>
-                            <select id="input-pasukan" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs font-medium transition-all">
+                            <label for="input-pasukan" class="block text-xs font-bold uppercase tracking-wider text-[#14263D] mb-1.5">Pasukan / Rumah Sukan *</label>
+                            <select id="input-pasukan" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] focus:border-[#0B2545] text-xs font-medium transition-all bg-white">
                                 <option value="Helang">Helang (Hijau)</option>
                                 <option value="Garuda">Garuda (Merah)</option>
                                 <option value="Rajawali">Rajawali (Biru)</option>
@@ -464,14 +465,14 @@
                         </div>
 
                         <div>
-                            <label for="input-bib" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Nombor Bib *</label>
+                            <label for="input-bib" class="block text-xs font-bold uppercase tracking-wider text-[#14263D] mb-1.5">Nombor Bib *</label>
                             <input type="text" id="input-bib" required placeholder="Contoh: H101"
-                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs font-medium uppercase transition-all">
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] focus:border-[#0B2545] text-xs font-medium uppercase transition-all bg-white">
                         </div>
 
                         <div>
-                            <label for="input-tahun" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Tahun Persekolahan *</label>
-                            <select id="input-tahun" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs font-medium transition-all">
+                            <label for="input-tahun" class="block text-xs font-bold uppercase tracking-wider text-[#14263D] mb-1.5">Tahun Persekolahan *</label>
+                            <select id="input-tahun" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] focus:border-[#0B2545] text-xs font-medium transition-all bg-white">
                                 <option value="Tahun 1">Tahun 1</option>
                                 <option value="Tahun 2">Tahun 2</option>
                                 <option value="Tahun 3">Tahun 3</option>
@@ -484,13 +485,13 @@
 
                     <!-- Event Selection Checkboxes -->
                     <div class="space-y-4 pt-2">
-                        <h3 id="label-event-selection" class="text-xs sm:text-sm font-bold font-heading text-slate-900 border-b border-slate-100 pb-2 flex items-center gap-2">
-                            <i class="fa-solid fa-list-check text-blue-600" aria-hidden="true"></i> Pilih Acara Disertai (Maksimum 4 Acara)
+                        <h3 id="label-event-selection" class="text-xs sm:text-sm font-bold font-heading text-[#14263D] border-b border-slate-100 pb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-[#0B2545]" aria-hidden="true"></i> Pilih Acara Disertai (Maksimum 4 Acara)
                         </h3>
 
                         <!-- Track Individual -->
                         <div>
-                            <p class="text-xs font-bold text-cyan-700 mb-2">Acara Balapan Individu</p>
+                            <p class="text-xs font-bold text-[#123A63] mb-2">Acara Balapan Individu</p>
                             <div id="container-track-individual" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                                 <!-- Generated by JS -->
                             </div>
@@ -506,7 +507,7 @@
 
                         <!-- Field Events -->
                         <div>
-                            <p class="text-xs font-bold text-amber-700 mb-2">Acara Padang</p>
+                            <p class="text-xs font-bold text-[#A87916] mb-2">Acara Padang</p>
                             <div id="container-field" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                                 <!-- Generated by JS -->
                             </div>
@@ -515,10 +516,10 @@
 
                     <!-- Submit Buttons -->
                     <div class="flex items-center gap-3 pt-4 border-t border-slate-100">
-                        <button type="submit" class="flex-1 sm:flex-none px-5 py-3 sm:py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
+                        <button type="submit" class="flex-1 sm:flex-none px-5 py-3 sm:py-2.5 bg-[#0B2545] hover:bg-[#071B33] text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
                             <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Pendaftaran
                         </button>
-                        <button type="button" onclick="resetForm()" class="px-4 py-3 sm:py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                        <button type="button" onclick="resetForm()" class="px-4 py-3 sm:py-2.5 border border-slate-300 text-[#64748B] hover:bg-slate-100 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                             Reset Semula
                         </button>
                     </div>
@@ -532,9 +533,9 @@
             <div class="bg-white p-4 rounded-3xl border border-slate-200/80 shadow-premium flex flex-col md:flex-row gap-3 items-center justify-between">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 w-full md:w-auto flex-grow">
                     <input type="text" id="filter-search" oninput="renderAthletesTable()" placeholder="Cari nama atau No. Bib..." aria-label="Cari nama atau No. Bib"
-                        class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-600">
+                        class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0B2545] focus:border-[#0B2545]">
 
-                    <select id="filter-pasukan" onchange="renderAthletesTable()" aria-label="Tapis mengikut Pasukan" class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-600">
+                    <select id="filter-pasukan" onchange="renderAthletesTable()" aria-label="Tapis mengikut Pasukan" class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0B2545] focus:border-[#0B2545]">
                         <option value="">Semua Pasukan</option>
                         <option value="Helang">Helang</option>
                         <option value="Garuda">Garuda</option>
@@ -542,7 +543,7 @@
                         <option value="Kenyalang">Kenyalang</option>
                     </select>
 
-                    <select id="filter-tahun" onchange="renderAthletesTable()" aria-label="Tapis mengikut Tahun" class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-600">
+                    <select id="filter-tahun" onchange="renderAthletesTable()" aria-label="Tapis mengikut Tahun" class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0B2545] focus:border-[#0B2545]">
                         <option value="">Semua Tahun</option>
                         <option value="Tahun 1">Tahun 1</option>
                         <option value="Tahun 2">Tahun 2</option>
@@ -552,7 +553,7 @@
                         <option value="Tahun 6">Tahun 6</option>
                     </select>
 
-                    <select id="filter-acara" onchange="renderAthletesTable()" aria-label="Tapis mengikut Acara" class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-600">
+                    <select id="filter-acara" onchange="renderAthletesTable()" aria-label="Tapis mengikut Acara" class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0B2545] focus:border-[#0B2545]">
                         <option value="">Semua Acara</option>
                     </select>
                 </div>
@@ -566,7 +567,7 @@
             <div class="bg-white rounded-3xl border border-slate-200/80 shadow-premium overflow-hidden">
                 <div class="overflow-x-auto w-full">
                     <table class="w-full text-left text-xs min-w-[680px]">
-                        <thead class="bg-slate-100/70 text-slate-600 uppercase tracking-wider font-bold border-b border-slate-200/80">
+                        <thead class="bg-[#EAF0F7] text-[#0B2545] uppercase tracking-wider font-bold border-b border-slate-200">
                             <tr>
                                 <th scope="col" class="py-3.5 px-4">Nama Atlet</th>
                                 <th scope="col" class="py-3.5 px-4">Jantina</th>
@@ -588,14 +589,14 @@
         <!-- TAB 4: SUMMARY -->
         <section id="tab-summary" class="tab-content hidden space-y-6 sm:space-y-8">
             <div>
-                <h2 class="text-xl sm:text-2xl font-bold font-heading text-slate-900">Analisis Penyertaan</h2>
-                <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">Bilangan penyertaan pasukan bagi setiap acara. Klik pada mana-mana acara untuk melihat senarai peserta.</p>
+                <h2 class="text-xl sm:text-2xl font-bold font-heading text-[#14263D]">Analisis Penyertaan</h2>
+                <p class="text-xs text-[#64748B] mt-0.5 leading-relaxed">Bilangan penyertaan pasukan bagi setiap acara. Klik pada mana-mana acara untuk melihat senarai peserta.</p>
             </div>
 
             <!-- Track Events Breakdown -->
             <div class="space-y-3.5 sm:space-y-4">
-                <h3 class="text-base sm:text-lg font-bold text-slate-900 font-heading flex items-center gap-2 border-b border-slate-200 pb-2">
-                    <i class="fa-solid fa-stopwatch text-cyan-600" aria-hidden="true"></i> Acara Balapan (Track Events)
+                <h3 class="text-base sm:text-lg font-bold text-[#14263D] font-heading flex items-center gap-2 border-b border-slate-200 pb-2">
+                    <i class="fa-solid fa-stopwatch text-[#0B2545]" aria-hidden="true"></i> Acara Balapan (Track Events)
                 </h3>
                 <div id="summary-track-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                     <!-- JS generated cards -->
@@ -604,8 +605,8 @@
 
             <!-- Field Events Breakdown -->
             <div class="space-y-3.5 sm:space-y-4 pt-2">
-                <h3 class="text-base sm:text-lg font-bold text-slate-900 font-heading flex items-center gap-2 border-b border-slate-200 pb-2">
-                    <i class="fa-solid fa-child-reaching text-amber-600" aria-hidden="true"></i> Acara Padang (Field Events)
+                <h3 class="text-base sm:text-lg font-bold text-[#14263D] font-heading flex items-center gap-2 border-b border-slate-200 pb-2">
+                    <i class="fa-solid fa-child-reaching text-[#A87916]" aria-hidden="true"></i> Acara Padang (Field Events)
                 </h3>
                 <div id="summary-field-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                     <!-- JS generated cards -->
@@ -616,14 +617,14 @@
     </main>
 
     <!-- Login Modal Pop-up -->
-    <div id="login-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+    <div id="login-modal" class="hidden fixed inset-0 bg-[#071B33]/85 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
         <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-slate-100 animate-fade-in my-auto">
             <div class="text-center mb-5 sm:mb-6">
-                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-950 text-amber-400 rounded-2xl flex items-center justify-center text-xl sm:text-2xl mx-auto mb-2.5 sm:mb-3 shadow-lg">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-[#071B33] text-[#D4AF37] rounded-2xl flex items-center justify-center text-xl sm:text-2xl mx-auto mb-2.5 sm:mb-3 shadow-lg border border-[#D4AF37]/30">
                     <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
                 </div>
-                <h3 id="login-modal-title" class="text-lg sm:text-xl font-bold font-heading text-slate-900">Log Masuk Pengguna</h3>
-                <p class="text-xs text-slate-500 mt-1">Sila masukkan ID dan Kata Laluan anda.</p>
+                <h3 id="login-modal-title" class="text-lg sm:text-xl font-bold font-heading text-[#14263D]">Log Masuk Pengguna</h3>
+                <p class="text-xs text-[#64748B] mt-1">Sila masukkan ID dan Kata Laluan anda.</p>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-4">
@@ -632,18 +633,18 @@
                 </div>
 
                 <div>
-                    <label for="login-userid" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">ID Pengguna</label>
+                    <label for="login-userid" class="block text-xs font-semibold uppercase tracking-wider text-[#14263D] mb-1">ID Pengguna</label>
                     <input type="text" id="login-userid" required placeholder="Admin / Pengurus"
-                        class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs font-medium">
+                        class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] text-xs font-medium">
                 </div>
 
                 <div>
-                    <label for="login-password" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Kata Laluan</label>
+                    <label for="login-password" class="block text-xs font-semibold uppercase tracking-wider text-[#14263D] mb-1">Kata Laluan</label>
                     <input type="password" id="login-password" required placeholder="••••••••"
-                        class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs font-medium">
+                        class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] text-xs font-medium">
                 </div>
 
-                <button type="submit" class="w-full py-3 bg-blue-950 hover:bg-blue-900 text-white rounded-xl text-xs font-bold shadow-lg transition active:scale-95 touch-manipulation">
+                <button type="submit" class="w-full py-3 bg-[#071B33] hover:bg-[#0B2545] text-[#D4AF37] border border-[#D4AF37]/30 rounded-xl text-xs font-bold shadow-lg transition active:scale-95 touch-manipulation">
                     Log Masuk
                 </button>
             </form>
@@ -651,16 +652,16 @@
     </div>
 
     <!-- Modal Selection Kategori Jantina -->
-    <div id="gender-select-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="gender-select-modal-title">
+    <div id="gender-select-modal" class="hidden fixed inset-0 bg-[#071B33]/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="gender-select-modal-title">
         <div class="bg-white rounded-[18px] shadow-2xl max-w-md w-full overflow-hidden border border-slate-100 animate-fade-in my-auto">
-            <div class="p-4 sm:p-5 bg-gradient-to-r from-blue-950 to-slate-900 text-white flex items-center justify-between">
+            <div class="p-4 sm:p-5 bg-gradient-to-r from-[#071B33] to-[#0B2545] text-white flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-[#D4AF37]/20 text-[#D4AF37] rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0 border border-[#D4AF37]/30">
                         <i class="fa-solid fa-venus-mars" aria-hidden="true"></i>
                     </div>
                     <div>
                         <h3 id="gender-select-modal-title" class="text-sm sm:text-base font-bold font-heading">Pilih Kategori Jantina</h3>
-                        <p id="gender-select-event-title" class="text-xs text-blue-200 mt-0.5">Acara: -</p>
+                        <p id="gender-select-event-title" class="text-xs text-[#EAF0F7] mt-0.5">Acara: -</p>
                     </div>
                 </div>
                 <button onclick="closeGenderSelectModal()" aria-label="Tutup Modal" class="text-white/80 hover:text-white text-lg transition p-1">
@@ -669,28 +670,28 @@
             </div>
 
             <div class="p-4 sm:p-6 space-y-4 text-center">
-                <p class="text-xs text-slate-600 font-medium">Sila pilih kategori jantina peserta untuk melihat senarai pendaftaran:</p>
+                <p class="text-xs text-[#64748B] font-medium">Sila pilih kategori jantina peserta untuk melihat senarai pendaftaran:</p>
                 <div class="grid grid-cols-2 gap-3 sm:gap-4 pt-1">
-                    <button onclick="selectGenderCategory('Lelaki')" class="p-4 sm:p-5 bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 hover:border-blue-500 rounded-2xl flex flex-col items-center justify-center gap-2 group transition shadow-sm active:scale-95 touch-manipulation">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg sm:text-xl group-hover:scale-110 transition shadow">
+                    <button onclick="selectGenderCategory('Lelaki')" class="p-4 sm:p-5 bg-[#EAF0F7] hover:bg-[#0B2545]/10 border-2 border-[#123A63]/30 hover:border-[#0B2545] rounded-2xl flex flex-col items-center justify-center gap-2 group transition shadow-sm active:scale-95 touch-manipulation">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0B2545] text-white flex items-center justify-center text-lg sm:text-xl group-hover:scale-110 transition shadow">
                             <i class="fa-solid fa-mars" aria-hidden="true"></i>
                         </div>
-                        <span class="text-xs sm:text-sm font-bold text-slate-800">Lelaki</span>
-                        <span id="gender-count-m" class="text-[10px] sm:text-[11px] font-semibold text-blue-700 bg-blue-100/80 px-2 sm:px-2.5 py-0.5 rounded-full">0 daripada 2 peserta</span>
+                        <span class="text-xs sm:text-sm font-bold text-[#14263D]">Lelaki</span>
+                        <span id="gender-count-m" class="text-[10px] sm:text-[11px] font-semibold text-[#0B2545] bg-white/80 px-2 sm:px-2.5 py-0.5 rounded-full border border-[#123A63]/20">0 daripada 2 peserta</span>
                     </button>
 
                     <button onclick="selectGenderCategory('Perempuan')" class="p-4 sm:p-5 bg-pink-50 hover:bg-pink-100 border-2 border-pink-200 hover:border-pink-500 rounded-2xl flex flex-col items-center justify-center gap-2 group transition shadow-sm active:scale-95 touch-manipulation">
                         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pink-600 text-white flex items-center justify-center text-lg sm:text-xl group-hover:scale-110 transition shadow">
                             <i class="fa-solid fa-venus" aria-hidden="true"></i>
                         </div>
-                        <span class="text-xs sm:text-sm font-bold text-slate-800">Perempuan</span>
+                        <span class="text-xs sm:text-sm font-bold text-[#14263D]">Perempuan</span>
                         <span id="gender-count-f" class="text-[10px] sm:text-[11px] font-semibold text-pink-700 bg-pink-100/80 px-2 sm:px-2.5 py-0.5 rounded-full">0 daripada 2 peserta</span>
                     </button>
                 </div>
             </div>
 
             <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
-                <button onclick="closeGenderSelectModal()" class="px-4 py-2 bg-slate-500 hover:bg-slate-600 text-white rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                <button onclick="closeGenderSelectModal()" class="px-4 py-2 bg-[#64748B] hover:bg-[#14263D] text-white rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                     Batal
                 </button>
             </div>
@@ -698,16 +699,16 @@
     </div>
 
     <!-- Modal Pop-Up Senarai Peserta Acara -->
-    <div id="event-participants-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="event-participants-title">
+    <div id="event-participants-modal" class="hidden fixed inset-0 bg-[#071B33]/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="event-participants-title">
         <div class="bg-white rounded-[12px] shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200 animate-fade-in flex flex-col max-h-[85vh] my-auto">
-            <div class="p-4 sm:p-5 bg-gradient-to-r from-blue-900 to-slate-900 text-white flex items-center justify-between shrink-0">
+            <div class="p-4 sm:p-5 bg-gradient-to-r from-[#071B33] to-[#0B2545] text-white flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-white/10 rounded-xl flex items-center justify-center text-amber-400 text-base sm:text-lg shrink-0">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-white/10 rounded-xl flex items-center justify-center text-[#D4AF37] text-base sm:text-lg shrink-0 border border-[#D4AF37]/30">
                         <i class="fa-solid fa-trophy" aria-hidden="true"></i>
                     </div>
                     <div>
                         <h3 id="event-participants-title" class="text-base sm:text-lg font-bold font-heading">Senarai Peserta</h3>
-                        <p id="event-participants-count" class="text-blue-200 text-xs mt-0.5">Jumlah: 0 Peserta</p>
+                        <p id="event-participants-count" class="text-[#EAF0F7] text-xs mt-0.5">Jumlah: 0 Peserta</p>
                     </div>
                 </div>
                 <button onclick="closeEventParticipantsModal()" aria-label="Tutup Modal Senarai Peserta" class="text-white/80 hover:text-white text-xl transition p-1">
@@ -720,7 +721,7 @@
             </div>
 
             <div class="p-3.5 sm:p-4 bg-white border-t border-slate-200 flex items-center justify-between shrink-0">
-                <button onclick="closeEventParticipantsModal()" class="px-3.5 sm:px-4 py-2 bg-slate-500 hover:bg-slate-600 text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-sm transition active:scale-95 touch-manipulation">
+                <button onclick="closeEventParticipantsModal()" class="px-3.5 sm:px-4 py-2 bg-[#64748B] hover:bg-[#14263D] text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-sm transition active:scale-95 touch-manipulation">
                     <i class="fa-solid fa-xmark" aria-hidden="true"></i> Tutup
                 </button>
                 <button id="btn-print-event-list" onclick="" class="px-3.5 sm:px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-md transition active:scale-95 touch-manipulation">
@@ -731,9 +732,9 @@
     </div>
 
     <!-- Athlete Detail View Modal -->
-    <div id="detail-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="detail-nama">
+    <div id="detail-modal" class="hidden fixed inset-0 bg-[#071B33]/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="detail-nama">
         <div class="bg-white rounded-[12px] shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100 animate-fade-in my-auto">
-            <div id="detail-header" class="p-5 sm:p-6 text-white bg-blue-950">
+            <div id="detail-header" class="p-5 sm:p-6 text-white bg-[#071B33]">
                 <div class="flex items-center justify-between">
                     <span id="detail-pasukan-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-white/20">
                         Pasukan
@@ -742,24 +743,24 @@
                         <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                     </button>
                 </div>
-                <h3 id="detail-nama" class="text-lg sm:text-xl font-bold font-heading mt-3 uppercase">Nama Atlet</h3>
-                <p id="detail-bib" class="text-blue-100 text-xs font-mono mt-0.5">Bib: -</p>
+                <h3 id="detail-nama" class="text-lg sm:text-xl font-bold font-heading mt-3 uppercase text-white">Nama Atlet</h3>
+                <p id="detail-bib" class="text-[#E8CC7A] text-xs font-mono mt-0.5">Bib: -</p>
             </div>
 
             <div class="p-4 sm:p-6 space-y-4 text-sm">
                 <div class="grid grid-cols-2 gap-3 sm:gap-4 bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-slate-100">
                     <div>
-                        <p class="text-xs text-slate-400 font-medium">Jantina</p>
-                        <p id="detail-jantina" class="font-semibold text-slate-800 text-xs sm:text-sm">-</p>
+                        <p class="text-xs text-[#64748B] font-medium">Jantina</p>
+                        <p id="detail-jantina" class="font-semibold text-[#14263D] text-xs sm:text-sm">-</p>
                     </div>
                     <div>
-                        <p class="text-xs text-slate-400 font-medium">Tahun Persekolahan</p>
-                        <p id="detail-tahun" class="font-semibold text-slate-800 text-xs sm:text-sm">-</p>
+                        <p class="text-xs text-[#64748B] font-medium">Tahun Persekolahan</p>
+                        <p id="detail-tahun" class="font-semibold text-[#14263D] text-xs sm:text-sm">-</p>
                     </div>
                 </div>
 
                 <div>
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Acara Disertai</h4>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-2">Acara Disertai</h4>
                     <div id="detail-acara-list" class="flex flex-wrap gap-1.5 sm:gap-2">
                         <!-- JS generated badges -->
                     </div>
@@ -768,14 +769,14 @@
 
             <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
-                    <button id="detail-action-edit" onclick="" class="px-3 sm:px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
+                    <button id="detail-action-edit" onclick="" class="px-3 sm:px-3.5 py-2 bg-[#0B2545] hover:bg-[#071B33] text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Edit
                     </button>
                     <button id="detail-action-delete" onclick="" class="px-3 sm:px-3.5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-trash" aria-hidden="true"></i> Padam
                     </button>
                 </div>
-                <button onclick="closeDetailModal()" class="px-4 py-2 bg-slate-500 hover:bg-slate-600 text-white rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                <button onclick="closeDetailModal()" class="px-4 py-2 bg-[#64748B] hover:bg-[#14263D] text-white rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                     Tutup
                 </button>
             </div>
@@ -783,7 +784,7 @@
     </div>
 
     <!-- Modal Pop-Up Ralat Pendaftaran Atlet -->
-    <div id="error-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="error-modal-title">
+    <div id="error-modal" class="hidden fixed inset-0 bg-[#071B33]/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="error-modal-title">
         <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88vh] sm:max-h-[85vh] border border-rose-100 animate-fade-in my-auto overflow-hidden">
             <div class="p-4 sm:p-5 text-white bg-rose-600 flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
@@ -811,7 +812,7 @@
             </div>
 
             <div class="p-3.5 sm:p-4 bg-white border-t border-slate-100 flex items-center justify-between shrink-0 gap-2">
-                <button onclick="closeErrorModal()" class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-xl text-xs font-semibold active:scale-95 touch-manipulation">
+                <button onclick="closeErrorModal()" class="px-4 py-2 border border-slate-300 text-[#64748B] hover:bg-slate-100 rounded-xl text-xs font-semibold active:scale-95 touch-manipulation">
                     Tutup
                 </button>
                 <button id="error-modal-edit-btn" onclick="" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
@@ -822,16 +823,16 @@
     </div>
 
     <!-- Modal Pop-Up Info Had Penyertaan -->
-    <div id="limits-info-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="limits-info-title">
-        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88vh] sm:max-h-[85vh] border border-fuchsia-100 animate-fade-in my-auto overflow-hidden">
-            <div class="p-4 sm:p-5 bg-gradient-to-r from-fuchsia-950 via-fuchsia-900 to-slate-900 text-white flex items-center justify-between shrink-0">
+    <div id="limits-info-modal" class="hidden fixed inset-0 bg-[#071B33]/80 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="limits-info-title">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full flex flex-col max-h-[88vh] sm:max-h-[85vh] border border-[#E8CC7A]/40 animate-fade-in my-auto overflow-hidden">
+            <div class="p-4 sm:p-5 bg-gradient-to-r from-[#071B33] via-[#0B2545] to-[#123A63] text-white flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-2.5 sm:gap-3">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-white/15 rounded-xl flex items-center justify-center text-fuchsia-300 text-base sm:text-lg shrink-0">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-[#D4AF37]/20 rounded-xl flex items-center justify-center text-[#D4AF37] text-base sm:text-lg shrink-0 border border-[#D4AF37]/30">
                         <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
                     </div>
                     <div>
                         <h3 id="limits-info-title" class="text-sm sm:text-lg font-bold font-heading leading-snug">Had Penyertaan</h3>
-                        <p class="text-fuchsia-200 text-[10px] sm:text-xs">Kuota maksimum mengikut jantina & pasukan</p>
+                        <p class="text-[#E8CC7A] text-[10px] sm:text-xs">Kuota maksimum mengikut jantina & pasukan</p>
                     </div>
                 </div>
                 <button onclick="closeLimitsInfoModal()" aria-label="Tutup Modal Had Penyertaan" class="text-white/80 hover:text-white text-xl p-1.5 touch-manipulation active:scale-95 transition">
@@ -840,14 +841,14 @@
             </div>
 
             <div class="p-3 sm:p-5 overflow-y-auto space-y-3.5 flex-grow bg-slate-50/50">
-                <div class="p-2.5 sm:p-3 bg-fuchsia-50/90 border border-fuchsia-200/80 rounded-xl text-fuchsia-900 text-[11px] sm:text-xs leading-relaxed flex items-start gap-2">
-                    <i class="fa-solid fa-circle-info text-fuchsia-600 mt-0.5 shrink-0" aria-hidden="true"></i>
+                <div class="p-2.5 sm:p-3 bg-[#F8F1DF] border border-[#E8CC7A] rounded-xl text-[#A87916] text-[11px] sm:text-xs leading-relaxed flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info text-[#C69A32] mt-0.5 shrink-0" aria-hidden="true"></i>
                     <span>Berikut adalah had kuota pendaftaran yang ditetapkan bagi setiap acara mengikut jantina.</span>
                 </div>
                 
                 <div class="overflow-x-auto w-full border border-slate-200/80 rounded-2xl shadow-sm bg-white">
                     <table class="w-full text-left text-xs min-w-[280px]">
-                        <thead class="bg-fuchsia-50 text-fuchsia-950 font-bold uppercase tracking-wider border-b border-fuchsia-100 text-[10px] sm:text-xs">
+                        <thead class="bg-[#F8F1DF] text-[#071B33] font-bold uppercase tracking-wider border-b border-[#E8CC7A]/50 text-[10px] sm:text-xs">
                             <tr>
                                 <th scope="col" class="p-2.5 sm:p-3">Nama Acara</th>
                                 <th scope="col" class="p-2.5 sm:p-3 text-center w-24">Lelaki</th>
@@ -862,7 +863,7 @@
             </div>
 
             <div class="p-3 sm:p-4 bg-white border-t border-slate-200 flex justify-end shrink-0">
-                <button onclick="closeLimitsInfoModal()" class="w-full sm:w-auto px-5 py-2.5 bg-slate-700 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold shadow-sm transition active:scale-95 touch-manipulation">
+                <button onclick="closeLimitsInfoModal()" class="w-full sm:w-auto px-5 py-2.5 bg-[#071B33] hover:bg-[#0B2545] text-white rounded-xl text-xs font-semibold shadow-sm transition active:scale-95 touch-manipulation">
                     Tutup Maklumat
                 </button>
             </div>
@@ -870,14 +871,14 @@
     </div>
 
     <!-- Admin Settings Modal -->
-    <div id="admin-date-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
+    <div id="admin-date-modal" class="hidden fixed inset-0 bg-[#071B33]/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
         <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-4 sm:p-6 border border-slate-100 animate-fade-in max-h-[90vh] flex flex-col my-auto">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 sm:pb-4 mb-3 sm:mb-4 shrink-0">
                 <div>
-                    <h3 id="admin-modal-title" class="text-base sm:text-lg font-bold text-slate-900 font-heading flex items-center gap-2">
-                        <i class="fa-solid fa-sliders text-amber-500" aria-hidden="true"></i> Tetapan Admin Utama
+                    <h3 id="admin-modal-title" class="text-base sm:text-lg font-bold text-[#14263D] font-heading flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-[#C69A32]" aria-hidden="true"></i> Tetapan Admin Utama
                     </h3>
-                    <p class="text-[11px] sm:text-xs text-slate-500">Pengurusan tarikh tutup, had penyertaan, pengguna dan log aktiviti.</p>
+                    <p class="text-[11px] sm:text-xs text-[#64748B]">Pengurusan tarikh tutup, had penyertaan, pengguna dan log aktiviti.</p>
                 </div>
                 <button onclick="closeAdminModal()" aria-label="Tutup Panel Admin" class="text-slate-400 hover:text-slate-600 text-lg p-1">
                     <i class="fa-solid fa-xmark" aria-hidden="true"></i>
@@ -886,22 +887,22 @@
 
             <!-- Sub-tab Bar -->
             <div class="flex border-b border-slate-200 mb-3 sm:mb-4 shrink-0 gap-1 sm:gap-2 overflow-x-auto pb-1">
-                <button id="admin-tab-btn-date" onclick="switchAdminTab('date')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold border-b-2 border-blue-900 text-blue-900 transition whitespace-nowrap shrink-0 touch-manipulation">
+                <button id="admin-tab-btn-date" onclick="switchAdminTab('date')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold border-b-2 border-[#0B2545] text-[#0B2545] transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-calendar-gear mr-1" aria-hidden="true"></i> Pendaftaran
                 </button>
-                <button id="admin-tab-btn-limits" onclick="switchAdminTab('limits')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
+                <button id="admin-tab-btn-limits" onclick="switchAdminTab('limits')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-[#64748B] hover:text-[#14263D] border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-list-check mr-1" aria-hidden="true"></i> Had Penyertaan
                 </button>
-                <button id="admin-tab-btn-eligibility" onclick="switchAdminTab('eligibility')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
+                <button id="admin-tab-btn-eligibility" onclick="switchAdminTab('eligibility')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-[#64748B] hover:text-[#14263D] border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-user-check mr-1" aria-hidden="true"></i> Kelayakan Acara
                 </button>
-                <button id="admin-tab-btn-terms" onclick="switchAdminTab('terms')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
+                <button id="admin-tab-btn-terms" onclick="switchAdminTab('terms')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-[#64748B] hover:text-[#14263D] border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-file-contract mr-1" aria-hidden="true"></i> Syarat Penyertaan
                 </button>
-                <button id="admin-tab-btn-users" onclick="switchAdminTab('users')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
+                <button id="admin-tab-btn-users" onclick="switchAdminTab('users')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-[#64748B] hover:text-[#14263D] border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-users-gear mr-1" aria-hidden="true"></i> Pengurusan Pengguna
                 </button>
-                <button id="admin-tab-btn-history" onclick="switchAdminTab('history')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
+                <button id="admin-tab-btn-history" onclick="switchAdminTab('history')" class="pb-2 px-2.5 sm:px-3 text-[11px] sm:text-xs font-bold text-[#64748B] hover:text-[#14263D] border-b-2 border-transparent transition whitespace-nowrap shrink-0 touch-manipulation">
                     <i class="fa-solid fa-clock-rotate-left mr-1" aria-hidden="true"></i> Sejarah & Log Aktiviti
                 </button>
             </div>
@@ -911,22 +912,22 @@
                 <form onsubmit="handleSaveClosingDate(event)" class="space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label for="admin-date-input" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+                            <label for="admin-date-input" class="block text-xs font-semibold uppercase tracking-wider text-[#14263D] mb-1">
                                 Pilih Tarikh Tutup
                             </label>
                             <input type="date" id="admin-date-input" required
-                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs sm:text-sm">
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] text-xs sm:text-sm">
                         </div>
                         <div>
-                            <label for="admin-time-input" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+                            <label for="admin-time-input" class="block text-xs font-semibold uppercase tracking-wider text-[#14263D] mb-1">
                                 Pilih Masa Tutup
                             </label>
                             <input type="time" id="admin-time-input" required
-                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-xs sm:text-sm">
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] text-xs sm:text-sm">
                         </div>
                     </div>
 
-                    <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs leading-relaxed">
+                    <div class="p-3 bg-[#F8F1DF] border border-[#E8CC7A] rounded-xl text-[#A87916] text-xs leading-relaxed">
                         <i class="fa-solid fa-circle-info mr-1" aria-hidden="true"></i>
                         Selepas tarikh dan masa ini, pendaftaran bagi akaun Pengurus Pasukan (Helang, Garuda, Rajawali, Kenyalang) akan dikunci secara automatik.
                     </div>
@@ -939,11 +940,11 @@
 
                         <div class="flex gap-2 w-full sm:w-auto">
                             <button type="button" onclick="closeAdminModal()"
-                                class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                                class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-[#64748B] hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                                 Batal
                             </button>
                             <button type="submit"
-                                class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
+                                class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-[#0B2545] hover:bg-[#071B33] text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
                                 <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan
                             </button>
                         </div>
@@ -953,7 +954,7 @@
 
             <!-- Tab 2: Event Limits Settings Table -->
             <div id="admin-tab-limits" class="hidden space-y-4 overflow-y-auto flex-grow pr-1">
-                <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-900 text-xs leading-relaxed">
+                <div class="p-3 bg-[#EAF0F7] border border-[#123A63]/30 rounded-xl text-[#0B2545] text-xs leading-relaxed">
                     <i class="fa-solid fa-circle-info mr-1" aria-hidden="true"></i>
                     Tetapkan had maksimum penyertaan atlet bagi setiap pasukan mengikut acara dan kategori jantina.
                 </div>
@@ -961,7 +962,7 @@
                 <form id="admin-limits-form" onsubmit="handleSaveEventLimits(event)" class="space-y-4">
                     <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
                         <table class="w-full text-left text-xs min-w-[500px]">
-                            <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+                            <thead class="bg-[#EAF0F7] text-[#0B2545] font-bold uppercase tracking-wider border-b border-slate-200">
                                 <tr>
                                     <th scope="col" class="p-3">Nama Acara</th>
                                     <th scope="col" class="p-3 text-center w-32">Lelaki</th>
@@ -975,14 +976,14 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2">
-                        <button type="button" onclick="resetEventLimitsToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                        <button type="button" onclick="resetEventLimitsToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-[#64748B] hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                             Reset Nilai Asal (2)
                         </button>
                         <div class="flex gap-2 w-full sm:w-auto">
-                            <button type="button" onclick="closeAdminModal()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                            <button type="button" onclick="closeAdminModal()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-[#64748B] hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                                 Batal
                             </button>
-                            <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
+                            <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-[#0B2545] hover:bg-[#071B33] text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
                                 <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Tetapan
                             </button>
                         </div>
@@ -992,7 +993,7 @@
 
             <!-- Tab Sub-Modul: Kelayakan Acara (Pemetaan Tahun) -->
             <div id="admin-tab-eligibility" class="hidden space-y-4 overflow-y-auto flex-grow pr-1">
-                <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-900 text-xs leading-relaxed">
+                <div class="p-3 bg-[#EAF0F7] border border-[#123A63]/30 rounded-xl text-[#0B2545] text-xs leading-relaxed">
                     <i class="fa-solid fa-circle-info mr-1" aria-hidden="true"></i>
                     Pilih tahun persekolahan yang LAYAK mendaftar bagi setiap acara tanpa perlu mengubah nama asal acara.
                 </div>
@@ -1000,7 +1001,7 @@
                 <form id="admin-eligibility-form" onsubmit="handleSaveEventEligibility(event)" class="space-y-4">
                     <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
                         <table class="w-full text-left text-xs min-w-[650px]">
-                            <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+                            <thead class="bg-[#EAF0F7] text-[#0B2545] font-bold uppercase tracking-wider border-b border-slate-200">
                                 <tr>
                                     <th scope="col" class="p-3">Nama Acara</th>
                                     <th scope="col" class="p-3 text-center">Thn 1</th>
@@ -1018,14 +1019,14 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2">
-                        <button type="button" onclick="resetEventEligibilityToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                        <button type="button" onclick="resetEventEligibilityToDefault()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 text-[#64748B] hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                             Reset Kelayakan Asal
                         </button>
                         <div class="flex gap-2 w-full sm:w-auto">
-                            <button type="button" onclick="closeAdminModal()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
+                            <button type="button" onclick="closeAdminModal()" class="w-1/2 sm:w-auto px-4 py-2.5 border border-slate-300 text-[#64748B] hover:bg-slate-50 rounded-xl text-xs font-semibold transition active:scale-95 touch-manipulation">
                                 Batal
                             </button>
-                            <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
+                            <button type="submit" class="w-1/2 sm:w-auto justify-center px-4 py-2.5 bg-[#0B2545] hover:bg-[#071B33] text-white rounded-xl text-xs font-semibold shadow transition flex items-center gap-1.5 active:scale-95 touch-manipulation">
                                 <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Kelayakan
                             </button>
                         </div>
@@ -1035,19 +1036,19 @@
 
             <!-- Tab Sub-Modul: Pengurusan Syarat Penyertaan Admin -->
             <div id="admin-tab-terms" class="hidden space-y-4 overflow-y-auto flex-grow pr-1">
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2">
-                    <div class="text-xs text-slate-600 flex items-center gap-2">
-                        <i class="fa-solid fa-circle-info text-blue-600" aria-hidden="true"></i>
+                <div class="bg-[#FAFBFD] p-3 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2">
+                    <div class="text-xs text-[#64748B] flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-[#0B2545]" aria-hidden="true"></i>
                         <span>Tambah dan kemas kini syarat penyertaan untuk paparan pengguna.</span>
                     </div>
-                    <button onclick="openTermFormModal()" class="w-full sm:w-auto px-4 py-2 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 shrink-0 active:scale-95 touch-manipulation">
+                    <button onclick="openTermFormModal()" class="w-full sm:w-auto px-4 py-2 bg-[#0B2545] hover:bg-[#071B33] text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 shrink-0 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-plus" aria-hidden="true"></i> Tambah Syarat
                     </button>
                 </div>
 
                 <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
                     <table class="w-full text-left text-xs min-w-[600px]">
-                        <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+                        <thead class="bg-[#EAF0F7] text-[#0B2545] font-bold uppercase tracking-wider border-b border-slate-200">
                             <tr>
                                 <th scope="col" class="p-2.5 text-center w-12">No</th>
                                 <th scope="col" class="p-2.5">Tajuk Syarat</th>
@@ -1074,14 +1075,14 @@
                 </div>
 
                 <div id="users-content-container" class="space-y-4">
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2 sm:space-y-0 sm:flex sm:items-center sm:justify-between gap-2">
+                    <div class="bg-[#FAFBFD] p-3 rounded-xl border border-slate-200 space-y-2 sm:space-y-0 sm:flex sm:items-center sm:justify-between gap-2">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 flex-grow">
                             <div class="relative">
                                 <input type="text" id="filter-user-search" oninput="renderUsersTable()" placeholder="Cari ID, Nama, Pasukan..." aria-label="Cari Pengguna"
-                                    class="w-full px-3 py-2 sm:py-1.5 pl-8 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-600">
+                                    class="w-full px-3 py-2 sm:py-1.5 pl-8 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0B2545]">
                                 <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-3 sm:top-2.5 text-slate-400 text-xs" aria-hidden="true"></i>
                             </div>
-                            <select id="filter-user-role" onchange="renderUsersTable()" aria-label="Tapis Peranan / Status Akaun" class="px-3 py-2 sm:py-1.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-600">
+                            <select id="filter-user-role" onchange="renderUsersTable()" aria-label="Tapis Peranan / Status Akaun" class="px-3 py-2 sm:py-1.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0B2545]">
                                 <option value="">Semua Peranan & Status</option>
                                 <option value="manager">Pengurus Pasukan</option>
                                 <option value="admin">Admin Utama</option>
@@ -1090,14 +1091,14 @@
                                 <option value="Tidak Aktif">Akaun Tidak Aktif 🔴</option>
                             </select>
                         </div>
-                        <button onclick="openAddUserModal()" class="w-full sm:w-auto px-4 py-2 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 shrink-0 active:scale-95 touch-manipulation">
+                        <button onclick="openAddUserModal()" class="w-full sm:w-auto px-4 py-2 bg-[#0B2545] hover:bg-[#071B33] text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 shrink-0 active:scale-95 touch-manipulation">
                             <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Tambah Pengguna
                         </button>
                     </div>
 
                     <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
                         <table class="w-full text-left text-xs min-w-[600px]">
-                            <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+                            <thead class="bg-[#EAF0F7] text-[#0B2545] font-bold uppercase tracking-wider border-b border-slate-200">
                                 <tr>
                                     <th scope="col" class="p-2.5 text-center w-10">Bil</th>
                                     <th scope="col" class="p-2.5">ID Pengguna</th>
@@ -1128,9 +1129,9 @@
                 </div>
 
                 <div id="history-content-container" class="space-y-4">
-                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div class="p-3 bg-[#FAFBFD] border border-slate-200 rounded-xl text-[#14263D] text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-clock-rotate-left text-blue-600 shrink-0" aria-hidden="true"></i>
+                            <i class="fa-solid fa-clock-rotate-left text-[#0B2545] shrink-0" aria-hidden="true"></i>
                             <span>Pemantauan aktiviti dan sejarah perubahan data secara masa nyata.</span>
                         </div>
                         <button onclick="clearActivityLogs()" class="text-[11px] font-semibold text-rose-600 hover:text-rose-800 underline self-end sm:self-auto shrink-0 touch-manipulation">
@@ -1140,8 +1141,8 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <input type="text" id="filter-log-search" oninput="renderActivityLogs()" placeholder="Cari nama, tindakan, atau butiran..." aria-label="Cari Log Aktiviti"
-                            class="px-3 py-2 sm:py-1.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-600">
-                        <select id="filter-log-team" onchange="renderActivityLogs()" aria-label="Tapis mengikut Pasukan Log" class="px-3 py-2 sm:py-1.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-600">
+                            class="px-3 py-2 sm:py-1.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0B2545]">
+                        <select id="filter-log-team" onchange="renderActivityLogs()" aria-label="Tapis mengikut Pasukan Log" class="px-3 py-2 sm:py-1.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-[#0B2545]">
                             <option value="">Semua Pasukan / Pengguna</option>
                             <option value="Admin">Admin Utama</option>
                             <option value="Helang">Helang</option>
@@ -1153,7 +1154,7 @@
 
                     <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-sm">
                         <table class="w-full text-left text-xs min-w-[850px]">
-                            <thead class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+                            <thead class="bg-[#EAF0F7] text-[#0B2545] font-bold uppercase tracking-wider border-b border-slate-200">
                                 <tr>
                                     <th scope="col" class="p-2.5">Tarikh & Masa</th>
                                     <th scope="col" class="p-2.5">ID Pengguna</th>
@@ -1175,11 +1176,11 @@
     </div>
 
     <!-- User Add/Edit Form Modal -->
-    <div id="user-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="user-form-title">
+    <div id="user-form-modal" class="hidden fixed inset-0 bg-[#071B33]/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="user-form-title">
         <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 id="user-form-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading flex items-center gap-2">
-                    <i class="fa-solid fa-user-gear text-blue-900" aria-hidden="true"></i> Tambah Pengguna Baharu
+                <h3 id="user-form-title" class="text-sm sm:text-base font-bold text-[#14263D] font-heading flex items-center gap-2">
+                    <i class="fa-solid fa-user-gear text-[#071B33]" aria-hidden="true"></i> Tambah Pengguna Baharu
                 </h3>
                 <button onclick="closeUserFormModal()" aria-label="Tutup Borang Pengguna" class="text-slate-400 hover:text-slate-600 text-lg p-1">
                     <i class="fa-solid fa-xmark" aria-hidden="true"></i>
@@ -1191,26 +1192,26 @@
 
                 <div class="space-y-1">
                     <div class="flex items-center justify-between">
-                        <label for="form-user-id" class="font-bold text-slate-700">ID Pengguna *</label>
-                        <label class="text-[11px] text-blue-700 font-semibold flex items-center gap-1 cursor-pointer">
-                            <input type="checkbox" id="form-auto-id-check" onchange="toggleAutoIdGeneration()" class="w-3.5 h-3.5 rounded text-blue-600 focus:ring-blue-500">
+                        <label for="form-user-id" class="font-bold text-[#14263D]">ID Pengguna *</label>
+                        <label class="text-[11px] text-[#0B2545] font-semibold flex items-center gap-1 cursor-pointer">
+                            <input type="checkbox" id="form-auto-id-check" onchange="toggleAutoIdGeneration()" class="w-3.5 h-3.5 rounded text-[#0B2545] focus:ring-[#0B2545]">
                             Jana ID Automatik
                         </label>
                     </div>
                     <input type="text" id="form-user-id" required placeholder="Contoh: PGR-HELANG-001"
-                        class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono focus:ring-2 focus:ring-blue-600 uppercase">
+                        class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono focus:ring-2 focus:ring-[#0B2545] uppercase">
                 </div>
 
                 <div>
-                    <label for="form-user-name" class="block font-bold text-slate-700 mb-1">Nama Pengguna / Pengurus *</label>
+                    <label for="form-user-name" class="block font-bold text-[#14263D] mb-1">Nama Pengguna / Pengurus *</label>
                     <input type="text" id="form-user-name" required placeholder="Contoh: Pengurus Helang"
-                        class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600">
+                        class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545]">
                 </div>
 
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label for="form-user-team" class="block font-bold text-slate-700 mb-1">Pilih Pasukan *</label>
-                        <select id="form-user-team" onchange="autoGenerateUserId()" required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600">
+                        <label for="form-user-team" class="block font-bold text-[#14263D] mb-1">Pilih Pasukan *</label>
+                        <select id="form-user-team" onchange="autoGenerateUserId()" required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545]">
                             <option value="Helang">Helang</option>
                             <option value="Garuda">Garuda</option>
                             <option value="Rajawali">Rajawali</option>
@@ -1219,8 +1220,8 @@
                         </select>
                     </div>
                     <div>
-                        <label for="form-user-role" class="block font-bold text-slate-700 mb-1">Peranan *</label>
-                        <select id="form-user-role" onchange="autoGenerateUserId()" required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600">
+                        <label for="form-user-role" class="block font-bold text-[#14263D] mb-1">Peranan *</label>
+                        <select id="form-user-role" onchange="autoGenerateUserId()" required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545]">
                             <option value="manager">Pengurus Pasukan</option>
                             <option value="admin">Admin Utama</option>
                         </select>
@@ -1230,20 +1231,20 @@
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <div class="flex items-center justify-between mb-1">
-                            <label for="form-user-pass" class="font-bold text-slate-700">Kata Laluan *</label>
-                            <button type="button" onclick="generateRandomPassword()" class="text-[10px] text-cyan-700 hover:underline font-semibold touch-manipulation">⚡ Jana</button>
+                            <label for="form-user-pass" class="font-bold text-[#14263D]">Kata Laluan *</label>
+                            <button type="button" onclick="generateRandomPassword()" class="text-[10px] text-[#A87916] hover:underline font-semibold touch-manipulation">⚡ Jana</button>
                         </div>
                         <div class="relative">
                             <input type="password" id="form-user-pass" required placeholder="••••••••"
-                                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 pr-8">
+                                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] pr-8">
                             <button type="button" onclick="togglePasswordVisibility('form-user-pass')" aria-label="Tukar Visual Kata Laluan" class="absolute right-2 top-2 text-slate-400 hover:text-slate-600 p-1">
                                 <i class="fa-solid fa-eye text-xs" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
                     <div>
-                        <label for="form-user-status" class="block font-bold text-slate-700 mb-1">Status Akaun *</label>
-                        <select id="form-user-status" required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600">
+                        <label for="form-user-status" class="block font-bold text-[#14263D] mb-1">Status Akaun *</label>
+                        <select id="form-user-status" required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545]">
                             <option value="Aktif">🟢 Aktif</option>
                             <option value="Digantung">🟡 Digantung</option>
                             <option value="Tidak Aktif">🔴 Tidak Aktif</option>
@@ -1252,10 +1253,10 @@
                 </div>
 
                 <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
-                    <button type="button" onclick="closeUserFormModal()" class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold active:scale-95 touch-manipulation">
+                    <button type="button" onclick="closeUserFormModal()" class="px-4 py-2 border border-slate-300 text-[#64748B] hover:bg-slate-50 rounded-xl text-xs font-semibold active:scale-95 touch-manipulation">
                         Batal
                     </button>
-                    <button type="submit" class="px-5 py-2 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-bold shadow flex items-center gap-1.5 active:scale-95 touch-manipulation">
+                    <button type="submit" class="px-5 py-2 bg-[#071B33] hover:bg-[#0B2545] text-white rounded-xl text-xs font-bold shadow flex items-center gap-1.5 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan
                     </button>
                 </div>
@@ -1264,23 +1265,23 @@
     </div>
 
     <!-- Modal Confirm Delete User Modal -->
-    <div id="user-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+    <div id="user-delete-modal" class="hidden fixed inset-0 bg-[#071B33]/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
         <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto">
             <div class="text-center">
                 <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2 shadow-sm">
                     <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                 </div>
-                <h3 id="delete-modal-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading">Pengesahan Memadam Akaun</h3>
-                <p class="text-xs text-slate-500 mt-1">Adakah anda pasti ingin memadam akaun ini?</p>
+                <h3 id="delete-modal-title" class="text-sm sm:text-base font-bold text-[#14263D] font-heading">Pengesahan Memadam Akaun</h3>
+                <p class="text-xs text-[#64748B] mt-1">Adakah anda pasti ingin memadam akaun ini?</p>
             </div>
 
             <div class="bg-rose-50 p-3 rounded-xl border border-rose-100 space-y-1 text-xs">
-                <div><span class="text-slate-500 font-medium">ID Pengguna:</span> <strong id="delete-user-display-id" class="text-slate-900 font-mono">-</strong></div>
-                <div><span class="text-slate-500 font-medium">Nama:</span> <strong id="delete-user-display-name" class="text-slate-900">-</strong></div>
+                <div><span class="text-[#64748B] font-medium">ID Pengguna:</span> <strong id="delete-user-display-id" class="text-[#14263D] font-mono">-</strong></div>
+                <div><span class="text-[#64748B] font-medium">Nama:</span> <strong id="delete-user-display-name" class="text-[#14263D]">-</strong></div>
             </div>
 
             <div class="flex items-center justify-center gap-2 pt-2">
-                <button onclick="closeUserDeleteModal()" class="w-1/2 py-2.5 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-xl text-xs font-semibold active:scale-95 touch-manipulation">
+                <button onclick="closeUserDeleteModal()" class="w-1/2 py-2.5 border border-slate-300 text-[#14263D] hover:bg-slate-50 rounded-xl text-xs font-semibold active:scale-95 touch-manipulation">
                     Batal
                 </button>
                 <button onclick="executeDeleteUser()" class="w-1/2 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow transition active:scale-95 touch-manipulation">
@@ -1291,16 +1292,16 @@
     </div>
 
     <!-- Modal Pop-Up Syarat penyertaan (Public / User View) -->
-    <div id="competition-terms-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
+    <div id="competition-terms-modal" class="hidden fixed inset-0 bg-[#071B33]/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
         <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[88vh] border border-slate-100 animate-fade-in my-auto overflow-hidden">
-            <div class="p-4 sm:p-5 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-900 text-white flex items-center justify-between shrink-0">
+            <div class="p-4 sm:p-5 bg-gradient-to-r from-[#071B33] via-[#0B2545] to-[#123A63] text-white flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0 border border-amber-500/30">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-[#D4AF37]/20 text-[#D4AF37] rounded-xl flex items-center justify-center text-base sm:text-lg shrink-0 border border-[#D4AF37]/30">
                         <i class="fa-solid fa-file-contract" aria-hidden="true"></i>
                     </div>
                     <div>
                         <h3 id="terms-modal-title" class="text-base sm:text-lg font-bold font-heading">Syarat-Syarat Penyertaan</h3>
-                        <p class="text-blue-200 text-xs">Peraturan dan panduan am pendaftaran kejohanan</p>
+                        <p class="text-[#EAF0F7] text-xs">Peraturan dan panduan am pendaftaran kejohanan</p>
                     </div>
                 </div>
                 <button onclick="closeCompetitionTermsModal()" aria-label="Tutup Modal Syarat" class="text-white/80 hover:text-white text-xl p-1 touch-manipulation active:scale-95">
@@ -1313,8 +1314,8 @@
             </div>
 
             <div class="p-3.5 sm:p-4 bg-white border-t border-slate-200 flex items-center justify-between shrink-0">
-                <span class="text-[11px] text-slate-400 font-medium">ATHLETIX HUB Rules Engine</span>
-                <button onclick="closeCompetitionTermsModal()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition active:scale-95 touch-manipulation">
+                <span class="text-[11px] text-[#64748B] font-medium">ATHLETIX HUB Rules Engine</span>
+                <button onclick="closeCompetitionTermsModal()" class="px-5 py-2.5 bg-[#071B33] hover:bg-[#0B2545] text-white rounded-xl text-xs font-bold transition active:scale-95 touch-manipulation">
                     Faham & Tutup
                 </button>
             </div>
@@ -1322,11 +1323,11 @@
     </div>
 
     <!-- Modal Form Tambah / Edit Syarat Penyertaan (Admin) -->
-    <div id="term-form-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="term-form-title">
+    <div id="term-form-modal" class="hidden fixed inset-0 bg-[#071B33]/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="term-form-title">
         <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-5 sm:p-6 border border-slate-100 animate-fade-in space-y-4 my-auto">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 id="term-form-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading flex items-center gap-2">
-                    <i class="fa-solid fa-file-pen text-blue-900" aria-hidden="true"></i> Tambah Syarat Baharu
+                <h3 id="term-form-title" class="text-sm sm:text-base font-bold text-[#14263D] font-heading flex items-center gap-2">
+                    <i class="fa-solid fa-file-pen text-[#071B33]" aria-hidden="true"></i> Tambah Syarat Baharu
                 </h3>
                 <button onclick="closeTermFormModal()" aria-label="Tutup Borang Syarat" class="text-slate-400 hover:text-slate-600 text-lg p-1">
                     <i class="fa-solid fa-xmark" aria-hidden="true"></i>
@@ -1338,36 +1339,36 @@
 
                 <div class="grid grid-cols-3 gap-2">
                     <div class="col-span-2">
-                        <label for="form-term-title" class="block font-bold text-slate-700 mb-1">Tajuk Syarat *</label>
+                        <label for="form-term-title" class="block font-bold text-[#14263D] mb-1">Tajuk Syarat *</label>
                         <input type="text" id="form-term-title" required placeholder="Contoh: Had Umur Peserta"
-                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 font-medium">
+                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] font-medium">
                     </div>
                     <div>
-                        <label for="form-term-order" class="block font-bold text-slate-700 mb-1">Turutan (#) *</label>
+                        <label for="form-term-order" class="block font-bold text-[#14263D] mb-1">Turutan (#) *</label>
                         <input type="number" id="form-term-order" min="1" max="99" required value="1"
-                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 text-center font-bold">
+                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] text-center font-bold">
                     </div>
                 </div>
 
                 <div>
-                    <label for="form-term-content" class="block font-bold text-slate-700 mb-1">Kandungan / Penerangan Lengkap *</label>
+                    <label for="form-term-content" class="block font-bold text-[#14263D] mb-1">Kandungan / Penerangan Lengkap *</label>
                     <textarea id="form-term-content" rows="4" required placeholder="Masukkan penerangan terperinci syarat penyertaan di sini..."
-                        class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 font-medium leading-relaxed"></textarea>
+                        class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] font-medium leading-relaxed"></textarea>
                 </div>
 
                 <div>
-                    <label for="form-term-status" class="block font-bold text-slate-700 mb-1">Status Paparan *</label>
-                    <select id="form-term-status" required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600 font-semibold">
+                    <label for="form-term-status" class="block font-bold text-[#14263D] mb-1">Status Paparan *</label>
+                    <select id="form-term-status" required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#0B2545] font-semibold">
                         <option value="Aktif">🟢 Aktif (Dipaparkan kepada pengguna)</option>
                         <option value="Tidak Aktif">🔴 Tidak Aktif (Disembunyikan)</option>
                     </select>
                 </div>
 
                 <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
-                    <button type="button" onclick="closeTermFormModal()" class="px-4 py-2 border border-slate-300 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold active:scale-95 touch-manipulation">
+                    <button type="button" onclick="closeTermFormModal()" class="px-4 py-2 border border-slate-300 text-[#64748B] hover:bg-slate-50 rounded-xl text-xs font-semibold active:scale-95 touch-manipulation">
                         Batal
                     </button>
-                    <button type="submit" class="px-5 py-2 bg-blue-900 hover:bg-blue-950 text-white rounded-xl text-xs font-bold shadow flex items-center gap-1.5 active:scale-95 touch-manipulation">
+                    <button type="submit" class="px-5 py-2 bg-[#071B33] hover:bg-[#0B2545] text-white rounded-xl text-xs font-bold shadow flex items-center gap-1.5 active:scale-95 touch-manipulation">
                         <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Simpan Syarat
                     </button>
                 </div>
@@ -1376,19 +1377,19 @@
     </div>
 
     <!-- Modal Pengesahan Memadam Syarat (Admin) -->
-    <div id="term-delete-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="delete-term-modal-title">
+    <div id="term-delete-modal" class="hidden fixed inset-0 bg-[#071B33]/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="delete-term-modal-title">
         <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 sm:p-6 border border-rose-100 animate-fade-in space-y-4 my-auto">
             <div class="text-center">
                 <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2 shadow-sm">
                     <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                 </div>
-                <h3 id="delete-term-modal-title" class="text-sm sm:text-base font-bold text-slate-900 font-heading">Pengesahan Memadam Syarat</h3>
-                <p class="text-xs text-slate-500 mt-1">Adakah anda pasti ingin memadam syarat penyertaan ini?</p>
+                <h3 id="delete-term-modal-title" class="text-sm sm:text-base font-bold text-[#14263D] font-heading">Pengesahan Memadam Syarat</h3>
+                <p class="text-xs text-[#64748B] mt-1">Adakah anda pasti ingin memadam syarat penyertaan ini?</p>
             </div>
 
             <div class="bg-rose-50 p-3.5 rounded-xl border border-rose-100 space-y-1 text-xs text-slate-700">
-                <div class="font-bold text-slate-900" id="delete-term-display-title">-</div>
-                <div class="text-slate-500 line-clamp-2 text-[11px]" id="delete-term-display-content">-</div>
+                <div class="font-bold text-[#14263D]" id="delete-term-display-title">-</div>
+                <div class="text-[#64748B] line-clamp-2 text-[11px]" id="delete-term-display-content">-</div>
             </div>
 
             <div class="flex items-center justify-center gap-2 pt-2">
@@ -1403,17 +1404,35 @@
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="hidden fixed toast-bottom left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 bg-slate-950/95 text-white px-4 py-3 rounded-2xl shadow-2xl border border-slate-800/80 flex items-center gap-3 animate-slide-up max-w-md w-[92%] sm:w-auto backdrop-blur-md" role="status" aria-live="polite" aria-atomic="true">
-        <i id="toast-icon" class="fa-solid fa-circle-check text-sky-400 text-xl shrink-0" aria-hidden="true"></i>
+    <div id="toast" class="hidden fixed toast-bottom left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 bg-[#071B33]/95 text-white px-4 py-3 rounded-2xl shadow-2xl border border-[#123A63] flex items-center gap-3 animate-slide-up max-w-md w-[92%] sm:w-auto backdrop-blur-md" role="status" aria-live="polite" aria-atomic="true">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-[#D4AF37] text-xl shrink-0" aria-hidden="true"></i>
         <span id="toast-message" class="text-xs font-medium leading-tight">Mesej pemberitahuan.</span>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-blue-950 text-blue-100 py-6 border-t border-blue-900 mt-auto">
+    <footer class="bg-[#071B33] text-[#EAF0F7] py-6 border-t border-[#123A63] mt-auto">
         <div class="max-w-7xl mx-auto px-4 text-center text-xs">
-            <p class="text-sky-300 mt-1">Hak Cipta Terpelihara © 2026 eL_mioZ</p>
+            <p class="text-[#E8CC7A] mt-1">Hak Cipta Terpelihara © 2026 eL_mioZ</p>
         </div>
     </footer>
+
+    <!-- Global Safe Stubs for Firestore methods -->
+    <script>
+        window.firebaseReady = false;
+        window.db = null;
+        window.auth = null;
+        window.appId = typeof __app_id !== 'undefined' ? __app_id : 'skbk-athletix-hub';
+        
+        // No-op fallback definitions until Firebase ESM module loads
+        window.onSnapshot = window.onSnapshot || function() { return function(){}; };
+        window.setDoc = window.setDoc || async function() {};
+        window.deleteDoc = window.deleteDoc || async function() {};
+        window.doc = window.doc || function() {};
+        window.collection = window.collection || function() {};
+        window.runTransaction = window.runTransaction || async function() {};
+        window.getDoc = window.getDoc || async function() { return { exists: () => false }; };
+        window.getDocs = window.getDocs || async function() { return { empty: true, docs: [] }; };
+    </script>
 
     <!-- Firebase SDK & Client Script -->
     <script type="module">
@@ -1432,15 +1451,12 @@
             measurementId: "G-YK2QL3TGR1"
         };
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'skbk-athletix-hub';
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
 
         window.db = db;
         window.auth = auth;
-        window.appId = appId;
-        window.firebaseReady = false;
         window.runTransaction = runTransaction;
         window.doc = doc;
         window.collection = collection;
@@ -1798,10 +1814,10 @@
                 if (tabEl) tabEl.classList.toggle('hidden', t !== tab);
                 if (btnEl) {
                     if (t === tab) {
-                        btnEl.classList.add('border-blue-900', 'text-blue-900');
+                        btnEl.classList.add('border-[#0B2545]', 'text-[#0B2545]');
                         btnEl.classList.remove('border-transparent', 'text-slate-500');
                     } else {
-                        btnEl.classList.remove('border-blue-900', 'text-blue-900');
+                        btnEl.classList.remove('border-[#0B2545]', 'text-[#0B2545]');
                         btnEl.classList.add('border-transparent', 'text-slate-500');
                     }
                 }
@@ -1829,7 +1845,7 @@
                     return `
                         <td class="p-3 text-center">
                             <input type="checkbox" data-event="${safeEv}" data-year="${yr}" ${isChecked}
-                                class="eligibility-checkbox w-4 h-4 text-purple-600 rounded focus:ring-purple-500 cursor-pointer">
+                                class="eligibility-checkbox w-4 h-4 text-[#0B2545] rounded focus:ring-[#0B2545] cursor-pointer">
                         </td>
                     `;
                 }).join('');
@@ -1898,12 +1914,12 @@
             bodyCont.innerHTML = activeTerms.map((t, idx) => `
                 <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-2">
                     <div class="flex items-center gap-2.5">
-                        <span class="w-7 h-7 rounded-xl bg-blue-950 text-amber-400 font-extrabold text-xs flex items-center justify-center shrink-0">
+                        <span class="w-7 h-7 rounded-xl bg-[#071B33] text-[#D4AF37] font-extrabold text-xs flex items-center justify-center shrink-0 border border-[#D4AF37]/30">
                             ${t.order || (idx + 1)}
                         </span>
-                        <h4 class="font-bold text-slate-900 text-xs sm:text-sm">${escapeHTML(t.title)}</h4>
+                        <h4 class="font-bold text-[#14263D] text-xs sm:text-sm">${escapeHTML(t.title)}</h4>
                     </div>
-                    <p class="text-xs text-slate-600 leading-relaxed pl-9">${escapeHTML(t.content).replace(/\n/g, '<br>')}</p>
+                    <p class="text-xs text-[#64748B] leading-relaxed pl-9">${escapeHTML(t.content).replace(/\n/g, '<br>')}</p>
                 </div>
             `).join('');
         }
@@ -1937,7 +1953,7 @@
         }
 
         function openTermFormModal() {
-            document.getElementById('term-form-title').innerHTML = `<i class="fa-solid fa-file-circle-plus text-blue-900"></i> Tambah Syarat Baharu`;
+            document.getElementById('term-form-title').innerHTML = `<i class="fa-solid fa-file-circle-plus text-[#071B33]"></i> Tambah Syarat Baharu`;
             document.getElementById('form-term-id').value = '';
             document.getElementById('form-term-title').value = '';
             document.getElementById('form-term-order').value = competitionTerms.length + 1;
@@ -1951,7 +1967,7 @@
         function editTermModal(termId) {
             const term = competitionTerms.find(t => t.id === termId);
             if (!term) return;
-            document.getElementById('term-form-title').innerHTML = `<i class="fa-solid fa-file-pen text-blue-900"></i> Edit Syarat`;
+            document.getElementById('term-form-title').innerHTML = `<i class="fa-solid fa-file-pen text-[#071B33]"></i> Edit Syarat`;
             document.getElementById('form-term-id').value = term.id;
             document.getElementById('form-term-title').value = term.title;
             document.getElementById('form-term-order').value = term.order || 1;
@@ -2046,7 +2062,7 @@
                     <td class="p-2.5 font-mono font-bold text-slate-900 text-xs">${escapeHTML(u.id)}</td>
                     <td class="p-2.5 font-semibold text-slate-800 text-xs">${escapeHTML(u.name)}</td>
                     <td class="p-2.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-bold border bg-slate-100 text-slate-800 border-slate-300">${escapeHTML(u.team || 'Tiada')}</span></td>
-                    <td class="p-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${u.role === 'admin' ? 'bg-blue-100 text-blue-900 border border-blue-300' : 'bg-slate-100 text-slate-800 border border-slate-300'}">${u.role === 'admin' ? 'Admin Utama' : 'Pengurus Pasukan'}</span></td>
+                    <td class="p-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${u.role === 'admin' ? 'bg-[#EAF0F7] text-[#0B2545] border border-[#123A63]/30' : 'bg-slate-100 text-slate-800 border border-slate-300'}">${u.role === 'admin' ? 'Admin Utama' : 'Pengurus Pasukan'}</span></td>
                     <td class="p-2.5 font-mono text-xs text-slate-500">Terlindung (Auth)</td>
                     <td class="p-2.5 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${u.status === 'Aktif' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-rose-100 text-rose-800 border border-rose-300'}">${u.status || 'Aktif'}</span></td>
                     <td class="p-2.5 text-center">
@@ -2060,7 +2076,7 @@
         }
 
         function openAddUserModal() {
-            document.getElementById('user-form-title').innerHTML = `<i class="fa-solid fa-user-plus text-blue-900"></i> Tambah Pengguna Baharu`;
+            document.getElementById('user-form-title').innerHTML = `<i class="fa-solid fa-user-plus text-[#071B33]"></i> Tambah Pengguna Baharu`;
             document.getElementById('form-user-original-id').value = '';
             document.getElementById('form-user-id').value = '';
             document.getElementById('form-user-id').readOnly = false;
@@ -2079,7 +2095,7 @@
         function editUserModal(userId) {
             const user = getSystemUsers().find(u => u.id === userId);
             if (!user) return;
-            document.getElementById('user-form-title').innerHTML = `<i class="fa-solid fa-user-pen text-blue-900"></i> Edit Pengguna (${escapeHTML(user.id)})`;
+            document.getElementById('user-form-title').innerHTML = `<i class="fa-solid fa-user-pen text-[#071B33]"></i> Edit Pengguna (${escapeHTML(user.id)})`;
             document.getElementById('form-user-original-id').value = user.id;
             document.getElementById('form-user-id').value = user.id;
             document.getElementById('form-user-name').value = user.name;
@@ -2288,11 +2304,11 @@
                     <td class="p-3 font-bold text-slate-800">${escapeHTML(ev)}</td>
                     <td class="p-3 text-center">
                         <input type="number" min="1" max="50" data-event="${escapeHTML(ev)}" data-gender="Lelaki" value="${limits[ev]?.Lelaki ?? 2}"
-                            class="limit-input w-20 px-2.5 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-slate-800 focus:ring-2 focus:ring-blue-600">
+                            class="limit-input w-20 px-2.5 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-slate-800 focus:ring-2 focus:ring-[#0B2545]">
                     </td>
                     <td class="p-3 text-center">
                         <input type="number" min="1" max="50" data-event="${escapeHTML(ev)}" data-gender="Perempuan" value="${limits[ev]?.Perempuan ?? 2}"
-                            class="limit-input w-20 px-2.5 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-slate-800 focus:ring-2 focus:ring-blue-600">
+                            class="limit-input w-20 px-2.5 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-slate-800 focus:ring-2 focus:ring-[#0B2545]">
                     </td>
                 </tr>
             `).join('');
@@ -2373,11 +2389,11 @@
                 const btn = document.getElementById(`nav-${id}`);
                 const mBtn = document.getElementById(`mobile-nav-${id}`);
                 if (id === tabId) {
-                    btn?.classList.add('bg-blue-900', 'text-white', 'shadow-sm');
-                    mBtn?.classList.add('bg-blue-950', 'text-white', 'font-bold', 'shadow-sm');
+                    btn?.classList.add('bg-[#C69A32]', 'text-[#071B33]', 'shadow-sm');
+                    mBtn?.classList.add('bg-[#C69A32]', 'text-[#071B33]', 'font-bold', 'shadow-sm');
                 } else {
-                    btn?.classList.remove('bg-blue-900', 'text-white', 'shadow-sm');
-                    mBtn?.classList.remove('bg-blue-950', 'text-white', 'font-bold', 'shadow-sm');
+                    btn?.classList.remove('bg-[#C69A32]', 'text-[#071B33]', 'shadow-sm');
+                    mBtn?.classList.remove('bg-[#C69A32]', 'text-[#071B33]', 'font-bold', 'shadow-sm');
                 }
             });
 
@@ -2393,24 +2409,24 @@
 
             if (trackIndCont) {
                 trackIndCont.innerHTML = TRACK_INDIVIDUAL.map(ev => `
-                    <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-cyan-200 hover:border-cyan-400 active:bg-cyan-50 cursor-pointer text-xs font-semibold text-slate-700 shadow-sm touch-manipulation">
-                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-cyan-600 rounded focus:ring-cyan-500 cursor-pointer">
+                    <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-slate-200 hover:border-[#123A63]/50 active:bg-[#EAF0F7] cursor-pointer text-xs font-semibold text-[#14263D] shadow-sm touch-manipulation">
+                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-[#0B2545] rounded focus:ring-[#0B2545] cursor-pointer">
                         <span>${escapeHTML(ev)}</span>
                     </label>
                 `).join('');
             }
             if (trackTeamCont) {
                 trackTeamCont.innerHTML = TRACK_TEAM.map(ev => `
-                    <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-green-200 hover:border-blue-400 active:bg-blue-50 cursor-pointer text-xs font-semibold text-slate-700 shadow-sm touch-manipulation">
-                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
+                    <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-emerald-200 hover:border-emerald-400 active:bg-emerald-50 cursor-pointer text-xs font-semibold text-[#14263D] shadow-sm touch-manipulation">
+                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500 cursor-pointer">
                         <span>${escapeHTML(ev)}</span>
                     </label>
                 `).join('');
             }
             if (fieldCont) {
                 fieldCont.innerHTML = FIELD_EVENTS.map(ev => `
-                    <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-amber-200 hover:border-amber-400 active:bg-amber-50 cursor-pointer text-xs font-semibold text-slate-700 shadow-sm touch-manipulation">
-                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-amber-600 rounded focus:ring-amber-500 cursor-pointer">
+                    <label class="flex items-center gap-2.5 p-3 sm:p-2.5 bg-white rounded-xl border border-[#E8CC7A] hover:border-[#C69A32] active:bg-[#F8F1DF] cursor-pointer text-xs font-semibold text-[#14263D] shadow-sm touch-manipulation">
+                        <input type="checkbox" name="acara" value="${escapeHTML(ev)}" class="w-4 h-4 text-[#C69A32] rounded focus:ring-[#C69A32] cursor-pointer">
                         <span>${escapeHTML(ev)}</span>
                     </label>
                 `).join('');
@@ -2604,14 +2620,41 @@
             }
         }
 
+        function renderAthletesTable() {
+            const tbody = document.getElementById('directory-table-body');
+            if (!tbody) return;
+
+            const searchVal = document.getElementById('filter-search')?.value.toUpperCase().trim() || '';
+            const pasukanVal = document.getElementById('filter-pasukan')?.value || '';
+            const tahunVal = document.getElementById('filter-tahun')?.value || '';
+            const acaraVal = document.getElementById('filter-acara')?.value || '';
+
+            const isTeamUser = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
+            let list = isTeamUser ? athletes.filter(a => a.pasukan === currentUser.team) : athletes;
+
+            if (searchVal) list = list.filter(a => a.nama.includes(searchVal) || a.bib.includes(searchVal));
+            if (pasukanVal) list = list.filter(a => a.pasukan === pasukanVal);
+            if (tahunVal) list = list.filter(a => a.tahun === tahunVal);
+            if (acaraVal) list = list.filter(a => a.acara.includes(acaraVal));
+
+            list = sortAthletesByTahun(list);
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="py-12 text-center text-slate-400">Tiada pendaftaran atlet dijumpai.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = list.map(ath => createTableRowHtml(ath)).join('');
+        }
+
         function createTableRowHtml(ath) {
             const teamInfo = TEAM_COLORS[ath.pasukan] || { bg: "bg-slate-100", text: "text-slate-800", border: "border-slate-300" };
             const errorStatus = getAthleteErrorStatus(ath);
 
             const badgesHtml = ath.acara.map(ev => {
-                let cls = 'bg-cyan-100 text-cyan-800 border-cyan-200';
-                if (FIELD_EVENTS.includes(ev)) cls = 'bg-amber-100 text-amber-800 border-amber-200';
-                else if (TRACK_TEAM.includes(ev)) cls = 'bg-green-100 text-green-800 border-green-200';
+                let cls = 'bg-[#EAF0F7] text-[#0B2545] border-[#123A63]/30';
+                if (FIELD_EVENTS.includes(ev)) cls = 'bg-[#F8F1DF] text-[#A87916] border-[#E8CC7A]';
+                else if (TRACK_TEAM.includes(ev)) cls = 'bg-emerald-100 text-emerald-800 border-emerald-200';
                 return `<span class="px-2 py-0.5 rounded-md text-[10px] font-semibold border ${cls}">${escapeHTML(ev)}</span>`;
             }).join(' ');
 
@@ -2621,7 +2664,7 @@
 
             return `
                 <tr class="hover:bg-slate-50/80 transition">
-                    <td class="py-3 px-4 font-semibold text-slate-900 uppercase">${escapeHTML(ath.nama)}</td>
+                    <td class="py-3 px-4 font-semibold text-[#14263D] uppercase">${escapeHTML(ath.nama)}</td>
                     <td class="py-3 px-4 text-xs">${escapeHTML(ath.jantina)}</td>
                     <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs font-bold border ${teamInfo.bg} ${teamInfo.text} ${teamInfo.border}">${escapeHTML(ath.pasukan)}</span></td>
                     <td class="py-3 px-4 font-mono font-bold text-xs">${escapeHTML(ath.bib)}</td>
@@ -2630,37 +2673,13 @@
                     <td class="py-3 px-4 text-center">
                         <div class="flex items-center justify-center gap-2">
                             ${lightHtml}
-                            <button onclick="viewAthleteDetails('${escapeHTML(ath.id)}')" class="p-1.5 text-slate-500 hover:text-blue-800"><i class="fa-solid fa-eye text-sm"></i></button>
-                            <button onclick="editAthlete('${escapeHTML(ath.id)}')" class="p-1.5 text-slate-500 hover:text-blue-600"><i class="fa-solid fa-pen-to-square text-sm"></i></button>
+                            <button onclick="viewAthleteDetails('${escapeHTML(ath.id)}')" class="p-1.5 text-slate-500 hover:text-[#0B2545]"><i class="fa-solid fa-eye text-sm"></i></button>
+                            <button onclick="editAthlete('${escapeHTML(ath.id)}')" class="p-1.5 text-slate-500 hover:text-[#0B2545]"><i class="fa-solid fa-pen-to-square text-sm"></i></button>
                             <button onclick="deleteAthlete('${escapeHTML(ath.id)}')" class="p-1.5 text-slate-500 hover:text-rose-600"><i class="fa-solid fa-trash text-sm"></i></button>
                         </div>
                     </td>
                 </tr>
             `;
-        }
-
-        function renderAthletesTable() {
-            const search = document.getElementById('filter-search')?.value.toLowerCase() || '';
-            const pasukan = document.getElementById('filter-pasukan')?.value || '';
-            const tahun = document.getElementById('filter-tahun')?.value || '';
-            const acara = document.getElementById('filter-acara')?.value || '';
-
-            let filtered = athletes;
-            if (currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin') {
-                filtered = filtered.filter(a => a.pasukan === currentUser.team);
-            } else if (pasukan) {
-                filtered = filtered.filter(a => a.pasukan === pasukan);
-            }
-
-            if (tahun) filtered = filtered.filter(a => a.tahun === tahun);
-            if (acara) filtered = filtered.filter(a => a.acara.includes(acara));
-            if (search) filtered = filtered.filter(a => a.nama.toLowerCase().includes(search) || a.bib.toLowerCase().includes(search));
-
-            const dirBody = document.getElementById('directory-table-body');
-            if (dirBody) {
-                if (filtered.length === 0) dirBody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 text-sm">Tiada rekod atlet.</td></tr>`;
-                else dirBody.innerHTML = sortAthletesByTahun(filtered).map(ath => createTableRowHtml(ath)).join('');
-            }
         }
 
         function renderEventBreakdown() {
@@ -2688,14 +2707,14 @@
                 const safeEv = escapeHTML(ev);
                 const isField = type === 'Padang';
                 return `
-                    <div onclick="openGenderSelectModal('${safeEv}')" class="bg-white p-3.5 sm:p-4 rounded-2xl border ${statusLight.includes('rose-500') ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200'} shadow-sm flex items-center justify-between cursor-pointer hover:border-blue-400 hover:shadow-md active:scale-[0.98] transition touch-manipulation">
+                    <div onclick="openGenderSelectModal('${safeEv}')" class="bg-white p-3.5 sm:p-4 rounded-2xl border ${statusLight.includes('rose-500') ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200'} shadow-sm flex items-center justify-between cursor-pointer hover:border-[#0B2545] hover:shadow-md active:scale-[0.98] transition touch-manipulation">
                         <div>
-                            <h4 class="font-bold text-slate-800 text-xs sm:text-sm flex items-center gap-1.5">
-                                ${statusLight} ${safeEv} <i class="fa-solid fa-circle-info ${isField ? 'text-amber-500' : 'text-blue-500'} text-xs"></i>
+                            <h4 class="font-bold text-[#14263D] text-xs sm:text-sm flex items-center gap-1.5">
+                                ${statusLight} ${safeEv} <i class="fa-solid fa-circle-info ${isField ? 'text-[#C69A32]' : 'text-[#0B2545]'} text-xs"></i>
                             </h4>
-                            <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">${type}</p>
+                            <p class="text-[11px] sm:text-xs text-[#64748B] mt-0.5">${type}</p>
                         </div>
-                        <span class="px-2.5 sm:px-3 py-1 ${isField ? 'bg-amber-100 text-amber-800' : 'bg-cyan-100 text-cyan-800'} font-extrabold text-xs sm:text-sm rounded-xl shrink-0">${count} Peserta</span>
+                        <span class="px-2.5 sm:px-3 py-1 ${isField ? 'bg-[#F8F1DF] text-[#A87916]' : 'bg-[#EAF0F7] text-[#0B2545]'} font-extrabold text-xs sm:text-sm rounded-xl shrink-0">${count} Peserta</span>
                     </div>
                 `;
             };
@@ -2715,23 +2734,6 @@
             activeEventForGender = eventName;
             const modal = document.getElementById('gender-select-modal');
             document.getElementById('gender-select-event-title').textContent = `Acara: ${eventName}`;
-
-            const limits = getEventLimits();
-            const limitM = limits[eventName]?.Lelaki ?? 2;
-            const limitF = limits[eventName]?.Perempuan ?? 2;
-
-            const isTeamUser = currentUser?.team && currentUser.team !== "Tiada" && currentUser.role !== 'admin';
-            const filteredAthletes = (isTeamUser ? athletes.filter(a => a.pasukan === currentUser.team) : athletes).filter(a => a.acara.includes(eventName));
-
-            const countM = filteredAthletes.filter(a => a.jantina === 'Lelaki').length;
-            const countF = filteredAthletes.filter(a => a.jantina === 'Perempuan').length;
-
-            const totalCapM = limitM * 4;
-            const totalCapF = limitF * 4;
-
-            document.getElementById('gender-count-m').textContent = isTeamUser ? `${countM} daripada ${limitM} peserta` : `${countM} daripada ${totalCapM} peserta (${limitM}/pasukan)`;
-            document.getElementById('gender-count-f').textContent = isTeamUser ? `${countF} daripada ${limitF} peserta` : `${countF} daripada ${totalCapF} peserta (${limitF}/pasukan)`;
-
             modal.classList.remove('hidden');
             trapFocusInModal(modal);
         }
